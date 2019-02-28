@@ -3,7 +3,9 @@
 ## Introduction
 HyparDrive is the drive software for the Hypar installation made by Team IGNITE for GLOW Eindhoven 2019. This software is created by the IGNITE programming team, with Lead Programmer Joris Lodewijks. A [development vlog](https://www.youtube.com/channel/UC_aMt1voKEiOnQGPngewUEA) showing concepting and building of the system is uploaded.
 
-## UNDER CONSTRUCTION
+## Structure
+
+![Image of HyperDrive Structure](https://drive.google.com/open?id=1hkSH3sLx3CYYl2zVSHpojyNqQbcq-Sr8)
 
 ## Contact
 Team IGNITE: TU/e Student Team at Innovation Space (Matrix)
