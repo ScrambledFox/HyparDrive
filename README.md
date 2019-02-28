@@ -5,7 +5,13 @@ HyparDrive is the drive software for the Hypar installation made by Team IGNITE 
 
 ## Structure
 
-![Image of HyperDrive Structure](https://drive.google.com/open?id=1hkSH3sLx3CYYl2zVSHpojyNqQbcq-Sr8)
+![Image of HyperDrive Structure](https://github.com/ScrambledFox/HyparDrive/blob/master/Images/HyparDrive.PNG)
+
+### Dependencies
+The structure of the software is dependent on the ELM software from ENNTECH. For integrating interaction and music outputting, speakers and interaction modules will need to be connected.
+
+### Installation Controller
+The Installation Controller is the main part of the software. This static class connects every part of the system and makes all the decisions. Other classes give or receive requests from this class.
 
 ## Contact
 Team IGNITE: TU/e Student Team at Innovation Space (Matrix)
