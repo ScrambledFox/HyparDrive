@@ -1,0 +1,160 @@
+fileFormatVersion: 2
+guid: 8aef8246c47969e448206a7fd292e278
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: LightTubes_Bottom_E
+    100004: LightTubes_Bottom_N
+    100006: LightTubes_Bottom_S
+    100008: LightTubes_Bottom_W
+    100010: LightTubes_Middle_NE
+    100012: LightTubes_Middle_NW
+    100014: LightTubes_Middle_SE
+    100016: LightTubes_Middle_SW
+    100018: LightTubes_Top_E
+    100020: LightTubes_Top_N
+    100022: LightTubes_Top_S
+    100024: LightTubes_Top_W
+    400000: //RootNode
+    400002: LightTubes_Bottom_E
+    400004: LightTubes_Bottom_N
+    400006: LightTubes_Bottom_S
+    400008: LightTubes_Bottom_W
+    400010: LightTubes_Middle_NE
+    400012: LightTubes_Middle_NW
+    400014: LightTubes_Middle_SE
+    400016: LightTubes_Middle_SW
+    400018: LightTubes_Top_E
+    400020: LightTubes_Top_N
+    400022: LightTubes_Top_S
+    400024: LightTubes_Top_W
+    2100000: Cube
+    2100002: LEDs
+    2300000: //RootNode
+    2300002: LightTubes_Bottom_E
+    2300004: LightTubes_Bottom_N
+    2300006: LightTubes_Bottom_S
+    2300008: LightTubes_Bottom_W
+    2300010: LightTubes_Middle_NE
+    2300012: LightTubes_Middle_NW
+    2300014: LightTubes_Middle_SE
+    2300016: LightTubes_Middle_SW
+    2300018: LightTubes_Top_E
+    2300020: LightTubes_Top_N
+    2300022: LightTubes_Top_S
+    2300024: LightTubes_Top_W
+    3300000: //RootNode
+    3300002: LightTubes_Bottom_E
+    3300004: LightTubes_Bottom_N
+    3300006: LightTubes_Bottom_S
+    3300008: LightTubes_Bottom_W
+    3300010: LightTubes_Middle_NE
+    3300012: LightTubes_Middle_NW
+    3300014: LightTubes_Middle_SE
+    3300016: LightTubes_Middle_SW
+    3300018: LightTubes_Top_E
+    3300020: LightTubes_Top_N
+    3300022: LightTubes_Top_S
+    3300024: LightTubes_Top_W
+    4300000: Cube
+    4300002: LightTubes_Middle_NE
+    4300004: LightTubes_Middle_SW
+    4300006: LightTubes_Middle_SE
+    4300008: LightTubes_Top_E
+    4300010: LightTubes_Bottom_W
+    4300012: LightTubes_Top_W
+    4300014: LightTubes_Top_N
+    4300016: LightTubes_Top_S
+    4300018: LightTubes_Bottom_E
+    4300020: LightTubes_Bottom_N
+    4300022: LightTubes_Bottom_S
+    4300024: LightTubes_Middle_NW
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
