@@ -1,101 +1,75 @@
 fileFormatVersion: 2
-guid: 8aef8246c47969e448206a7fd292e278
+guid: 916744d282e0e0e43be5724417ada6d2
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: LightTubes_Bottom_E
     100004: LightTubes_Bottom_N
-    100006: LightTubes_Bottom_S
-    100008: LightTubes_Bottom_W
-    100010: LightTubes_Middle_NE
-    100012: LightTubes_Middle_NW
-    100014: LightTubes_Middle_SE
-    100016: LightTubes_Middle_SW
+    100006: LightTubes_Bottom_NE
+    100008: LightTubes_Bottom_NW
+    100010: LightTubes_Bottom_S
+    100012: LightTubes_Bottom_SE
+    100014: LightTubes_Bottom_SW
+    100016: LightTubes_Bottom_W
     100018: LightTubes_Top_E
     100020: LightTubes_Top_N
     100022: LightTubes_Top_S
     100024: LightTubes_Top_W
-    100026: LightTubes_Bottom_NE
-    100028: LightTubes_Bottom_NW
-    100030: LightTubes_Bottom_SE
-    100032: LightTubes_Bottom_SW
-    100034: LightTubes_Midde_SW
     400000: //RootNode
     400002: LightTubes_Bottom_E
     400004: LightTubes_Bottom_N
-    400006: LightTubes_Bottom_S
-    400008: LightTubes_Bottom_W
-    400010: LightTubes_Middle_NE
-    400012: LightTubes_Middle_NW
-    400014: LightTubes_Middle_SE
-    400016: LightTubes_Middle_SW
+    400006: LightTubes_Bottom_NE
+    400008: LightTubes_Bottom_NW
+    400010: LightTubes_Bottom_S
+    400012: LightTubes_Bottom_SE
+    400014: LightTubes_Bottom_SW
+    400016: LightTubes_Bottom_W
     400018: LightTubes_Top_E
     400020: LightTubes_Top_N
     400022: LightTubes_Top_S
     400024: LightTubes_Top_W
-    400026: LightTubes_Bottom_NE
-    400028: LightTubes_Bottom_NW
-    400030: LightTubes_Bottom_SE
-    400032: LightTubes_Bottom_SW
-    400034: LightTubes_Midde_SW
     2100000: Cube
-    2100002: LEDs
-    2100004: LEDs__Untitled
+    2100002: LEDs__Untitled
     2300000: //RootNode
     2300002: LightTubes_Bottom_E
     2300004: LightTubes_Bottom_N
-    2300006: LightTubes_Bottom_S
-    2300008: LightTubes_Bottom_W
-    2300010: LightTubes_Middle_NE
-    2300012: LightTubes_Middle_NW
-    2300014: LightTubes_Middle_SE
-    2300016: LightTubes_Middle_SW
+    2300006: LightTubes_Bottom_NE
+    2300008: LightTubes_Bottom_NW
+    2300010: LightTubes_Bottom_S
+    2300012: LightTubes_Bottom_SE
+    2300014: LightTubes_Bottom_SW
+    2300016: LightTubes_Bottom_W
     2300018: LightTubes_Top_E
     2300020: LightTubes_Top_N
     2300022: LightTubes_Top_S
     2300024: LightTubes_Top_W
-    2300026: LightTubes_Bottom_NE
-    2300028: LightTubes_Bottom_NW
-    2300030: LightTubes_Bottom_SE
-    2300032: LightTubes_Bottom_SW
-    2300034: LightTubes_Midde_SW
     3300000: //RootNode
     3300002: LightTubes_Bottom_E
     3300004: LightTubes_Bottom_N
-    3300006: LightTubes_Bottom_S
-    3300008: LightTubes_Bottom_W
-    3300010: LightTubes_Middle_NE
-    3300012: LightTubes_Middle_NW
-    3300014: LightTubes_Middle_SE
-    3300016: LightTubes_Middle_SW
+    3300006: LightTubes_Bottom_NE
+    3300008: LightTubes_Bottom_NW
+    3300010: LightTubes_Bottom_S
+    3300012: LightTubes_Bottom_SE
+    3300014: LightTubes_Bottom_SW
+    3300016: LightTubes_Bottom_W
     3300018: LightTubes_Top_E
     3300020: LightTubes_Top_N
     3300022: LightTubes_Top_S
     3300024: LightTubes_Top_W
-    3300026: LightTubes_Bottom_NE
-    3300028: LightTubes_Bottom_NW
-    3300030: LightTubes_Bottom_SE
-    3300032: LightTubes_Bottom_SW
-    3300034: LightTubes_Midde_SW
     4300000: Cube
-    4300002: LightTubes_Middle_NE
-    4300004: LightTubes_Middle_SW
-    4300006: LightTubes_Middle_SE
-    4300008: LightTubes_Top_E
-    4300010: LightTubes_Bottom_W
-    4300012: LightTubes_Top_W
-    4300014: LightTubes_Top_N
-    4300016: LightTubes_Top_S
-    4300018: LightTubes_Bottom_E
-    4300020: LightTubes_Bottom_N
-    4300022: LightTubes_Bottom_S
-    4300024: LightTubes_Middle_NW
-    4300026: LightTubes_Bottom_SE
-    4300028: LightTubes_Bottom_NE
-    4300030: LightTubes_Bottom_SW
-    4300032: LightTubes_Bottom_NW
-    4300034: LightTubes_Midde_SW
+    4300002: LightTubes_Bottom_SE
+    4300004: LightTubes_Bottom_NE
+    4300006: LightTubes_Bottom_SW
+    4300008: LightTubes_Bottom_NW
+    4300010: LightTubes_Bottom_N
+    4300012: LightTubes_Bottom_S
+    4300014: LightTubes_Bottom_E
+    4300016: LightTubes_Bottom_W
+    4300018: LightTubes_Top_W
+    4300020: LightTubes_Top_E
+    4300022: LightTubes_Top_S
+    4300024: LightTubes_Top_N
     7400000: Default Take
     9500000: //RootNode
     2186277476908879412: ImportLogs

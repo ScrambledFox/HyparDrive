@@ -29,7 +29,7 @@ public class OrbitalCamera : MonoBehaviour {
         if (Input.GetMouseButton(1)) {
             float x = invertX ? Input.GetAxis("Mouse X") : -Input.GetAxis("Mouse X");
             float y = invertY ? -Input.GetAxis("Mouse Y") : Input.GetAxis("Mouse Y");
-            rotation += new Vector2(x * speed, y * speed);
+            rotation += new Vector2(x * speed * Time.deltaTime, y * speed * Time.deltaTime);
         }
 
         /// When holding down left shift, you zoom slower
@@ -48,8 +48,8 @@ public class OrbitalCamera : MonoBehaviour {
         //transform.localRotation = targetRotation;
         //transform.localPosition = targetPosition;
 
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, rotationSmoothing);
-        transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, positionSmoothing);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, rotationSmoothing * Time.deltaTime);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, positionSmoothing * Time.deltaTime);
 
     }
 
