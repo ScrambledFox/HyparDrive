@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 using System.Threading;
 
 public class InstallationManager : MonoBehaviour {
@@ -13,7 +15,7 @@ public class InstallationManager : MonoBehaviour {
     // Cube setup logic
     int cubeAmount = 192;
     public GameObject cubePrefab;
-    GameObject[] cubes;
+    Cube[] cubes;
     LED[] LEDs;
 
     // Light Objects
@@ -24,8 +26,19 @@ public class InstallationManager : MonoBehaviour {
 
     // Zones
     GameObject[,,] zones;
+    List<Zone> zonesActiveLastUpdate = new List<Zone>();
     public Vector3 zoneCount = new Vector3(10, 10, 10);
     public int zoneSize = 1;
+
+    // Texture map
+    public RawImage rawImage;
+
+    public Texture2D textureMap;
+    private Thread textureGenerationThread;
+    public const float targetFPS = 30f;
+    private const long frameTickLength = (long)((1f / targetFPS) * 1000 * 10000);
+    private static System.DateTime currentTime;
+    private static long lastTick = -1;
 
     private Thread lightObjectThread;
 
@@ -40,9 +53,29 @@ public class InstallationManager : MonoBehaviour {
         lightObjectThread = new Thread(new ThreadStart(LightObjectThread));
         lightObjectThread.Start();
 
+        textureGenerationThread = new Thread(new ThreadStart(TextureGenerationThread));
+        textureGenerationThread.Start();
+
+        //StartCoroutine("SetTestTexture");
+
 #if UNITY_EDITOR
         Invoke("CheckAmountCleanedTiles", 1.0f);
 #endif
+    }
+
+    /// <summary>
+    /// Sets the texture for the test image.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    IEnumerator SetTestTexture () {
+        while (true) {
+            if (textureMap == null) yield return new WaitForSeconds(1f);
+
+            rawImage.texture = textureMap;
+            //UnityEngine.Debug.Log("Set the new texture.");
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     /// <summary>
@@ -52,33 +85,118 @@ public class InstallationManager : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Generates the Installation Texure.
+    /// </summary>
+    public static void TextureGenerationThread () {
+        while (true) {
+            currentTime = System.DateTime.Now;
+
+            //Debug.Log(currentTime.Millisecond + " ---- " + (lastTickMillis + frameTime));
+
+            if (currentTime.Ticks > lastTick + frameTickLength) {
+                lastTick = currentTime.Ticks;
+                TextureTick();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Does the frame update for the texture thread.
+    /// </summary>
+    private static void TextureTick () {
+        lock (InstallationManager.INSTANCE.textureMap) {
+            Color[] data = InstallationManager.INSTANCE.GetLEDColourData();
+
+            if (data != null) {
+                ThreadHelper.Execute(() => {
+                    InstallationManager.INSTANCE.textureMap = ImageGenerator.GenerateImage(data, InstallationManager.INSTANCE.cubes.Length, INSTALLATION_CONFIG.LEDS_PER_STRIP * 12);
+                });
+            }
+
+            //UnityEngine.Debug.Log("TextureTick");
+        }
+    }
+
+    /// <summary>
+    /// Gets all LEDColourData.
+    /// </summary>
+    /// <returns>Returns 2D color data in a 1D array with x being cubes and y being led index </returns>
+    private Color[] GetLEDColourData () {
+        Color[] data = new Color[cubes.Length * INSTALLATION_CONFIG.LEDS_PER_STRIP * 12];
+
+        for (int i = 0; i < cubes.Length; i++) {
+            Color[] stripColourData = cubes[i].GetLEDData();
+
+            if (stripColourData == null) {
+                UnityEngine.Debug.LogWarning("StripColourData not yet initialized!");
+                return null;
+            }
+
+            for (int j = 0; j < INSTALLATION_CONFIG.LEDS_PER_STRIP * 12; j++) {
+                data[i + j * cubes.Length] = stripColourData[j];
+            }
+        }
+
+        return data;
+    }
+
+    /// <summary>
+    /// Get all the known light objects.
+    /// </summary>
+    /// <returns>Returns an array of all the known light objects.</returns>
     public LightObject[] GetLightObjects () {
         return lightObjects.ToArray();
     }
 
+    /// <summary>
+    /// Subscribes a light object to the known light objects list.
+    /// </summary>
+    /// <param name="lo">The light object to add.</param>
     public void SubscribeLightObject (LightObject lo) {
+        //UnityEngine.Debug.Log("Subscribed new Light Object");
         lightObjects.Add(lo);
+        lo.Moved += UpdateActiveZonesLastUpdate;
         HandleLightObject?.Invoke(lo, false);
     }
 
+    /// <summary>
+    /// Remove a light object from the known light objects list.
+    /// </summary>
+    /// <param name="lo">The light object to remove.</param>
     public void RemoveLightObject (LightObject lo) {
         lightObjects.Remove(lo);
         HandleLightObject?.Invoke(lo, true);
     }
+
+    public void RegisterActiveZone ( Zone zone, bool register ) {
+        if (register) {
+            zonesActiveLastUpdate.Add(zone);
+        }
+    }
+
+    private void UpdateActiveZonesLastUpdate ( LightObject lo ) {
+        for (int i = 0; i < zonesActiveLastUpdate.Count; i++) {
+            zonesActiveLastUpdate[i].NotifyCubes(lo);
+        }
+
+        zonesActiveLastUpdate.Clear();
+    }
+
 
     /// <summary>
     /// Sets up the cubes of the installation.
     /// </summary>
     /// <param name="positions">The positions where the cubes are going to be located. CubeAmount depends on this array.</param>
     /// <returns>Returns the spawned cubes.</returns>
-    private GameObject[] SetupCubes ( Vector3[] positions ) {
-        GameObject[] cubes = new GameObject[positions.Length];
+    private Cube[] SetupCubes ( Vector3[] positions ) {
+        Cube[] cubes = new Cube[positions.Length];
         for (int i = 0; i < positions.Length; i++) {
             GameObject cube = Instantiate(cubePrefab, positions[i], Quaternion.Euler(-90, 0, 0));
             cube.transform.parent = transform;
             cube.name = "Cube " + (i + 1);
 
-            cubes[i] = cube;
+            cubes[i] = cube.GetComponent<Cube>().SetIndex(i);
         }
 
         return cubes;
@@ -114,9 +232,9 @@ public class InstallationManager : MonoBehaviour {
         GameObject zonesFolder = new GameObject("Zones");
         zonesFolder.transform.parent = transform.parent;
 
-        for (int z = 0; z < zones.GetLength(0); z++) {
+        for (int z = 0; z < zones.GetLength(2); z++) {
             for (int y = 0; y < zones.GetLength(1); y++) {
-                for (int x = 0; x < zones.GetLength(2); x++) {
+                for (int x = 0; x < zones.GetLength(0); x++) {
                     GameObject zone = new GameObject("Zone " + (1 + x + y * zones.GetLength(0) + z * (zones.GetLength(1) * zones.GetLength(1))));
 
                     int xz = zoneSize * (x - zones.GetLength(0) / 2);
@@ -134,7 +252,7 @@ public class InstallationManager : MonoBehaviour {
         }
 
 #if UNITY_EDITOR
-        Debug.Log("Set up " + zones.Length + " zones. Cleaning up...");
+        UnityEngine.Debug.Log("Set up " + zones.Length + " zones. Cleaning up...");
 #endif
 
         return zones;
@@ -146,15 +264,15 @@ public class InstallationManager : MonoBehaviour {
     private void CheckAmountCleanedTiles () {
         int zonesActive = 0;
 
-        for (int z = 0; z < zones.GetLength(0); z++) {
+        for (int z = 0; z < zones.GetLength(2); z++) {
             for (int y = 0; y < zones.GetLength(1); y++) {
-                for (int x = 0; x < zones.GetLength(2); x++) {
+                for (int x = 0; x < zones.GetLength(0); x++) {
                     if (zones[x, y, z] != null) zonesActive++;
                 }
             }
         }
 
-        Debug.Log("Cleaned up zones. " + zonesActive + " zones still active.");
+        UnityEngine.Debug.Log("Cleaned up zones. " + zonesActive + " zones still active.");
     }
 
     /// <summary>
@@ -167,10 +285,10 @@ public class InstallationManager : MonoBehaviour {
         List<Cube> areaCubes = new List<Cube>();
         for (int i = 0; i < this.cubes.Length; i++) {
 
-            AABB a = new AABB(centre, size);
-            AABB b = new AABB(this.cubes[i].transform.position, this.cubes[i].transform.localScale);
+            Collision.AABB a = new Collision.AABB(centre, size);
+            Collision.AABB b = new Collision.AABB(this.cubes[i].transform.position, this.cubes[i].transform.localScale);
 
-            if (AABBCollision3D(a, b)) {
+            if (Collision.HasIntersection(a, b)) {
                 areaCubes.Add(this.cubes[i].GetComponent<Cube>());
             }
         }
@@ -178,46 +296,17 @@ public class InstallationManager : MonoBehaviour {
         return areaCubes.ToArray();
     }
 
-    /// <summary>
-    /// 3D Cubular Collision checking.
-    /// </summary>
-    /// <param name="a">First Cube</param>
-    /// <param name="b">Second Cube</param>
-    /// <returns>Returns a bool stating if a collision happened.</returns>
-    private bool AABBCollision3D (AABB a, AABB b) {
-        return (a.minX <= b.maxX && a.maxX >= b.minX) &&
-         (a.minY <= b.maxY && a.maxY >= b.minY) &&
-         (a.minZ <= b.maxZ && a.maxZ >= b.minZ);
-    }
-
     private void OnDrawGizmos () {
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(Vector3.zero + new Vector3(0, (zoneCount.y * zoneSize) / 2, 0), zoneCount * zoneSize);
     }
 
-}
+    private void OnDestroy () {
+        textureGenerationThread.Abort();
+    }
 
-/// <summary>
-/// Cubular Collision Data Struct (supports 3D)
-/// </summary>
-public struct AABB {
-
-    public float minX;
-    public float minY;
-    public float minZ;
-
-    public float maxX;
-    public float maxY;
-    public float maxZ;
-
-    public AABB (Vector3 centre, Vector3 size) {
-        minX = centre.x - size.x / 2;
-        minY = centre.y - size.y / 2;
-        minZ = centre.z - size.z / 2;
-
-        maxX = centre.x + size.x / 2;
-        maxY = centre.y + size.y / 2;
-        maxZ = centre.z + size.z / 2;
+    private void OnDisable () {
+        textureGenerationThread.Abort();
     }
 
 }

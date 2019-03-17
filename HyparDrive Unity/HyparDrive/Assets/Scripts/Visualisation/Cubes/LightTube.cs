@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class LightTube : MonoBehaviour {
 
+    int index;
+
     private bool reverseLEDIndex = true;
 
+    private Cube cube;
+
     private LED[] leds;
-    private Color[] ledColourData;
 
     private Material mat;
-    private Texture2D tex;
 
     Vector3 STRIP_START;
     Vector3 STRIP_END;
 
     private void Start () {
         mat = GetComponent<MeshRenderer>().material;
+        cube = transform.parent.GetComponent<Cube>();
 
         STRIP_START = transform.GetChild(0).position;
         STRIP_END = transform.GetChild(1).position;
@@ -25,7 +28,6 @@ public class LightTube : MonoBehaviour {
         Destroy(transform.GetChild(1).gameObject);
 
         leds = new LED[INSTALLATION_CONFIG.LEDS_PER_STRIP];
-        ledColourData = new Color[INSTALLATION_CONFIG.LEDS_PER_STRIP];
 
         Vector3[] ledPositions = new Vector3[INSTALLATION_CONFIG.LEDS_PER_STRIP];
         ledPositions = GenerateLEDPositions(INSTALLATION_CONFIG.LEDS_PER_STRIP);
@@ -34,16 +36,16 @@ public class LightTube : MonoBehaviour {
             leds[i] = CreateNewLED(i, ledPositions[i]);
         }
 
-        GenerateColourTexture();
+        UpdateTextureData();
     }
 
-    private LED CreateNewLED (int index, Vector3 position) {
+    private LED CreateNewLED ( int index, Vector3 position ) {
         GameObject newLED = new GameObject("LED: " + (index + 1));
 
         newLED.transform.parent = transform;
         newLED.transform.position = position;
 
-        return newLED.AddComponent<LED>().SetIndex(reverseLEDIndex ? INSTALLATION_CONFIG.LEDS_PER_STRIP - index - 1 : index);
+        return newLED.AddComponent<LED>();
     }
 
     private Vector3[] GenerateLEDPositions (int length) {
@@ -62,24 +64,31 @@ public class LightTube : MonoBehaviour {
         return pos;
     }
 
-    public Color GetLEDColour ( int index ) {
-        return ledColourData[index];
-    }
+    public void UpdateTextureData () {
+        if (mat.mainTexture == null) {
+            Color[] data = new Color[INSTALLATION_CONFIG.LEDS_PER_STRIP];
+            for (int i = 0; i < data.Length; i++) {
+                data[i] = Color.white;
+            }
+            mat.mainTexture = ImageGenerator.GenerateImage(data, INSTALLATION_CONFIG.LEDS_PER_STRIP, 1);
+        }
 
-    public void SetLEDColour ( int i, Color colour ) {
-        ledColourData[i] = colour;
+        if (InstallationManager.INSTANCE.textureMap == null) return;
 
-        EditTexture(i, colour);
-    }
-
-    private void GenerateColourTexture () {
-        tex = ImageGenerator.GenerateImage(ledColourData, INSTALLATION_CONFIG.LEDS_PER_STRIP, 1);
+        Texture2D tex = (Texture2D)mat.mainTexture;
+        for (int i = 0; i < leds.Length; i++) {
+            tex.SetPixel(i, 0, InstallationManager.INSTANCE.textureMap.GetPixel(cube.GetIndex(), this.index + i));
+        }
+        tex.Apply();
         mat.mainTexture = tex;
     }
 
-    private void EditTexture (int i, Color colour) {
-        this.tex.SetPixel(i, 0, colour);
-        this.tex.Apply();
+    public int GetIndex () {
+        return index;
     }
 
+    public LightTube SetIndex ( int index ) {
+        this.index = index;
+        return this;
+    }
 }

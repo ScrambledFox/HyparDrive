@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class LED : MonoBehaviour {
 
-    public int index;
+    //public int index;
     private Vector3 pos;
-    public Color Colour => tube.GetLEDColour(index);
+    public Color colour = Color.black;
 
     private LightTube tube;
     private Vector3 size = new Vector3(0.05f, 0.05f, 0.05f);
@@ -16,20 +16,27 @@ public class LED : MonoBehaviour {
         this.pos = transform.position;
     }
 
-    public LED SetIndex (int index) {
-        this.index = index;
+    //public LED SetIndex (int index) {
+    //    this.index = index;
 
-        return this;
-    }
+    //    return this;
+    //}
 
-    public void UpdateColour (LightObject lo) {
-        float lightLevel = Mathf.InverseLerp(lo.Radius * lo.Radius, 0, Vector3.SqrMagnitude(lo.Pos - pos));
+    public void UpdateColour (LightObject[] lightObjects) {
+        if (lightObjects == null) return;
+        if (lightObjects.Length == 0) return;
 
-        SetColour(new Color(lo.Colour.r * lightLevel, lo.Colour.g * lightLevel, lo.Colour.b * lightLevel));
+        Color colour = Color.black;
+
+        for (int i = 0; i < lightObjects.Length; i++) {
+            colour += lightObjects[i].Colour * Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - pos));
+        }
+
+        SetColour( colour );
     }
 
     private void SetColour (Color colour) {
-        tube.SetLEDColour(index, colour);
+        this.colour = colour;
     }
 
 }

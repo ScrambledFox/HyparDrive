@@ -8,17 +8,25 @@ public class LightObject : MonoBehaviour {
             return transform.position; } }
 
     [SerializeField]
-    private Color colour = Color.white;
+    private new Collision.SPHERE collider = new Collision.SPHERE(0, 0, 0, 10f);
+
     [SerializeField]
-    private float radius = 1f;
+    private Color colour = Color.white;
+
+    public Collision.SPHERE Collider {
+        get {
+            return collider;
+        }
+    }
+
+    public Color Colour {
+        get {
+            return colour;
+        }
+    }
 
     const float moveThreshold = 0.1f;
     const float sqrMoveThreshold = moveThreshold * moveThreshold;
-
-    public Color Colour { get {
-            return colour; } }
-    public float Radius { get {
-            return radius; } }
 
     private Vector3 positionLast;
 
@@ -33,18 +41,29 @@ public class LightObject : MonoBehaviour {
 
         if ((positionLast - this.Pos).magnitude > sqrMoveThreshold) {
             positionLast = transform.position;
+            UpdateColliderPosition();
 
-            if (Moved != null) Moved(this);
+            Moved?.Invoke(this);
         }
 
+    }
+
+    private void UpdateColliderPosition () {
+        this.collider.x = transform.position.x;
+        this.collider.y = transform.position.y;
+        this.collider.z = transform.position.z;
     }
 
     private void OnDestroy () {
         InstallationManager.INSTANCE.RemoveLightObject(this);
     }
 
+    private void OnDisable () {
+        InstallationManager.INSTANCE.RemoveLightObject(this);
+    }
+
     private void OnDrawGizmos () {
-        Gizmos.color = this.colour * new Color(0, 0, 0, 0.2f);
-        Gizmos.DrawSphere(transform.position, this.radius);
+        Gizmos.color = this.colour * new Color(1, 1, 1, 0.2f);
+        Gizmos.DrawSphere(transform.position, collider.radius);
     }
 }

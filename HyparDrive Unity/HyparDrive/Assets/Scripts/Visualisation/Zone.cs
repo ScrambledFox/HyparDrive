@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Zone : MonoBehaviour {
 
-    public int x, y, z;
+    new Collision.AABB collider;
     bool active = false;
+
+    private List<LightObject> lightObjectsInZone = new List<LightObject>();
 
     Cube[] cubes;
 
@@ -14,15 +16,53 @@ public class Zone : MonoBehaviour {
         if (cubes.Length <= 0) {
             Destroy(gameObject);
         } else {
-            InstallationManager.INSTANCE.HandleLightObject += HandleLightObjectChange;
+            InstallationManager.INSTANCE.HandleLightObject += HandleLightObjectRegistrationChange;
+        }
+
+        collider = new Collision.AABB(transform.position, transform.localScale);
+
+        Invoke("InitCubes", 1f);
+    }
+
+    /// <summary>
+    /// Initialize the LEDs.
+    /// </summary>
+    private void InitCubes () {
+        for (int i = 0; i < cubes.Length; i++) {
+            cubes[i].zone = this;
+            cubes[i].UpdateLEDs();
         }
     }
 
-    private void HandleLightObjectChange ( LightObject lo, bool removed ) {
+    /// <summary>
+    /// Get the active light objects affecting this zone.
+    /// </summary>
+    /// <returns>Returns an array of Light Objects.</returns>
+    public LightObject[] GetLightObjects () {
+        return lightObjectsInZone.ToArray();
+    }
+
+    /// <summary>
+    /// Handle a new light object.
+    /// </summary>
+    /// <param name="lo">The light object to subscribe to.</param>
+    /// <param name="removed">Is the light object removed?</param>
+    private void HandleLightObjectRegistrationChange ( LightObject lo, bool removed ) {
         if (removed) {
+            NotifyCubes(lo);
             lo.Moved -= CheckLightObjectPosition;
         } else {
+            NotifyCubes(lo);
             lo.Moved += CheckLightObjectPosition;
+        }
+    }
+
+    /// <summary>
+    /// Manually notify cubes in this zone of an update.
+    /// </summary>
+    public void NotifyCubes (LightObject lo) {
+        for (int i = 0; i < cubes.Length; i++) {
+            cubes[i].UpdateLEDs();
         }
     }
 
@@ -33,19 +73,17 @@ public class Zone : MonoBehaviour {
     /// <param name="pos">Position of the LO</param>
     /// <param name="radius">Radius of the LO</param>
     private void CheckLightObjectPosition (LightObject lo) {
-        if (Vector3.SqrMagnitude(lo.Pos - transform.position) < lo.Radius * lo.Radius) {
-            for (int i = 0; i < cubes.Length; i++) {
-                lo.Moved -= cubes[i].UpdateLEDs;
-                lo.Moved += cubes[i].UpdateLEDs;
+        if (Collision.HasIntersection(collider, lo.Collider)) {
+            if (!lightObjectsInZone.Contains(lo)) {
+                lightObjectsInZone.Add(lo);
+                lo.Moved += NotifyCubes;
             }
-
-            SetActive(true);
+            if (!active) SetActive(true);
         } else {
-            for (int i = 0; i < cubes.Length; i++) {
-                lo.Moved -= cubes[i].UpdateLEDs;
-            }
-
-            SetActive(false);
+            lightObjectsInZone.Remove(lo);
+            NotifyCubes(lo);
+            lo.Moved -= NotifyCubes;
+            if (lightObjectsInZone.Count == 0) SetActive(false);
         }
     }
 
@@ -62,6 +100,7 @@ public class Zone : MonoBehaviour {
     /// </summary>
     /// <param name="active">Zone state.</param>
     public void SetActive ( bool active ) {
+        InstallationManager.INSTANCE.RegisterActiveZone(this, active);
         this.active = active;
     }
 
