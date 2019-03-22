@@ -3,8 +3,12 @@
 ## Introduction
 HyparDrive is the drive software for the Hypar installation made by Team IGNITE for GLOW Eindhoven 2019. This software is created by the IGNITE programming team, with Lead Programmer Joris Lodewijks. A [development vlog](https://www.youtube.com/channel/UC_aMt1voKEiOnQGPngewUEA) showing concepting and building of the system is uploaded.
 
-## Structure
+## Copyright and use
+This software doesn't have a license and it is thus not allowed to copy or use the source code for private and/or commercial use. However, private use can be requested. Send a mail to info@jorislodewijks.nl and ask nicely to use (parts of) the source code.
 
+## Structure
+### 1st Iteration Structure
+The first iteration structure depends on an external software, called ELM (ENNTECH LED MAPPER). This software uses a bitmap texture with overlayed led strip mapping, to send the pixel data via Art-net. This meant cross application communication and this is not what I wanted for our flagship software project.
 ![Image of HyperDrive Structure](https://github.com/ScrambledFox/HyparDrive/blob/master/Images/HyparDrive.PNG)
 
 ### Dependencies
@@ -24,3 +28,5 @@ Lead Programmer: Joris Lodewijks (Industrial Design)
 > [LinkedIn](https://www.linkedin.com/in/jorislodewijks/) |
 > [Instagram](https://www.instagram.com/jorislodewijks/) |
 > contact@jorislodewijks.nl
+
+© Team Ignite - Joris Lodewijks - 2019
