@@ -32,10 +32,11 @@ public class InstallationManager : MonoBehaviour {
 
     // Texture map
     public RawImage rawImage;
+    public bool doVisualisation = true;
 
     public Texture2D textureMap;
     private Thread textureGenerationThread;
-    public const float targetFPS = 30f;
+    public const float targetFPS = 40f;
     private const long frameTickLength = (long)((1f / targetFPS) * 1000 * 10000);
     private static System.DateTime currentTime;
     private static long lastTick = -1;
@@ -237,9 +238,9 @@ public class InstallationManager : MonoBehaviour {
                 for (int x = 0; x < zones.GetLength(0); x++) {
                     GameObject zone = new GameObject("Zone " + (1 + x + y * zones.GetLength(0) + z * (zones.GetLength(1) * zones.GetLength(1))));
 
-                    int xz = zoneSize * (x - zones.GetLength(0) / 2);
-                    int yz = zoneSize * (y) + zoneSize / 2;
-                    int zz = zoneSize * (z - zones.GetLength(2) / 2);
+                    float xz = zoneSize * (x - zones.GetLength(0) / 2f) + zoneSize / 2f;
+                    float yz = zoneSize * y + zoneSize / 2f;
+                    float zz = zoneSize * (z - zones.GetLength(2) / 2f) + zoneSize / 2f;
 
                     zone.transform.position = new Vector3(xz, yz, zz);
                     zone.transform.localScale = new Vector3(zoneSize, zoneSize, zoneSize);

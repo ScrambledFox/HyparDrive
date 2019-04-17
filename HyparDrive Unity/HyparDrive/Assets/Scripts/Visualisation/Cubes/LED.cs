@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LED : MonoBehaviour {
 
-    //public int index;
     private Vector3 pos;
     public Color colour = Color.black;
 
@@ -16,16 +15,7 @@ public class LED : MonoBehaviour {
         this.pos = transform.position;
     }
 
-    //public LED SetIndex (int index) {
-    //    this.index = index;
-
-    //    return this;
-    //}
-
     public void UpdateColour (LightObject[] lightObjects) {
-        if (lightObjects == null) return;
-        if (lightObjects.Length == 0) return;
-
         Color colour = Color.black;
 
         for (int i = 0; i < lightObjects.Length; i++) {

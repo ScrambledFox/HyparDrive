@@ -83,18 +83,4 @@ public class Cube : MonoBehaviour {
         this.index = index;
         return this;
     }
-
-    /*
-    private void Update () {
-
-        Vector3 targetPosition;
-        if (selectableObject.Selected) {
-            targetPosition = inspectPosition;
-        } else {
-            targetPosition = originalPosition;
-        }
-
-        transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, positionSmoothing * Time.deltaTime);
-    }
-    */
 }

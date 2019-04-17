@@ -7,6 +7,10 @@ public class Zone : MonoBehaviour {
     new Collision.AABB collider;
     bool active = false;
 
+    public bool Active {
+        get { return active; }
+    }
+
     private List<LightObject> lightObjectsInZone = new List<LightObject>();
 
     Cube[] cubes;
