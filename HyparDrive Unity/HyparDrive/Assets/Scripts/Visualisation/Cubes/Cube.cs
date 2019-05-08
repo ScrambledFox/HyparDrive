@@ -12,7 +12,7 @@ public class Cube : MonoBehaviour {
 
     SelectableObject selectableObject;
 
-    public Zone zone;
+    private Zone zone;
 
     private LightTube[] tubes;
     private LED[] leds;
@@ -82,5 +82,9 @@ public class Cube : MonoBehaviour {
     public Cube SetIndex (int index) {
         this.index = index;
         return this;
+    }
+
+    public void SetZone (Zone zone) {
+        this.zone = zone;
     }
 }

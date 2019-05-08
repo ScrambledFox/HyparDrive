@@ -33,7 +33,7 @@ public class Zone : MonoBehaviour {
     /// </summary>
     private void InitCubes () {
         for (int i = 0; i < cubes.Length; i++) {
-            cubes[i].zone = this;
+            cubes[i].SetZone(this);
             cubes[i].UpdateLEDs();
         }
     }
