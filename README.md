@@ -8,11 +8,9 @@ This software doesn't have a license and it is thus not allowed to copy or use t
 
 ## Structure
 ### 1st Iteration Structure
-The first iteration structure depends on an external software, called ELM (ENNTECH LED MAPPER). This software uses a bitmap texture with overlayed led strip mapping, to send the pixel data via Art-net. This meant cross application communication and this is not what I wanted for our flagship software project.
-![Image of HyperDrive Structure](https://github.com/ScrambledFox/HyparDrive/blob/master/Images/HyparDrive.PNG)
 
 ### Dependencies
-The structure of the software is dependent on the ELM software from ENNTECH. For integrating interaction and music outputting, speakers and interaction modules will need to be connected.
+The LED data is sent via Art-Net. For integrating interaction and music outputting, speakers and interaction modules will need to be connected.
 
 ### Installation Controller
 The Installation Controller is the main part of the software. This static class connects every part of the system and makes all the decisions. Other classes give or receive requests from this class.
