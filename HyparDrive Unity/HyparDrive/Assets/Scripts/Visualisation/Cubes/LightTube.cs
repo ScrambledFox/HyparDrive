@@ -36,7 +36,7 @@ public class LightTube : MonoBehaviour {
             leds[i] = CreateNewLED(i, ledPositions[i]);
         }
 
-        UpdateTextureData();
+        if(InstallationManager.INSTANCE.doVisualisation) UpdateTextureData();
     }
 
     private LED CreateNewLED ( int index, Vector3 position ) {
@@ -68,7 +68,7 @@ public class LightTube : MonoBehaviour {
         if (mat.mainTexture == null) {
             Color[] data = new Color[INSTALLATION_CONFIG.LEDS_PER_STRIP];
             for (int i = 0; i < data.Length; i++) {
-                data[i] = Color.white;
+                data[i] = Color.black;
             }
             mat.mainTexture = ImageGenerator.GenerateImage(data, INSTALLATION_CONFIG.LEDS_PER_STRIP, 1);
         }

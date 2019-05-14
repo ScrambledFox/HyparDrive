@@ -12,9 +12,19 @@ public class Cube : MonoBehaviour {
 
     SelectableObject selectableObject;
 
+    /// <summary>
+    /// Zone assigned to this cube.
+    /// </summary>
     private Zone zone;
 
+    /// <summary>
+    /// Array with all of the  Light Tubes of this cube.
+    /// </summary>
     private LightTube[] tubes;
+
+    /// <summary>
+    /// Array with all of the LEDs inside of this cube.
+    /// </summary>
     private LED[] leds;
 
     private void Start() {
@@ -27,6 +37,10 @@ public class Cube : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Get the LED Data of all the LEDs inside a cube.
+    /// </summary>
+    /// <returns>LED Data Colour Array</returns>
     public Color[] GetLEDData () {
         if (leds == null) return null;
 
@@ -40,7 +54,7 @@ public class Cube : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets all LEDs of this cube.
+    /// Gets all LEDs of this cube. Only use this if the LED array is null or incorrect.
     /// </summary>
     /// <returns>Returns an array of all LED components in this cube</returns>
     private LED[] GetAllLEDs () {
@@ -70,8 +84,10 @@ public class Cube : MonoBehaviour {
             leds[i].UpdateColour(los);
         }
 
-        for (int i = 0; i < tubes.Length; i++) {
-            tubes[i].UpdateTextureData();
+        if (InstallationManager.INSTANCE.doVisualisation) {
+            for (int i = 0; i < tubes.Length; i++) {
+                tubes[i].UpdateTextureData();
+            }
         }
     }
 
