@@ -1,19 +1,17 @@
 # HyparDrive
 
 ## Introduction
-HyparDrive is the drive software for the Hypar installation made by Team IGNITE for GLOW Eindhoven 2019. This software is created by the IGNITE programming team, with Lead Programmer Joris Lodewijks. A [development vlog](https://www.youtube.com/channel/UC_aMt1voKEiOnQGPngewUEA) showing concepting and building of the system is uploaded.
+HyparDrive is the drive software for the Hypar installation made by Team IGNITE for GLOW Eindhoven 2019. This software is created by the IGNITE programming team, with Lead Programmer Joris Lodewijks. A [development vlog](https://www.youtube.com/channel/UC_aMt1voKEiOnQGPngewUEA) showing concepting and building of the system will be uploaded.
 
 ## Copyright and use
-This software doesn't have a license and it is thus not allowed to copy or use the source code for private and/or commercial use. However, private use can be requested. Send a mail to info@jorislodewijks.nl and ask nicely to use (parts of) the source code.
+This software doesn't have a license and it is thus not allowed to copy or use the source code for private and/or commercial use. However, private use can be requested. Please, send a mail (no calls) to info@jorislodewijks.nl and ask nicely to use (parts of) the source code.
 
 ## Structure
-### 1st Iteration Structure
+### Functionality
+HyparDrive is the driving software for the Hypar installation made by the IGNITE team for GLOW 2019. This driving software is to be adapted for use with other installations, but the current main focus is making it as best as possible for our installation. 
 
-### Dependencies
-The LED data is sent via Art-Net. For integrating interaction and music outputting, speakers and interaction modules will need to be connected.
-
-### Installation Controller
-The Installation Controller is the main part of the software. This static class connects every part of the system and makes all the decisions. Other classes give or receive requests from this class.
+### Specifics
+The LED data is sent via Art-Net, a DMX via Ethernet Protocol. Integration for interaction and soundscape outputting will be supported as well, but only adapted for the Hypar installation. Support for custom installations will follow.
 
 ## Contact
 Team IGNITE: TU/e Student Team at Innovation Space (Matrix)
