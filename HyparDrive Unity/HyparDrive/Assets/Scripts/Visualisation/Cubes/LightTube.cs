@@ -34,6 +34,7 @@ public class LightTube : MonoBehaviour {
 
         for (int i = 0; i < INSTALLATION_CONFIG.LEDS_PER_STRIP; i++) {
             leds[i] = CreateNewLED(i, ledPositions[i]);
+            leds[i].SetIndex(cube.GetIndex() * 120 + index * 10 + i);
         }
 
         if(InstallationManager.INSTANCE.doVisualisation) UpdateTextureData();
@@ -46,6 +47,8 @@ public class LightTube : MonoBehaviour {
         newLED.transform.position = position;
 
         return newLED.AddComponent<LED>();
+        
+        
     }
 
     private Vector3[] GenerateLEDPositions (int length) {
