@@ -22,7 +22,7 @@ namespace HauteTechnique.Dmx
 
         public void SetValue(int index, byte value)
         {
-            if(index >= 1 && index < DmxDataSize)  {
+            if(index >= 0 && index < DmxDataSize)  {
                 _data[ArtnetHeaderSize + index] = value;
             }
             else {
