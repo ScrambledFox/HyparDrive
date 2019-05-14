@@ -16,7 +16,7 @@ public class Zone : MonoBehaviour {
     Cube[] cubes;
 
     private void Awake () {
-        cubes = FindMyCubes();
+        cubes = FindCubesWithinCollider();
         if (cubes.Length <= 0) {
             Destroy(gameObject);
         } else {
@@ -24,6 +24,8 @@ public class Zone : MonoBehaviour {
         }
 
         collider = new Collision.AABB(transform.position, transform.localScale);
+
+        // Wait one second to initialise the cubes for load reasons.
 
         Invoke("InitCubes", 1f);
     }
@@ -95,7 +97,7 @@ public class Zone : MonoBehaviour {
     /// Finds all of the cubes of this zone.
     /// </summary>
     /// <returns>Returns an array of cubes that lie in this zone.</returns>
-    private Cube[] FindMyCubes () {
+    private Cube[] FindCubesWithinCollider () {
         return InstallationManager.INSTANCE.GetCubesInArea(transform.position, transform.localScale);
     }
 
