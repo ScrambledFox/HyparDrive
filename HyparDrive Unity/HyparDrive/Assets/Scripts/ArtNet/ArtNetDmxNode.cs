@@ -32,6 +32,7 @@ namespace HauteTechnique.Dmx
             int failed = 0;
             
             DmxUniverse universeZero = null;
+            
        
             // Send all universes
             foreach (var universe in universes)
@@ -49,17 +50,15 @@ namespace HauteTechnique.Dmx
                  }
             }
 
-            //toggle = !toggle;
+            toggle = !toggle;
 
             if(universeZero != null)
             {  
                 // Notify the node that all packets are sent
-                //universeZero.artnetPacket[0] = (byte)(toggle ? 0 : 255);
-                universeZero.artnetPacket[18 + 410] = (byte)(toggle ? 0 : 255);
                 int bytes2 = SendData(universeZero.universe, universeZero.artnetPacket);
-                //if(bytes2 < 0) {
-                //    failed++;
-                //}
+                if(bytes2 < 0) {
+                    failed++;
+                }
             }
 
             if(failed > 0) {
@@ -70,7 +69,7 @@ namespace HauteTechnique.Dmx
         public int SendData(int universeId, byte[] _data) 
         {
             int bytesSend = -1;
-
+            //Debug.Log("Sending from ArtNetDMXNode" + _data.Length);
             try
             {          
                 bytesSend = socket.Send(_data);

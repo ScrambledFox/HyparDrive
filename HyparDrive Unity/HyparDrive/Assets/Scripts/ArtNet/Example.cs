@@ -21,37 +21,53 @@ public class Example : MonoBehaviour
             universes.Add(new DmxUniverse(i));
             node.AddUniverse(universes[i]);
         }
-
+        
+        
     }
 
     void Update()
     {
-        SendArtNet(testLedIndex, 255, 200, 50);
+        SendArtNet(testLedIndex, 255, 254, 253);
     }
 
     void SendArtNet(int ledIndex, byte r, byte g, byte b)
     {
         int channelIndex = ledIndex * 3;
-
-        for (int i = channelIndex;i< (channelIndex +3);i++) {
-            int universeNumber = i / 512;
-            int channelNumber = i % 512;
-            switch (i-channelIndex)
+        int universeNumber = channelIndex / 512;
+        int channelNumber = channelIndex % 512;
+        if ((channelIndex%512) <= 509)
+        {
+            universes[universeNumber].SetValue(channelNumber, r);
+            universes[universeNumber].SetValue(channelNumber+1, g);
+            universes[universeNumber].SetValue(channelNumber+2, b);
+            //Debug.Log("normal");
+        } else
+        {
+            //Debug.Log("difficult");
+            for (int i = channelIndex; i < (channelIndex + 3); i++)
             {
-                case 0:
-                    universes[universeNumber].SetValue(channelNumber, r);
-                    Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " R:"+ r);
-                    break;
-                case 1:
-                    universes[universeNumber].SetValue(channelNumber, g);
-                    Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " G:" + g);
-                    break;
-                case 2:
-                    universes[universeNumber].SetValue(channelNumber, b);
-                    Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " B:" + b);
-                    break;
+                universeNumber = i / 512;
+                channelNumber = i % 512;
+                switch (i - channelIndex)
+                {
+                    case 0:
+                        universes[universeNumber].SetValue(channelNumber, r);
+                        //Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " R:" + r);
+                        break;
+                    case 1:
+                        universes[universeNumber].SetValue(channelNumber, g);
+                        //Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " G:" + g);
+                        break;
+                    case 2:
+                        universes[universeNumber].SetValue(channelNumber, b);
+                        //Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " B:" + b);
+                        break;
+                }
             }
-        }        
+        }
+
+
+              
     }
 
     void LateUpdate()

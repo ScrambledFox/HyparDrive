@@ -46,7 +46,7 @@ namespace HauteTechnique.Dmx
 			WriteArtnetHeader (packetWriter, (UInt16)OpCodes.OpDmx);
 			WriteArtnetDmx (packetWriter, (byte)universe, dmxData);
 
-			//UnityEngine.Debug.Log ("Sending: " + stream.Length + " bytes");
+			Debug.Log ("Sending: " + stream.Length + " bytes");
 			client.Send (stream.GetBuffer (), (int)stream.Length, remote);
         }
 			
@@ -122,6 +122,8 @@ namespace HauteTechnique.Dmx
 			writer.Write((byte)0);						// net
 			writer.Write(Swap((UInt16)dmxData.Length));	// length
 			writer.Write(dmxData);						// dmx data
+
+            Debug.Log("writing artnet");
 		}
     }
 }
