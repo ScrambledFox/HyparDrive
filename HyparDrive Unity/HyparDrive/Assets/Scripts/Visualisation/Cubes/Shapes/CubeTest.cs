@@ -7,20 +7,21 @@ public class CubeTest : MonoBehaviour {
 
     private Mesh mesh;
 
-    void Start() {
+    public Vector3 size = Vector3.one * 0.5f;
 
-        mesh = CubeGenerator.GetCubeMesh();
+    void Start() {
+        mesh = CubeGenerator.GetCubeMesh(size);
         GetComponent<MeshFilter>().mesh = mesh;
     }
 
     private void OnValidate () {
-        mesh = CubeGenerator.GetCubeMesh();
+        mesh = CubeGenerator.GetCubeMesh(size);
     }
 
     private void OnDrawGizmosSelected () {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 0.5f);
+        Gizmos.DrawWireCube(Vector3.zero, size);
 
         foreach (Vector3 vertex in mesh.vertices) {
             Gizmos.DrawSphere(vertex, 0.005f);
