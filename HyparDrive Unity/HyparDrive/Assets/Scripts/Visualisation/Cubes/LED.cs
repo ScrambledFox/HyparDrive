@@ -6,9 +6,11 @@ public class LED : MonoBehaviour {
 
     private Vector3 pos;
     public Color colour = Color.black;
+    public int ledIndex;
 
     private LightTube tube;
     private Vector3 size = new Vector3(0.05f, 0.05f, 0.05f);
+    
 
     private void Start () {
         this.tube = transform.parent.GetComponent<LightTube>();
@@ -23,6 +25,9 @@ public class LED : MonoBehaviour {
         }
 
         SetColour( colour );
+
+        // example.SendArtNet(ledindex, byte r,byte g,byte b)
+
     }
 
     private void SetColour (Color colour) {
