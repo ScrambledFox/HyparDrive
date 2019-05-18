@@ -33,6 +33,8 @@ public class LightObject : MonoBehaviour {
     public delegate void moved ( LightObject lightObject );
     public event moved Moved;
 
+
+
     private void Start () {
         InstallationManager.INSTANCE.SubscribeLightObject(this);
     }
@@ -63,7 +65,7 @@ public class LightObject : MonoBehaviour {
     }
 
     private void OnDrawGizmos () {
-        Gizmos.color = this.colour * new Color(1, 1, 1, 0.2f);
+        Gizmos.color = this.colour * new Color(1, 1, 1, 0.75f);
         Gizmos.DrawSphere(transform.position, collider.radius);
     }
 }

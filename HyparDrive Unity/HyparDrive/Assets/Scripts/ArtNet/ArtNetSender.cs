@@ -11,7 +11,7 @@ public class ArtNetSender : MonoBehaviour
     private ArtNetDmxNode node;
     private List<DmxUniverse> universes = new List<DmxUniverse>();
     private int numUniverses = 150;
-    //public int testLedIndex;
+    public int testLedIndex;
 
     void Awake()
     {
@@ -21,15 +21,16 @@ public class ArtNetSender : MonoBehaviour
             universes.Add(new DmxUniverse(i));
             node.AddUniverse(universes[i]);
         }
-        SendArtNet(0, 255, 255, 0);
+        
     }
+
 
     public void SendArtNet(int ledIndex, byte r, byte g, byte b)
     {
         int channelIndex = ledIndex * 3;
-        int universeNumber = channelIndex / 512;
-        int channelNumber = channelIndex % 512;
-        if ((channelIndex % 512) <= 509)
+        int universeNumber = channelIndex / 510; 
+        int channelNumber = channelIndex % 510; 
+        if ((channelIndex % 510) <= 506)
         {
             universes[universeNumber].SetValue(channelNumber, r);
             universes[universeNumber].SetValue(channelNumber + 1, g);
@@ -37,14 +38,14 @@ public class ArtNetSender : MonoBehaviour
             //Debug.Log("normal");
             //Debug.Log("Universe: " + universeNumber + " Channel: " + channelNumber + " R:" + g);
         }
-        else
+        else 
         {
             //Debug.Log("difficult");
-            for (int i = channelIndex; i < (channelIndex + 3); i++)
+            for (int i = channelIndex; i < (channelIndex + 3); i++) 
             {
-                universeNumber = i / 512;
-                channelNumber = i % 512;
-                switch (i - channelIndex)
+                universeNumber = i / 510;       
+                channelNumber = i % 510;        
+                switch (i - channelIndex)       
                 {
                     case 0:
                         universes[universeNumber].SetValue(channelNumber, r);

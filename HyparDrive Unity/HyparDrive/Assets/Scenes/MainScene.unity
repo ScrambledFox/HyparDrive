@@ -210,7 +210,7 @@ PrefabInstance:
     - target: {fileID: 396391611726293626, guid: ab4c2d0a0224be6428789a3a074f21f2,
         type: 3}
       propertyPath: collider.radius
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 396391611726293626, guid: ab4c2d0a0224be6428789a3a074f21f2,
         type: 3}
@@ -915,6 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f002e7db35f3e44fa35c47369407f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testLedIndex: 0
 --- !u!4 &1170407720
 Transform:
   m_ObjectHideFlags: 0
