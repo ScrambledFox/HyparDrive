@@ -1116,6 +1116,21 @@ PrefabInstance:
       propertyPath: collider.radius
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 396391611726293626, guid: ab4c2d0a0224be6428789a3a074f21f2,
+        type: 3}
+      propertyPath: colour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 396391611726293626, guid: ab4c2d0a0224be6428789a3a074f21f2,
+        type: 3}
+      propertyPath: colour.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 396391611726293626, guid: ab4c2d0a0224be6428789a3a074f21f2,
+        type: 3}
+      propertyPath: colour.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4c2d0a0224be6428789a3a074f21f2, type: 3}
 --- !u!1 &1994890846

@@ -24,14 +24,20 @@ public class LED : MonoBehaviour {
             colour += lightObjects[i].Colour * Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - pos));
         }
 
-        SetColour( colour );
-
-        // example.SendArtNet(ledindex, byte r,byte g,byte b)
+        SetColour(colour);
 
     }
 
     private void SetColour (Color colour) {
         this.colour = colour;
+
+        // example.SendArtNet(ledindex, byte r,byte g,byte b)
+
+        //if (ledIndex < 120 * 3) {
+        //    artNetSend.SendArtNet(this.ledIndex, (byte)255, (byte)255, (byte)255);
+        //} else {
+        //    artNetSend.SendArtNet(this.ledIndex, (byte)255, (byte)255, (byte)255);
+        //}
     }
 
 }
