@@ -6,54 +6,57 @@ public class RaycastSelector : MonoBehaviour {
 
     OrbitalCamera orbitalCamera;
 
-    SelectableObject selectedObject;
-
-    public Transform defocusObjectButton;
+    MovableObject selectedObject;
 
     private void Awake () {
         orbitalCamera = Camera.main.GetComponent<OrbitalCamera>();
     }
 
     public void DeselectCurrentObject () {
-        selectedObject.Deselect();
-        selectedObject = null;
-        defocusObjectButton.gameObject.SetActive(false);
+        if (selectedObject) {
+            selectedObject.Deselect();
+            selectedObject = null;
+        }
     }
 
     private void Update () {
 
-        /// Left mouse click     -   Select Cube
-        /// Only if no other object is selected
-        if (Input.GetMouseButtonDown(0)) {
-            if (selectedObject != null) {
-                if (orbitalCamera.target == selectedObject.transform) {
-                    return;
-                }
+        LayerMask arrowMask = 1 << 9;
+
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 100f, arrowMask)) {
+            // Hovering over Arrow Collider
+
+            bool clicked = Input.GetMouseButtonDown(0) ? true : false;
+
+            MoveArrow arrow = hit.transform.GetComponent<MoveArrow>();
+            arrow.Hover();
+
+            if (clicked) {
+                arrow.Move();
             }
 
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100f)) {
-                if (hit.transform.GetComponent<SelectableObject>()) {
-                    SelectableObject clickedObject = hit.transform.GetComponent<SelectableObject>();
+        } else if (Physics.Raycast(ray, out hit, 100f, ~arrowMask)) {
+            // Hovering over collider
 
-                    selectedObject = clickedObject;
-                    orbitalCamera.SetTarget(selectedObject.transform);
+            bool clicked = Input.GetMouseButtonDown(0) ? true : false;
+            if (clicked) {
+                if (hit.transform.GetComponent<MovableObject>()) {
+                    // Is a selectable object.
+
+                    selectedObject = hit.transform.GetComponent<MovableObject>();
                     selectedObject.Select();
-
-                    defocusObjectButton.transform.position = selectedObject.transform.position;
-                    defocusObjectButton.gameObject.SetActive(true);
-                    defocusObjectButton.GetComponent<AttachedUI>().SetTarget(selectedObject.transform);
+                } else {
+                    DeselectCurrentObject();
                 }
             }
-        }
+        } else {
+            // Hovering over nothing
 
-        // Middle mouse click   -   Focus on Cube
-        if (Input.GetMouseButtonDown(2)) {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100f)) {
-                orbitalCamera.SetTarget(hit.transform);
+            bool clicked = Input.GetMouseButtonDown(0) ? true : false;
+            if (clicked) {
+                DeselectCurrentObject();
             }
         }
     }

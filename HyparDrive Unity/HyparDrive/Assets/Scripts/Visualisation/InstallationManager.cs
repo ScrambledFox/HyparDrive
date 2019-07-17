@@ -35,7 +35,7 @@ public class InstallationManager : MonoBehaviour {
     public bool doVisualisation = true;
 
     public Texture2D textureMap;
-    private Thread textureGenerationThread;
+    private Thread visualisationThread;
     public const float targetFPS = 40f;
     private const long frameTickLength = (long)((1f / targetFPS) * 1000 * 10000);
     private static System.DateTime currentTime;
@@ -54,8 +54,8 @@ public class InstallationManager : MonoBehaviour {
         lightObjectThread = new Thread(new ThreadStart(LightObjectThread));
         lightObjectThread.Start();
 
-        textureGenerationThread = new Thread(new ThreadStart(TextureGenerationThread));
-        textureGenerationThread.Start();
+        visualisationThread = new Thread(new ThreadStart(VisualisationThread));
+        visualisationThread.Start();
 
         //StartCoroutine("SetTestTexture");
 
@@ -89,7 +89,7 @@ public class InstallationManager : MonoBehaviour {
     /// <summary>
     /// Generates the Installation Texure.
     /// </summary>
-    public static void TextureGenerationThread () {
+    public static void VisualisationThread () {
         while (true) {
             currentTime = System.DateTime.Now;
 
@@ -97,7 +97,7 @@ public class InstallationManager : MonoBehaviour {
 
             if (currentTime.Ticks > lastTick + frameTickLength) {
                 lastTick = currentTime.Ticks;
-                TextureTick();
+                VisualisationTick();
             }
         }
     }
@@ -105,18 +105,18 @@ public class InstallationManager : MonoBehaviour {
     /// <summary>
     /// Does the frame update for the texture thread.
     /// </summary>
-    private static void TextureTick () {
+    private static void VisualisationTick () {
+        /*
         lock (InstallationManager.INSTANCE.textureMap) {
             Color[] data = InstallationManager.INSTANCE.GetLEDColourData();
 
             if (data != null) {
                 ThreadHelper.Execute(() => {
-                    InstallationManager.INSTANCE.textureMap = ImageGenerator.GenerateImage(data, InstallationManager.INSTANCE.cubes.Length, INSTALLATION_CONFIG.LEDS_PER_STRIP * 12);
+                    
                 });
             }
-
-            //UnityEngine.Debug.Log("TextureTick");
         }
+        */
     }
 
     /// <summary>
@@ -302,12 +302,19 @@ public class InstallationManager : MonoBehaviour {
         Gizmos.DrawWireCube(Vector3.zero + new Vector3(0, (zoneCount.y * zoneSize) / 2, 0), zoneCount * zoneSize);
     }
 
+    private void OnApplicationQuit () {
+        lightObjectThread.Abort();
+        visualisationThread.Abort();
+    }
+
     private void OnDestroy () {
-        textureGenerationThread.Abort();
+        lightObjectThread.Abort();
+        visualisationThread.Abort();
     }
 
     private void OnDisable () {
-        textureGenerationThread.Abort();
+        lightObjectThread.Abort();
+        visualisationThread.Abort();
     }
 
 }

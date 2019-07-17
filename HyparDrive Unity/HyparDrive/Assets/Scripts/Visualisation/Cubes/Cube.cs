@@ -10,7 +10,7 @@ public class Cube : MonoBehaviour {
     Vector3 inspectPosition = new Vector3(0, 5f, 0);
     float positionSmoothing = 2f;
 
-    SelectableObject selectableObject;
+    MovableObject selectableObject;
 
     /// <summary>
     /// Zone assigned to this cube.
@@ -18,23 +18,15 @@ public class Cube : MonoBehaviour {
     private Zone zone;
 
     /// <summary>
-    /// Array with all of the  Light Tubes of this cube.
-    /// </summary>
-    private LightTube[] tubes;
-
-    /// <summary>
     /// Array with all of the LEDs inside of this cube.
     /// </summary>
     private LED[] leds;
 
     private void Start() {
-        selectableObject = GetComponent<SelectableObject>();
+        selectableObject = GetComponent<MovableObject>();
         originalPosition = transform.localPosition;
 
-        tubes = new LightTube[transform.childCount];
-        for (int i = 0; i < tubes.Length; i++) {
-            tubes[i] = transform.GetChild(i).GetComponent<LightTube>().SetIndex(i);
-        }
+        GetAllLEDs();
     }
 
     /// <summary>
@@ -47,7 +39,7 @@ public class Cube : MonoBehaviour {
         Color[] data = new Color[leds.Length];
 
         for (int i = 0; i < leds.Length; i++) {
-            data[i] = leds[i].colour;
+            data[i] = leds[i].GetColour();
         }
 
         return data;
@@ -58,12 +50,11 @@ public class Cube : MonoBehaviour {
     /// </summary>
     /// <returns>Returns an array of all LED components in this cube</returns>
     private LED[] GetAllLEDs () {
-        LED[] leds = new LED[tubes.Length * INSTALLATION_CONFIG.LEDS_PER_STRIP];
+        if (leds != null) return leds;
 
-        for (int i = 0; i < tubes.Length; i++) {
-            for (int j = 0; j < INSTALLATION_CONFIG.LEDS_PER_STRIP; j++) {
-                leds[i + j * tubes.Length] = tubes[i].transform.GetChild(j).GetComponent<LED>();
-            }
+        leds = new LED[transform.childCount];
+        for (int i = 0; i < transform.childCount; i++) {
+            leds[i] = transform.GetChild(i).GetComponent<LED>();
         }
 
         return leds;
@@ -82,12 +73,6 @@ public class Cube : MonoBehaviour {
 
         for (int i = 0; i < leds.Length; i++) {
             leds[i].UpdateColour(los);
-        }
-
-        if (InstallationManager.INSTANCE.doVisualisation) {
-            for (int i = 0; i < tubes.Length; i++) {
-                tubes[i].UpdateTextureData();
-            }
         }
     }
 
