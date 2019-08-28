@@ -4,30 +4,41 @@ using UnityEngine;
 
 public class MovableObject : MonoBehaviour {
 
-    bool selected = false;
+    private Gizmo gizmoControl;
+    private bool shiftDown;
 
-    public bool Selected { get => selected; }
+    private void Start () {
+        gizmoControl = Resources.FindObjectsOfTypeAll<Gizmo>()[0];
+    }
+
+    private void OnMouseDown () {
+        Select();
+    }
 
     public void Select () {
-        selected = true;
-
-        if (GetComponent<MoveArrow>()) {
-            GetComponent<MoveArrow>().Select();
+        if (gizmoControl != null) {
+            if (!shiftDown) {
+                gizmoControl.ClearSelection();
+            }
+            gizmoControl.Show();
+            gizmoControl.SelectObject(transform);
+            gameObject.layer = 2;
+        } else {
+            Debug.LogError("No Gizmo Registered.");
         }
+    }
 
-        if (GetComponent<Cube>()) {
-            UIManager.INSTANCE.SetTranslationArrows(transform.position);
+    private void Update () {
+        // Check for holding shift
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+            shiftDown = true;
+        } else {
+            shiftDown = false;
         }
     }
 
     public void Deselect () {
-        selected = false;
-
-        if (GetComponent<MoveArrow>()) {
-            GetComponent<MoveArrow>().Deselect();
-        } else {
-            UIManager.INSTANCE.HideTranslationArrows();
-        }
+        gameObject.layer = 0;
     }
 
 
