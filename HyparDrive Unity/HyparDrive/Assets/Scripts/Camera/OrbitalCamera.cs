@@ -15,6 +15,8 @@ public class OrbitalCamera : MonoBehaviour {
     public float rotationSmoothing = 0.1f;
     public float positionSmoothing = 0.1f;
 
+    public Vector2 rotationLimits = new Vector2(0, 90);
+
     public bool rotationInvertX = false;
     public bool rotationInvertY = false;
 
@@ -43,6 +45,7 @@ public class OrbitalCamera : MonoBehaviour {
             float x = rotationInvertX ? Input.GetAxis("Mouse X") : -Input.GetAxis("Mouse X");
             float y = rotationInvertY ? -Input.GetAxis("Mouse Y") : Input.GetAxis("Mouse Y");
             rotation += new Vector2(x * rotationSpeed * Time.deltaTime, y * rotationSpeed * Time.deltaTime);
+            rotation = new Vector2(rotation.x, Mathf.Clamp(rotation.y, 5, 90));
         }
 
         /// When holding down middle mouse button you can move your target point.
@@ -65,9 +68,6 @@ public class OrbitalCamera : MonoBehaviour {
 
         Quaternion targetRotation = Quaternion.Euler(rotation.y, rotation.x, 0);
         Vector3 targetPosition = target.position - (targetRotation * Vector3.forward * distance);
-
-        //transform.localRotation = targetRotation;
-        //transform.localPosition = targetPosition;
 
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, rotationSmoothing * Time.deltaTime);
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, positionSmoothing * Time.deltaTime);

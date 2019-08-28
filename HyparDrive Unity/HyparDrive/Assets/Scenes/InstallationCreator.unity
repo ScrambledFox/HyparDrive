@@ -787,6 +787,7 @@ MonoBehaviour:
   distance: 9.299999
   rotationSmoothing: 10
   positionSmoothing: 10
+  rotationLimits: {x: 0, y: 90}
   rotationInvertX: 1
   rotationInvertY: 1
   translationInvertX: 0
@@ -842,6 +843,8 @@ MonoBehaviour:
   installation: {fileID: 1626653748}
   logicObjects:
   - {fileID: 6431822489519111880, guid: 7766ebabc368cab47a604faf909f500d, type: 3}
+  gridSize: 10
+  cellSize: 0.16667
 --- !u!114 &1437355545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1558,6 +1561,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400008, guid: 3cbfbda37c564ba4891b28079d029590, type: 3}
       propertyPath: Visible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 3cbfbda37c564ba4891b28079d029590, type: 3}
+      propertyPath: Control
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 3cbfbda37c564ba4891b28079d029590, type: 3}
+      propertyPath: Control
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 3cbfbda37c564ba4891b28079d029590, type: 3}
