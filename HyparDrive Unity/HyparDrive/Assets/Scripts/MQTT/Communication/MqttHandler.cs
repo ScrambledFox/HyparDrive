@@ -8,6 +8,7 @@ using uPLibrary.Networking.M2Mqtt.Utility;
 using uPLibrary.Networking.M2Mqtt.Exceptions;
 
 using System;
+using System.Linq;
 
 
 /// <summary>
@@ -28,6 +29,7 @@ public class MqttHandler : MonoBehaviour {
         client.Connect(clientId);
 
         client.Subscribe(new string[] { "/interaction/feed" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE});
+        client.Subscribe(new string[] { "/interaction/timeSync" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
         sendTimeEqualizer();
     }
 
@@ -46,12 +48,10 @@ public class MqttHandler : MonoBehaviour {
                 break;
             case "/interaction/timeSync":
                 CommandProcessor.ProcessTimeCommand(System.Text.Encoding.UTF8.GetString(e.Message));
-                // if all arduinos ok top stuur ok.
-                // anders nog een poging
                 break;
 
             default:
-                Debug.Log("ERROR TOPIC DOES NOT EXIST FUCK U");
+                Debug.Log("ERROR. TOPIC DOES NOT EXIST. BYE FOCK OFF.");
                 break;
         }
     }
@@ -62,11 +62,21 @@ public class MqttHandler : MonoBehaviour {
 
     private void OnDisconnected (object sender, EventArgs e) {
         Debug.LogError("Disconnected from MQTT broker: " + e.ToString());
+        TimeSyncer.happyFam = false;
+        Array.Clear(TimeSyncer.unitStatus, 0, TimeSyncer.unitStatus.Length);
     }
 
     void sendTimeEqualizer()
     {
-        Publish("/interaction/feed", "resetTime");
+        //TODO: run elk uur voor reset van millis time op Arduinos
+        if (TimeSyncer.happyFam != true)
+        {
+            Publish("/interaction/timeSync", "resetTime");
+        }
+        else
+        {
+            Publish("/interaction/timeSync", "Happy family of Arduinos is ready. Show is on.");
+        }
     }
 
 }

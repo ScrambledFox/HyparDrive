@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CommandProcessor : MonoBehaviour
 {
@@ -16,6 +17,14 @@ public class CommandProcessor : MonoBehaviour
     }
     public static void ProcessTimeCommand(string JSON)
     {
-        TimeSyncData timeData = ToDataType<TimeSyncData>(JSON);
+        try
+        {
+            TimeSyncData timeData = ToDataType<TimeSyncData>(JSON);
+            TimeSyncer.syncTime(timeData);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("No JSON string received "+ e);
+        }
     }
 }
