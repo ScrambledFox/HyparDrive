@@ -19,7 +19,8 @@ public class Gizmo : MonoBehaviour
     public bool Visible;
     public float DefaultDistance = 3.2f;
     public float ScaleFactor = 0.2f;
-    
+    public Transform gridHelper;
+
     private Vector3 localScale;
     private Transform _transform;
 
@@ -41,6 +42,8 @@ public class Gizmo : MonoBehaviour
         _transform = transform;
         localScale = _transform.localScale;
         SelectedObjects = new List<Transform>();
+
+        gridHelper = GameObject.FindWithTag("GridHelper").transform;
     }
 	
 	// Update is called once per frame
@@ -106,7 +109,8 @@ public class Gizmo : MonoBehaviour
             {
                 vectors[i] = SelectedObjects[i].position;
             }
-            Center = CenterOfVectors(vectors);
+            //Center = CenterOfVectors(vectors);
+            Center = gridHelper.position;
         }
         else
         {
