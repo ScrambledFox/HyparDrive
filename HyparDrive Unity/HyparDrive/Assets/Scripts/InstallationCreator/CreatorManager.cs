@@ -41,6 +41,8 @@ public class CreatorManager : MonoBehaviour {
     // DEBUG GIZMOS
     private void OnDrawGizmos () {
 
+        Debug.Log ("test");
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, new Vector3(gridSize, 1, gridSize));
 
