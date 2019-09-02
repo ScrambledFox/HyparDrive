@@ -64,7 +64,6 @@ public class GizmoHandle : MonoBehaviour
                     {
                         case GizmoAxis.X:
                             foreach (var obj in Gizmo.SelectedObjects) {
-                                Debug.Log("X "+ Vector3.Angle(Camera.main.transform.right, Vector3.right));
                                 if (Vector3.Angle(Camera.main.transform.right, Vector3.right) < 90) {
                                     obj.Translate(Vector3.right * delta, Space.World);
                                 } else {
@@ -78,9 +77,7 @@ public class GizmoHandle : MonoBehaviour
                             break;
                         case GizmoAxis.Z:
                             foreach (var obj in Gizmo.SelectedObjects) {
-                                Debug.Log("Z "+Vector3.Angle(Camera.main.transform.right, Vector3.forward));
                                 if (Vector3.Angle(Camera.main.transform.right, Vector3.forward) < 90) {
-                                    Debug.Log("IFFIE");
                                     obj.Translate(Vector3.forward * delta, Space.World);
                                 } else {
                                     obj.Translate(-Vector3.forward * delta, Space.World);

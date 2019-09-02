@@ -15,8 +15,6 @@ public class GridManager : MonoBehaviour {
     private void OnDrawGizmos () {
         if (!gridActive) return;
 
-        Debug.Log("test");
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position + new Vector3(0, gridSize.y / 2, 0), new Vector3(gridSize.x, gridSize.y, gridSize.z));
 

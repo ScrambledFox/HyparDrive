@@ -1175,7 +1175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &400028
 Transform:
   m_ObjectHideFlags: 0
@@ -1211,12 +1211,14 @@ MonoBehaviour:
   AxisY: {fileID: 11400004}
   AxisZ: {fileID: 11400000}
   Type: 0
-  SelectedObjects: []
+  SelectedObjects:
+  - {fileID: 0}
   Center: {x: 0, y: 0, z: 0}
   Camera: {fileID: 0}
-  Visible: 0
+  Visible: 1
   DefaultDistance: 10
   ScaleFactor: 0.1
+  gridHelper: {fileID: 0}
 --- !u!1 &100030
 GameObject:
   m_ObjectHideFlags: 0
