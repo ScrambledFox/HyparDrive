@@ -11,7 +11,7 @@ public class CreatorManager : MonoBehaviour {
     public GameObject[] logicObjects;
 
     public int gridSize = 10;
-    [Range(0.01f, 10f)]
+    [Range(0.1f, 10f)]
     public float cellSize = 2f;
 
     void Start () {
@@ -40,10 +40,16 @@ public class CreatorManager : MonoBehaviour {
     // DEBUG GIZMOS
     private void OnDrawGizmos () {
 
-        for (int y = 0; y < gridSize / cellSize; y++) {
-            for (int x = 0; x < gridSize / cellSize; x++) {
+        for (int y = (int)(-gridSize / cellSize / 2); y <= (int)(gridSize / cellSize / 2); y++) {
+            for (int x = (int)(-gridSize / cellSize / 2); x <= (int)(gridSize / cellSize / 2); x++) {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireCube(transform.position, new Vector3(gridSize, 1, gridSize));
+
                 Gizmos.color = Color.gray;
-                Gizmos.DrawCube(new Vector3(x * cellSize - gridSize / 2f + cellSize / 2f, 0, y * cellSize - gridSize / 2f + cellSize / 2f), Vector3.one * cellSize / 4);
+                Gizmos.DrawCube(new Vector3(x * cellSize,
+                                            0,
+                                            y * cellSize)
+                                , Vector3.one * cellSize / 4);
             }
         }
     }
