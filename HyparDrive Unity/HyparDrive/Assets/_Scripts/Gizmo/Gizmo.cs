@@ -109,8 +109,7 @@ public class Gizmo : MonoBehaviour
             {
                 vectors[i] = SelectedObjects[i].position;
             }
-            //Center = CenterOfVectors(vectors);
-            Center = gridHelper.position;
+            Center = CenterOfVectors(vectors);
         }
         else
         {
