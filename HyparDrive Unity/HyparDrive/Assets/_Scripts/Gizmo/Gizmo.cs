@@ -19,7 +19,7 @@ public class Gizmo : MonoBehaviour
     public bool Visible;
     public float DefaultDistance = 3.2f;
     public float ScaleFactor = 0.2f;
-    
+
     private Vector3 localScale;
     private Transform _transform;
 
@@ -90,8 +90,9 @@ public class Gizmo : MonoBehaviour
     }
     public void ClearSelection()
     {
-        foreach (var obj in SelectedObjects)
-        {
+        if (SelectedObjects == null) return;
+
+        foreach (Transform obj in SelectedObjects) {
             (obj.gameObject.GetComponent<MovableObject>()).Deselect();
         }
         SelectedObjects.Clear();
