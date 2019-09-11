@@ -47,11 +47,13 @@ public class MqttHandler : MonoBehaviour {
                 CommandProcessor.ProcessInteractionCommand(System.Text.Encoding.UTF8.GetString(e.Message));
                 break;
             case "/interaction/timeSync":
-                CommandProcessor.ProcessTimeCommand(System.Text.Encoding.UTF8.GetString(e.Message));
+                if (System.Text.Encoding.UTF8.GetString(e.Message) != "resetTime")
+                {
+                    CommandProcessor.ProcessTimeCommand(System.Text.Encoding.UTF8.GetString(e.Message));
+                }
                 break;
-
             default:
-                Debug.Log("ERROR. TOPIC DOES NOT EXIST. BYE FOCK OFF.");
+                Debug.Log("ERROR. TOPIC DOES NOT EXIST.");
                 break;
         }
     }
@@ -69,14 +71,8 @@ public class MqttHandler : MonoBehaviour {
     void sendTimeEqualizer()
     {
         //TODO: run elk uur voor reset van millis time op Arduinos
-        if (TimeSyncer.happyFam != true)
-        {
             Publish("/interaction/timeSync", "resetTime");
-        }
-        else
-        {
-            Publish("/interaction/timeSync", "Happy family of Arduinos is ready. Show is on.");
-        }
+        
     }
 
 }

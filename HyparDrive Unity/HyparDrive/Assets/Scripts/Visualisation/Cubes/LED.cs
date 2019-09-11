@@ -24,7 +24,7 @@ public class LED : MonoBehaviour {
 
         SetColour( colour );
 
-        // example.SendArtNet(ledindex, byte r,byte g,byte b)
+        // ArtNetController.SendArtNet(ledindex, byte r,byte g,byte b)
 
     }
 
