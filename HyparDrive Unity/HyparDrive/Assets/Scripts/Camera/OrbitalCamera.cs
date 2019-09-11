@@ -6,7 +6,7 @@ public class OrbitalCamera : MonoBehaviour {
 
     public float rotationSpeed = 1f;
     public float scrollSpeed = 1.0f;
-    public float translateSpeed = 1f;
+    public float translationSpeed = 1f;
 
     Vector2 distanceLimits = new Vector2(0.1f, 25f);
     [Range(0.1f, 25f)]
@@ -52,8 +52,13 @@ public class OrbitalCamera : MonoBehaviour {
         if (Input.GetMouseButton(2)) {
             float x = translationInvertX ? Input.GetAxis("Mouse X") : -Input.GetAxis("Mouse X");
             float y = translationInvertY ? Input.GetAxis("Mouse Y") : -Input.GetAxis("Mouse Y");
-            target.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-            target.Translate(new Vector3(x, 0, y) * translateSpeed, Space.Self);
+
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                target.Translate(new Vector3(x, y, 0) * translationSpeed, Space.Self);
+            } else {
+                target.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                target.Translate(new Vector3(x, 0, y) * translationSpeed, Space.Self);
+            }
         }
 
         /// When holding down left alt, you zoom slower.

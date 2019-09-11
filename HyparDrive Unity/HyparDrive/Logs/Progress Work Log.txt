@@ -1,0 +1,7 @@
+PROGRESS LOG:
+
+Begonnen aan animation systeem. Track, AnimationKey, AnimationPanelUI en de AnimationCreatorManager classes zijn begonnen.
+
+Wat verder:
+	- Track UI's worden al wel ge-instantiate, maar nog niet op de correcte manier.
+		- Laat de UI's zelf updaten naar de correcte slot? Kijk hiermee uit met de auto viewport.
