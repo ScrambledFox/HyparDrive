@@ -7,6 +7,6 @@ public class InteractionData {
     public int unit;
     public string type;
     public long duration;
-    public long time;
+    public long timeSent;
 
 }
