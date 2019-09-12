@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Dynamic;
 
-public class CommandProcessor : MonoBehaviour
-{
-    public static T ToDataType<T>(string JSON)
-    {
+public class CommandProcessor : MonoBehaviour {
+    public static InteractionController interactionController;
+    void Start () {
+        interactionController = GameObject.Find("InteractionController").GetComponent<InteractionController>();
+    }
+
+    public static T ToDataType<T> ( string JSON ) {
         return JsonUtility.FromJson<T>(JSON);
     }
 
-    public static void ProcessInteractionCommand(string JSON)
-    {
+    public static void ProcessInteractionCommand ( string JSON ) {
         InteractionData interactionData = ToDataType<InteractionData>(JSON);
-        InteractionController.registerNewInteraction(interactionData);
+
+        interactionData.time = DateTime.Now.Ticks;
+
+        interactionController.registerNewInteraction(interactionData);
     }
-    public static void ProcessTimeCommand(string JSON)
-    {
-        try
-        {
-            TimeSyncData timeData = ToDataType<TimeSyncData>(JSON);
-            TimeSyncer.syncTime(timeData);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("No JSON string received "+ e);
-        }
+    public static void ProcessTimeCommand ( string JSON ) {
+        TimeSyncData timeData = ToDataType<TimeSyncData>(JSON);
+        TimeSyncer.syncTime(timeData);
     }
 }
