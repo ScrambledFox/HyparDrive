@@ -5,89 +5,39 @@ using UnityEngine;
 using System.Linq;
 
 
-public class InteractionController : MonoBehaviour
+public static class InteractionController
 {
-    public InteractionData[] lastInteractions = new InteractionData[4];
-    public float margin = 1f;
-    public List<int> collaborativeInteractions = new List<int>();
-    private ArtNetController artNetController;
-
-    private void Awake()
+    public static long[] lastInteractionTime;
+    public static float margin = 0.5f;
+    public static void registerNewInteraction(InteractionData interactionData)
     {
-        artNetController = GameObject.Find("ArtNetController").GetComponent<ArtNetController>();
+        lastInteractionTime[interactionData.unit-1] = interactionData.timeSent;
+
+        //Check time dingetje
+        // 
+        //Ga animaties doen van die unit af 
+        checkNewInteraction(interactionData.unit);
     }
 
-    public void registerNewInteraction(InteractionData interactionData)
-    {
-        //TOEVOEGEN, VOOR DEBUG ZO LATEN:
-        //if (TimeSyncer.happyFam == true)
-        //{
-            // Put timesent into array with all timesents at unit-1
-            lastInteractions[interactionData.unit - 1] = interactionData;
-            collaborativeInteractions.Clear();
 
-        //FOR TESTING, turn off leds
-        for (int k = 0; k < 5 *120; k++)
+    static long getLastInteraction(int unit)
+    {
+        return lastInteractionTime[unit - 1];
+    }
+
+
+    public static void checkNewInteraction(int unit)
+    {
+        long thisInteractionTime = getLastInteraction(unit);
+        long[] close = Array.FindAll(lastInteractionTime, n => n > thisInteractionTime - margin && n < thisInteractionTime + margin);
+        // Want exact hetzelfde kan 2x voorkomen maar dan met andere index
+        for (int i = 0; i < close.Length; i++)
         {
-            artNetController.SendArtNet(k, 0, 0, 0);
-        }
-        //
-
-
-        //Check of deze interactie bijna tegelijk was met een ander
-        checkCollab(interactionData);
-        ////TODO////
-        ///// sendAnimation(duration, direction);
-        //}
-    }
-
-
-     float getLastInteractionTime(int unit)
-    {
-        return lastInteractions[unit - 1].time;
-    }
-
-
-    public void checkCollab(InteractionData thisInteraction)
-    {
-        // All units of interactions within margin are put into a list
-        
-        foreach (InteractionData value in lastInteractions)
-        {
-            if (value != null)
+            if (close[i] != unit)
             {
-                if ((value.time >= thisInteraction.time - margin && value.time <= thisInteraction.time + margin))
-                {
-                    collaborativeInteractions.Add(Array.IndexOf(lastInteractions, value));
-                }
+                Debug.Log("Collaboration "+ close[i]);
             }
-        }
-        Debug.Log("Interaction between " + thisInteraction.unit + " and " + (collaborativeInteractions.Count -1)+ " others.");
-        if (collaborativeInteractions.Count > 1)
-        {
-            collaboration(collaborativeInteractions);
-        } else
-        {
-            checkInteraction(thisInteraction);
-        }
-    }
-
-
-    public void collaboration(List<int> interactors)
-    {
-        // For all collaborators turn on Cube + debug
-        for (int i = 0; i < interactors.Count; i++)
-        {
-            Debug.Log("Collaborators are: " + (interactors[i] + 1));
-
-            //FOR TESTING
-            for (int j = interactors[i]*120; j < interactors[i]*120+120; j++)
-            {
-                artNetController.SendArtNet(j, 0, 255, 0);
-            }
-            //
-            
-        }        
+        }           
     }
 
     public void checkInteraction(InteractionData thisInteraction)

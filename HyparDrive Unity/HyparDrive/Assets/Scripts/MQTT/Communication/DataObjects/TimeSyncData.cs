@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TimeSyncData
 {
+
     public int unit;
     public bool status;
+
 }

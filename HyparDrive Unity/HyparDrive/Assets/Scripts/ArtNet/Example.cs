@@ -4,25 +4,33 @@ using UnityEngine;
 using HauteTechnique.Dmx;
 using System;
 
-public class ArtNetController : MonoBehaviour
+
+
+public class Example : MonoBehaviour
 {
     private ArtNetDmxNode node;
     private List<DmxUniverse> universes = new List<DmxUniverse>();
     private int numUniverses = 5;
     public int testLedIndex;
 
-    public void Awake()
+    void Awake()
     {
-        node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // Advatek IP: 10.0.0.3
+        node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // 10.0.0.3
         for (int i = 0; i < numUniverses; i++)
         {
             universes.Add(new DmxUniverse(i));
             node.AddUniverse(universes[i]);
-        }        
+        }
+        
+        
     }
 
+    void Update()
+    {
+        SendArtNet(testLedIndex, 255, 254, 253);
+    }
 
-    public void SendArtNet(int ledIndex, byte r, byte g, byte b)
+    void SendArtNet(int ledIndex, byte r, byte g, byte b)
     {
         int channelIndex = ledIndex * 3;
         int universeNumber = channelIndex / 512;
@@ -62,7 +70,7 @@ public class ArtNetController : MonoBehaviour
               
     }
 
-    public void LateUpdate()
+    void LateUpdate()
     {
         node.Send();
     }
