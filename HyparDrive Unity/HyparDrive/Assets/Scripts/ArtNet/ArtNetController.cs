@@ -6,14 +6,14 @@ using System;
 
 
 
-public class Example : MonoBehaviour
+public class ArtNetController : MonoBehaviour
 {
     private ArtNetDmxNode node;
     private List<DmxUniverse> universes = new List<DmxUniverse>();
     private int numUniverses = 5;
     public int testLedIndex;
 
-    void Awake()
+    public void Awake()
     {
         node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // 10.0.0.3
         for (int i = 0; i < numUniverses; i++)
@@ -25,12 +25,8 @@ public class Example : MonoBehaviour
         
     }
 
-    void Update()
-    {
-        SendArtNet(testLedIndex, 255, 254, 253);
-    }
 
-    void SendArtNet(int ledIndex, byte r, byte g, byte b)
+    public void SendArtNet(int ledIndex, byte r, byte g, byte b)
     {
         int channelIndex = ledIndex * 3;
         int universeNumber = channelIndex / 512;
@@ -70,7 +66,7 @@ public class Example : MonoBehaviour
               
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         node.Send();
     }
