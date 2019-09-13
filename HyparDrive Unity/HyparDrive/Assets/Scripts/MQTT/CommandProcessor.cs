@@ -21,9 +21,11 @@ public class CommandProcessor : MonoBehaviour
     {
         InteractionData interactionData = ToDataType<InteractionData>(JSON);
 
-        interactionData.time = Time.time;
-
-        interactionController.registerNewInteraction(interactionData);
+        interactionData.time = DateTime.Now.Ticks;
+        if (interactionData.type == "send")
+        {
+            interactionController.registerNewInteraction(interactionData);
+        }
     }
     public static void ProcessTimeCommand(string JSON)
     {

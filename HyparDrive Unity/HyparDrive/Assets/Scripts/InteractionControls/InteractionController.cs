@@ -26,7 +26,7 @@ public class InteractionController : MonoBehaviour
             lastInteractions[interactionData.unit - 1] = interactionData;
             collaborativeInteractions.Clear();
 
-        //FOR TESTING
+        //FOR TESTING, turn off leds
         for (int k = 0; k < 5 *120; k++)
         {
             artNetController.SendArtNet(k, 0, 0, 0);
@@ -36,6 +36,8 @@ public class InteractionController : MonoBehaviour
 
         //Check of deze interactie bijna tegelijk was met een ander
         checkCollab(interactionData);
+        ////TODO////
+        ///// sendAnimation(duration, direction);
         //}
     }
 
@@ -64,6 +66,9 @@ public class InteractionController : MonoBehaviour
         if (collaborativeInteractions.Count > 1)
         {
             collaboration(collaborativeInteractions);
+        } else
+        {
+            checkInteraction(thisInteraction);
         }
     }
 
@@ -83,5 +88,17 @@ public class InteractionController : MonoBehaviour
             //
             
         }        
+    }
+
+    public void checkInteraction(InteractionData thisInteraction)
+    {
+       
+            //FOR TESTING
+            for (int j = 0; j < thisInteraction.duration; j++)
+            {
+                artNetController.SendArtNet(j, 255, 0, 0);
+            }
+            //
+
     }
 }
