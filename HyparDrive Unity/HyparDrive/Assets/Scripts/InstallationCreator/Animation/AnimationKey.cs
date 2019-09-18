@@ -5,7 +5,11 @@ using UnityEngine;
 public class AnimationKey {
 
     public int frame;
-    public bool action;
+    
+    public GameObject attachedObject;
+    public Vector3 position;
+    public Color colour;
+    public float size;
 
     public AnimationKey (int frame) {
         this.frame = frame;

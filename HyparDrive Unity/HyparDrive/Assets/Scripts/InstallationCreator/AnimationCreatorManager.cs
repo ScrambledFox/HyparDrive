@@ -16,11 +16,17 @@ public class AnimationCreatorManager : MonoBehaviour {
 
         // Init list of tracks
         tracks = new List<Track>();
+
+        Track track = new Track();
+        tracks.Add(track);
+
+        track.AddKey(0);
+
     }
 
     public void AddNewTrack () {
         Track track = new Track();
         tracks.Add(track);
-        onAnimationTrackAdded?.Invoke(track);
+        //onAnimationTrackAdded?.Invoke(track);
     }
 }
