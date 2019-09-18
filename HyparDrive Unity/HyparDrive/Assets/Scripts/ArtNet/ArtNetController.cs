@@ -8,6 +8,7 @@ using System;
 
 public class ArtNetController : MonoBehaviour
 {
+    public static ArtNetController INSTANCE = null;
     private ArtNetDmxNode node;
     private List<DmxUniverse> universes = new List<DmxUniverse>();
     private int numUniverses = 5;
@@ -15,15 +16,15 @@ public class ArtNetController : MonoBehaviour
 
     public void Awake()
     {
+        INSTANCE = this;
         node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // 10.0.0.3
         for (int i = 0; i < numUniverses; i++)
         {
             universes.Add(new DmxUniverse(i));
             node.AddUniverse(universes[i]);
-        }
-        
-        
+        }  
     }
+
 
 
     public void SendArtNet(int ledIndex, byte r, byte g, byte b)

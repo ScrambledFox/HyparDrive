@@ -14,23 +14,39 @@ public class CommandProcessor : MonoBehaviour
 
     public static T ToDataType<T>(string JSON)
     {
-        return JsonUtility.FromJson<T>(JSON);
+        try
+        {
+            return JsonUtility.FromJson<T>(JSON);
+        }
+        catch 
+        {
+            return default(T);
+        }
+         
     }
 
     public static void ProcessInteractionCommand(string JSON)
     {
-        InteractionData interactionData = ToDataType<InteractionData>(JSON);
-
-        interactionData.time = DateTime.Now.Ticks;
-
-        if(interactionData.type == "send")
+        InteractionData interactionData = ToDataType<InteractionData>(JSON);        
+        if (interactionData != null)
         {
-            interactionController.registerNewInteraction(interactionData);
-        }        
+            ThreadHelper.ExecuteInUpdate(() =>
+            {
+                interactionData.time = Time.time;
+
+                if (interactionData.type == "send")
+                {
+                    InteractionController.INSTANCE.registerNewInteraction(interactionData);
+                }
+            });
+        }
     }
     public static void ProcessTimeCommand(string JSON)
     {
         TimeSyncData timeData = ToDataType<TimeSyncData>(JSON);
-        TimeSyncer.syncTime(timeData);
+        if (timeData != null)
+        {
+            TimeSyncer.syncTime(timeData);
+        }
     }
 }

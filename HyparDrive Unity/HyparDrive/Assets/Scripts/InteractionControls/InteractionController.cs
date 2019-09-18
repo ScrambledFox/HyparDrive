@@ -7,14 +7,14 @@ using System.Linq;
 
 public class InteractionController : MonoBehaviour
 {
-    public InteractionData[] lastInteractions = new InteractionData[4];
-    public float margin = 1f;
-    public List<int> collaborativeInteractions = new List<int>();
-    public ArtNetController artNetController;
+    public static InteractionController INSTANCE = null;
+    public static InteractionData[] lastInteractions = new InteractionData[4];
+    public static float margin = 1f;
+    public static List<int> collaborativeInteractions = new List<int>();
 
     public void Awake()
     {
-        artNetController = GameObject.Find("ArtNetController").GetComponent<ArtNetController>();
+        INSTANCE = this;
     }
 
     public void registerNewInteraction(InteractionData interactionData)
@@ -29,7 +29,7 @@ public class InteractionController : MonoBehaviour
         //FOR TESTING
         for (int k = 0; k < 5 * 120; k++)
         {
-            artNetController.SendArtNet(k, 0, 0, 0);
+            ArtNetController.INSTANCE.SendArtNet(k, 0, 0, 0);
         }
         //
 
@@ -37,6 +37,7 @@ public class InteractionController : MonoBehaviour
         //Check of deze interactie bijna tegelijk was met een ander
         checkCollab(interactionData);
         //}
+        Debug.Log(interactionData.time);
     }
 
 
@@ -46,7 +47,7 @@ public class InteractionController : MonoBehaviour
     }
 
 
-    public void checkCollab(InteractionData thisInteraction)
+    public static void checkCollab(InteractionData thisInteraction)
     {
         // All units of interactions within margin are put into a list
 
@@ -72,7 +73,7 @@ public class InteractionController : MonoBehaviour
     }
 
 
-    public void collaboration(List<int> interactors)
+    public static void collaboration(List<int> interactors)
     {
         // For all collaborators turn on Cube + debug
         for (int i = 0; i < interactors.Count; i++)
@@ -82,19 +83,19 @@ public class InteractionController : MonoBehaviour
             //FOR TESTING
             for (int j = interactors[i] * 120; j < interactors[i] * 120 + 120; j++)
             {
-                artNetController.SendArtNet(j, 0, 255, 0);
+                ArtNetController.INSTANCE.SendArtNet(j, 0, 255, 0);
             }
             //
 
         }
     }
 
-    public void checkInteraction(InteractionData thisInteraction)
+    public static void checkInteraction(InteractionData thisInteraction)
     {
         //  FOR TESTING
         for (int i = 0; i < thisInteraction.duration; i++)
         {
-            artNetController.SendArtNet(i, 255, 0, 0);
+            ArtNetController.INSTANCE.SendArtNet(i, 255, 0, 0);
         }
     }
 }

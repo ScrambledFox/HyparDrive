@@ -76,9 +76,7 @@ public class MqttHandler : MonoBehaviour
 
     void sendTimeEqualizer()
     {
-        //TODO: run elk uur voor reset van millis time op Arduinos
         Publish("/interaction/timeSync", "resetTime");
-
     }
 
 }

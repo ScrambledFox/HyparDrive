@@ -2,27 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ThreadHelper {
+public class ThreadHelper : MonoBehaviour
+{
+    public static ThreadHelper INSTANCE = null;
 
-    private static List<System.Action> actions = new List<System.Action>();
+    private static List<System.Action> actionsToTake = new List<System.Action>();
+    List<System.Action> actionsToTakeCopied = new List<System.Action>();
 
-    public volatile static bool actionsInQueue = false;
+    private volatile static bool actionsInQueue = false;
 
-    public static void Execute (System.Action action) {
-        if (action == null) {
+    public static void ExecuteInUpdate(System.Action action)
+    {
+        if (action == null)
+        {
             throw new System.ArgumentNullException("action");
         }
 
-        lock (actions) {
-            actions.Add(action);
+        lock (actionsToTake)
+        {
+            actionsToTake.Add(action);
             actionsInQueue = true;
         }
     }
 
-    public static List<System.Action> GetActionsInQueue () {
-        List<System.Action> returnList = new List<System.Action>(actions);
-        actions.Clear();
-        actionsInQueue = false;
-        return returnList;
+    private void Update()
+    {
+        if (!actionsInQueue) return;
+
+        actionsToTakeCopied.Clear();
+        lock (actionsToTakeCopied)
+        {
+            actionsToTakeCopied.AddRange(actionsToTake);
+            actionsToTake.Clear();
+            actionsInQueue = false;
+        }
+
+        for (int i = 0; i < actionsToTakeCopied.Count; i++)
+        {
+            actionsToTakeCopied[i].Invoke();
+        }
     }
 }
