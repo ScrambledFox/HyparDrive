@@ -11,11 +11,16 @@ public class AnimationPanelUI : MonoBehaviour {
     private List<TrackSlot> trackSlots;
     public GameObject trackUIPrefab;
 
+    public Transform addNewTrackButton;
+
     private void Awake() {
         animator = GetComponentInChildren<Animator>();
 
         trackSlots = new List<TrackSlot>();
-        trackSlots.Add(new TrackSlot(trackSlots.Count, Instantiate(trackUIPrefab), new Track()));
+    }
+
+    private void Start () {
+        AnimationCreatorManager.INSTANCE.onAnimationTrackAdded += AddNewTrackSlot;
     }
 
     public void ShowPanel () {
@@ -33,18 +38,49 @@ public class AnimationPanelUI : MonoBehaviour {
             HidePanel();
     }
 
+    private void Update () {
+        CheckForNewTracks();
+    }
+
+    public void CheckForNewTracks () {
+        if (AnimationCreatorManager.INSTANCE.tracks.Count != trackSlots.Count) {
+            Debug.Log("Things do not match..");
+        }
+    }
+
+    public void AddNewTrackSlot (Track newTrack) {
+        TrackSlot slot = new TrackSlot(GenerateNewSlot(), newTrack);
+        trackSlots.Add(slot);
+
+        for (int i = 0; i < trackSlots.Count; i++) {
+            trackSlots[i].GetGameObject().GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 50 + i * -125);
+        }
+
+        MoveAddTrackButton();
+    }
+
+    private GameObject GenerateNewSlot () {
+        return Instantiate(trackUIPrefab, GameObject.FindWithTag("TrackContent").transform);
+    }
+
+    private void MoveAddTrackButton () {
+        addNewTrackButton.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, -50);
+    }
+
 }
 
-public struct TrackSlot {
+public class TrackSlot {
 
-    int index;
     GameObject trackUI;
     Track track;
 
-    public TrackSlot (int index, GameObject trackUI, Track track) {
-        this.index = index;
+    public TrackSlot (GameObject trackUI, Track track) {
         this.trackUI = trackUI;
         this.track = track;
+    }
+
+    public GameObject GetGameObject () {
+        return trackUI;
     }
 
 }

@@ -16,6 +16,10 @@ public class Track {
 
     }
 
+    /// <summary>
+    /// Adds a key to the animation track.
+    /// </summary>
+    /// <param name="frame"></param>
     public void AddKey (int frame) {
         animationKeys.Add(new AnimationKey(frame));
     }
