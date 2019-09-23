@@ -9,6 +9,7 @@ TagManager:
   - Gizmo
   - GridHelper
   - TrackContent
+  - UIAnimator
   layers:
   - Default
   - TransparentFX
