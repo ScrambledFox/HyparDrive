@@ -121,6 +121,12 @@ public class AnimationCreatorManager : MonoBehaviour {
         trackSlots.Remove(trackSlots.Single(t => t.trackUI == trackObj));
         Debug.Log(trackSlots.Count());
     }
+
+    public int indexOfTrack(GameObject trackObj)
+    {
+        int index = trackSlots.FindIndex(t => t.trackUI == trackObj);
+        return index;
+    }
 }
 
 
@@ -131,6 +137,7 @@ public class TrackSlot
     public GameObject trackUI;
     //Track track;
     public Slider slider;
+    public List<GameObject> keyFrames;
 
     //public TrackSlot(GameObject trackUI, Track track)
     public TrackSlot(GameObject trackUI)

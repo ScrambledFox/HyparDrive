@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class TrackControls : MonoBehaviour
 {
     public int trackIndex;
     public void onDeleteClick()
     {
-        AnimationCreatorManager.INSTANCE.removeThisTrack(this.gameObject);
-        Destroy(transform.gameObject);
+        if (EditorUtility.DisplayDialog("Delete?!","Are you sure you want to delete this item?", "Yes", "Hell no"))
+        {
+            AnimationCreatorManager.INSTANCE.removeThisTrack(this.gameObject);
+            Destroy(transform.gameObject);
+        }
     }
 }
