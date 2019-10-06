@@ -17,7 +17,7 @@ public class ArtNetController : MonoBehaviour
     public void Awake()
     {
         INSTANCE = this;
-        node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // 10.0.0.3
+        node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // 10.0.0.3 or IP of advatek board (169.????)
         for (int i = 0; i < numUniverses; i++)
         {
             universes.Add(new DmxUniverse(i));

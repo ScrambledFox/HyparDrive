@@ -96,7 +96,11 @@ public class AnimationCreatorManager : MonoBehaviour {
     public void AddNewTrackSlot()
     {
         TrackSlot slot = new TrackSlot(GenerateNewSlot());
-        trackSlots.Add(slot);               
+        trackSlots.Add(slot);
+        for (int i = 0; i < trackSlots.Count; i++)
+        {
+            trackSlots[i].slider.value = 0;
+        }
     }
     private GameObject GenerateNewSlot()
     {
@@ -113,7 +117,22 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public void PlayTracks()
     {
-        playing = !playing;        
+        if (!playing)
+        {
+            float minValue = 0;
+            for (int i = 0; i < trackSlots.Count; i++)
+            {
+                if (trackSlots[i].slider.value > minValue)
+                {
+                    minValue = trackSlots[i].slider.value;
+                }
+            }
+            for (int j = 0; j < trackSlots.Count; j++)
+            {
+                trackSlots[j].slider.value = minValue;
+            }
+        }
+        playing = !playing;
     }
 
     public void removeThisTrack(GameObject trackObj)
@@ -127,9 +146,21 @@ public class AnimationCreatorManager : MonoBehaviour {
         int index = trackSlots.FindIndex(t => t.trackUI == trackObj);
         return index;
     }
+    
+    public void addKeyframe(GameObject parentOfKeyFrame, KeyFrame keyFrame)
+    {
+        int index = indexOfTrack(parentOfKeyFrame);
+        trackSlots[index].keyFrames.Add(keyFrame);
+        Debug.Log(trackSlots[index].keyFrames[0].keyFrameLocation);
+    }
+    public void removeKeyframe(GameObject parentOfKeyFrame, float thisKeyFramePos) //TODO: Add keyframe details joris needs --> percentage
+    {
+        int index = indexOfTrack(parentOfKeyFrame);
+        Debug.Log(index);
+        trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.keyFrameLocation == thisKeyFramePos));
+        Debug.Log(trackSlots[index].keyFrames.Count);
+    }
 }
-
-
 
 public class TrackSlot
 {
@@ -137,17 +168,23 @@ public class TrackSlot
     public GameObject trackUI;
     //Track track;
     public Slider slider;
-    public List<GameObject> keyFrames;
+    public List<KeyFrame> keyFrames;
 
     //public TrackSlot(GameObject trackUI, Track track)
     public TrackSlot(GameObject trackUI)
     {
         this.trackUI = trackUI;
         this.slider = trackUI.GetComponentInChildren<Slider>();
+        this.keyFrames = new List<KeyFrame>();
     }
 
     public GameObject GetGameObject()
     {
         return trackUI;
+    }
+
+    public List<KeyFrame> GetKeyFrames()
+    {
+        return keyFrames;
     }
 }
