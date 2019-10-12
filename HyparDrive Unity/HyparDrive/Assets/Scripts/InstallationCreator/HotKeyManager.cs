@@ -9,7 +9,7 @@ public class HotKeyManager : MonoBehaviour {
     /// </summary>
     private void Update () {
 
-        if (Input.GetKeyDown(KeyCode.A)) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             CreatorManager.INSTANCE.ToggleSpawnPanel();
         }
 

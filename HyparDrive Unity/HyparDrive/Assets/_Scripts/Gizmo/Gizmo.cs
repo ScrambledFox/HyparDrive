@@ -60,7 +60,7 @@ public class Gizmo : MonoBehaviour
             {
                 SetType(GizmoTypes.Scale);
             }
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 ClearSelection();
                 Hide();
