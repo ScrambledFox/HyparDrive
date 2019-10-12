@@ -24,7 +24,10 @@ public class AnimationCreatorManager : MonoBehaviour {
     public Transform playTracksButton;
 
     private bool playing;
-    public static float playbackSpeed=1;
+    public static float playbackSpeed=0.3f;
+
+    public GameObject[] animObjects;
+    public static string animationName;
 
 
     private void Awake()
@@ -63,6 +66,22 @@ public class AnimationCreatorManager : MonoBehaviour {
         }
     }
 
+    public void AddAnimObject(string name)
+    {
+        switch (name)
+        {
+            case "Blob":
+                //// TODO JORIS: spawn dingen met je mooie Gizmos
+                /*GameObject go = Instantiate(animObjects[0]);
+                go.GetComponent<Cube>().SetIndex(cubes.Count);
+                cubes.Add(go.GetComponent<Cube>());*/
+                Debug.Log("Spawning a blobbie");
+                break;
+            default:
+                break;
+        }
+    }
+
     public void ShowPanel()
     {
         animator.SetBool("AnimationPanelState", true);
@@ -81,7 +100,15 @@ public class AnimationCreatorManager : MonoBehaviour {
             HidePanel();
     }
 
-  
+    public void SetAnimationName(string fileName)
+    {
+        animationName = fileName;
+    }
+
+    public void SaveAnimation ( ) {
+        FileManagement.SaveAnimation(animationName, trackSlots.ToArray());
+    }
+
 
     //Create a list with all the tracks itself
     public void AddNewTrack () {
@@ -151,13 +178,13 @@ public class AnimationCreatorManager : MonoBehaviour {
     {
         int index = indexOfTrack(parentOfKeyFrame);
         trackSlots[index].keyFrames.Add(keyFrame);
-        Debug.Log(trackSlots[index].keyFrames[0].keyFrameLocation);
+        Debug.Log(trackSlots[index].keyFrames[0].keyFrameTime);
     }
     public void removeKeyframe(GameObject parentOfKeyFrame, float thisKeyFramePos) //TODO: Add keyframe details joris needs --> percentage
     {
         int index = indexOfTrack(parentOfKeyFrame);
         Debug.Log(index);
-        trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.keyFrameLocation == thisKeyFramePos));
+        trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.keyFrameTime == thisKeyFramePos));
         Debug.Log(trackSlots[index].keyFrames.Count);
     }
 }

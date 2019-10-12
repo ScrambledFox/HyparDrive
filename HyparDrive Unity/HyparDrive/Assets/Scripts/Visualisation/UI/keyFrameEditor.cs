@@ -35,8 +35,8 @@ public class keyFrameEditor : MonoBehaviour
         KeyFrame newKeyFrame = new KeyFrame(CreateKeyFrame(localpoint));
 
         float keyPosition = (localpoint.x / this.GetComponent<RectTransform>().rect.width + 0.5f) * 100f;
-        newKeyFrame.keyFrameLocation = keyPosition;
-        Debug.Log("percentage: " + newKeyFrame.keyFrameLocation + "%");
+        newKeyFrame.keyFrameTime = keyPosition;
+        Debug.Log("percentage: " + newKeyFrame.keyFrameTime + "%");
 
         return newKeyFrame;
     }
@@ -55,7 +55,16 @@ public class KeyFrame
 {
 
     public GameObject keyFrameObject;
-    public float keyFrameLocation; // In % van 100%
+    
+    public int trackIndex;
+    public Vector3 position;
+    public Quaternion rotation;
+    public Vector3 scale;
+    public float keyFrameTime; // In % van 100%
+    public Color color;
+    
+    //JORIS: add x y z scale van lightobject --> Niet van keyframe zelf
+    //Add color
 
     public KeyFrame(GameObject keyFrameObject)
     {
@@ -67,8 +76,8 @@ public class KeyFrame
         return keyFrameObject;
     }
 
-    public float GetLocation()
+    public float GetTime()
     {
-        return keyFrameLocation;
+        return keyFrameTime;
     }
 }
