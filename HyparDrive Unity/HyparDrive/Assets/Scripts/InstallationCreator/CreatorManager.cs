@@ -9,7 +9,7 @@ public class CreatorManager : MonoBehaviour {
     public static string installationName;
 
     public GameObject installation;
-    public List<GameObject> cubes = new List<GameObject>();
+    public List<Cube> cubes = new List<Cube>();
 
     public GameObject[] logicObjects;
 
@@ -29,7 +29,8 @@ public class CreatorManager : MonoBehaviour {
         switch (name) {
             case "Hypar Cube":
                 GameObject go = Instantiate(logicObjects[0], installation.transform);
-                cubes.Add(go);
+                go.GetComponent<Cube>().SetIndex(cubes.Count);
+                cubes.Add(go.GetComponent<Cube>());
                 break;
             default:
                 break;
