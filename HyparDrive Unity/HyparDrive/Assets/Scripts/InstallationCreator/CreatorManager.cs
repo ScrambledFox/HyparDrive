@@ -29,15 +29,16 @@ public class CreatorManager : MonoBehaviour {
             fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
             fileName = fileName.Substring(0, fileName.IndexOf('.'));
 
-            Debug.Log("Sanitised input: " + fileName);
-
             if (FileManagement.CheckIfFileExists(fileName)) {
-                Debug.Log("LastInstallationFile key found, file also exists, loading it now...");
+                Debug.Log("LastInstallationFile key found: " + PlayerPrefs.GetString("LastInstallationFile") + ", file also exists: " + fileName + FileManagement.FILE_EXTENSION + ", loading it now...");
 
-                //Load..
+                //TODO: Load startup file
             } else {
-                Debug.Log("LastInstallationFile key found, however no file found.");
+                Debug.Log("LastInstallationFile key found: " + PlayerPrefs.GetString("LastInstallationFile") + ", however no file with name " + fileName + " found. Is the file extension " + FileManagement.FILE_EXTENSION + " correctly set?");
+                Debug.Log("Starting new project...");
             }
+        } else {
+            Debug.Log("No last file key found, starting new project...");
         }
     }
 

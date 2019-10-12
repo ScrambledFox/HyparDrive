@@ -6,8 +6,8 @@ using System;
 
 public static class FileManagement {
 
-    private static readonly string INSTALLATION_SAVE_FOLDER = Application.persistentDataPath + "/installations/";
-    private static readonly string FILE_EXTENSION = ".hype";
+    public static readonly string INSTALLATION_SAVE_FOLDER = Application.persistentDataPath + "/installations/";
+    public static readonly string FILE_EXTENSION = ".hype";
 
     public static bool CheckIfDirectoryExists () {
         if (!Directory.Exists(INSTALLATION_SAVE_FOLDER)) {
@@ -20,6 +20,9 @@ public static class FileManagement {
 
     public static bool CheckIfFileExists ( string fileName ) {
         CheckIfDirectoryExists();
+
+
+        /// THERE IS A FILE.EXISTS METHOD.... SO DO A REWRITE!
 
         if (Directory.GetFiles(INSTALLATION_SAVE_FOLDER, fileName, SearchOption.AllDirectories).Length > 0) {
             return true;
