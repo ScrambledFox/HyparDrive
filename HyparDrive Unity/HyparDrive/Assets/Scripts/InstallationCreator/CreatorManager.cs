@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class CreatorManager : MonoBehaviour {
 
@@ -22,6 +23,22 @@ public class CreatorManager : MonoBehaviour {
         }
 
         gridManager = FindObjectOfType<GridManager>();
+
+        if (PlayerPrefs.HasKey("LastInstallationFile")) {
+            string fileName = PlayerPrefs.GetString("LastInstallationFile");
+            fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
+            fileName = fileName.Substring(0, fileName.IndexOf('.'));
+
+            Debug.Log("Sanitised input: " + fileName);
+
+            if (FileManagement.CheckIfFileExists(fileName)) {
+                Debug.Log("LastInstallationFile key found, file also exists, loading it now...");
+
+                //Load..
+            } else {
+                Debug.Log("LastInstallationFile key found, however no file found.");
+            }
+        }
     }
 
     // LOGIC METHODS
@@ -50,5 +67,9 @@ public class CreatorManager : MonoBehaviour {
 
     public void SaveInstallation ( ) {
         FileManagement.SaveInstallation(installationName, cubes.ToArray());
+    }
+
+    public void LoadInInstallation ( InstallationSaveData installationSaveData ) {
+
     }
 }
