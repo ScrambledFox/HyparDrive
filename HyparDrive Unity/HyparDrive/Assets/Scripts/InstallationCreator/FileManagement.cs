@@ -10,7 +10,7 @@ public static class FileManagement {
     private static readonly string ANIMATION_SAVE_FOLDER = Application.persistentDataPath + "/animations/";
     private static readonly string FILE_EXTENSION = ".hype";
 
-    public static void CheckIfDirectoryExists () {
+    public static bool CheckIfDirectoryExists () {
         if (!Directory.Exists(INSTALLATION_SAVE_FOLDER)) {
             Debug.Log("Created installation save folder at " + INSTALLATION_SAVE_FOLDER);
             Directory.CreateDirectory(INSTALLATION_SAVE_FOLDER);
@@ -35,12 +35,12 @@ public static class FileManagement {
 
         CheckIfDirectoryExists();
 
-        InstallationSaveState installationSaveState = new InstallationSaveState();
+        InstallationSaveData installationSaveState = new InstallationSaveData();
         installationSaveState.lastSaveTime = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
 
-        installationSaveState.hyparCubes = new InstallationSaveState.HyparCube[cubes.Length];
+        installationSaveState.hyparCubes = new InstallationSaveData.HyparCube[cubes.Length];
         for (int i = 0; i < installationSaveState.hyparCubes.Length; i++) {
-            installationSaveState.hyparCubes[i] = new InstallationSaveState.HyparCube(
+            installationSaveState.hyparCubes[i] = new InstallationSaveData.HyparCube(
                 cubes[i].GetIndex(),
                 cubes[i].gameObject.transform.position,
                 cubes[i].gameObject.transform.rotation,
@@ -50,6 +50,8 @@ public static class FileManagement {
 
         string jsonData = JsonUtility.ToJson( installationSaveState , true );
         File.WriteAllText(INSTALLATION_SAVE_FOLDER + fileName + FILE_EXTENSION, jsonData);
+
+        PlayerPrefs.SetString("LastInstallationFile", INSTALLATION_SAVE_FOLDER + fileName + FILE_EXTENSION);
 
         Debug.Log("Saved " + fileName + " to " + INSTALLATION_SAVE_FOLDER + fileName + FILE_EXTENSION);
 
@@ -98,7 +100,7 @@ public static class FileManagement {
 
 }
 
-public class InstallationSaveState {
+public class InstallationSaveData {
 
     public string lastSaveTime;
     public HyparCube[] hyparCubes;

@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject saveScreen;
+    [SerializeField]
+    private GameObject loadScreen;
 
     public void Start () {
         if (INSTANCE == null) {
@@ -45,10 +47,15 @@ public class UIManager : MonoBehaviour {
         saveScreen.SetActive(state);
     }
 
+    public void SetLoadScreenState ( bool state ) {
+        loadScreen.SetActive(state);
+    }
+
     public void CloseAllElements () {
         addObjectPanel.SetActive(false);
         translationArrows.SetActive(false);
         saveScreen.SetActive(false);
+        loadScreen.SetActive(false);
     }
 
 }
