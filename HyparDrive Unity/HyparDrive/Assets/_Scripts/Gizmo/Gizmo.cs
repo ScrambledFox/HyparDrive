@@ -68,6 +68,21 @@ public class Gizmo : MonoBehaviour
         }
         if (SelectedObjects.Count > 0)
         {
+            // Deleting objects
+            if (Input.GetKeyDown(KeyCode.Delete)) {
+                Transform[] tranforms = SelectedObjects.ToArray();
+
+                ClearSelection();
+                Hide();
+
+                foreach (Transform trans in tranforms) {
+                    FindObjectOfType<CreatorManager>().installationObjects.Remove(trans.gameObject);
+                    Destroy(trans.gameObject);
+                }
+
+                return;
+            }
+
             // Scale based on distance from the camera
             var distance = Vector3.Distance(_transform.position, Camera.transform.position);
             var scale = (distance - DefaultDistance) * ScaleFactor;

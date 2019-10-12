@@ -7,6 +7,7 @@ public class CreatorManager : MonoBehaviour {
     public static CreatorManager INSTANCE;
 
     public GameObject installation;
+    public List<GameObject> installationObjects = new List<GameObject>();
 
     public GameObject[] logicObjects;
 
@@ -25,7 +26,8 @@ public class CreatorManager : MonoBehaviour {
     public void AddObject ( string name) {
         switch (name) {
             case "Hypar Cube":
-                Instantiate(logicObjects[0], installation.transform);
+                GameObject go = Instantiate(logicObjects[0], installation.transform);
+                installationObjects.Add(go);
                 break;
             default:
                 break;
