@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject translationArrows;
 
+    [SerializeField]
+    private GameObject saveScreen;
+
     public void Start () {
         if (INSTANCE == null) {
             INSTANCE = this;
@@ -38,9 +41,14 @@ public class UIManager : MonoBehaviour {
         addObjectPanel.SetActive(!addObjectPanel.activeSelf);
     }
 
+    public void SetSaveScreenState ( bool state ) {
+        saveScreen.SetActive(state);
+    }
+
     public void CloseAllElements () {
         addObjectPanel.SetActive(false);
         translationArrows.SetActive(false);
+        saveScreen.SetActive(false);
     }
 
 }

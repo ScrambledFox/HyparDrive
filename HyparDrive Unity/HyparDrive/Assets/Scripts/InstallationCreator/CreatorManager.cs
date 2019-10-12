@@ -6,8 +6,10 @@ public class CreatorManager : MonoBehaviour {
 
     public static CreatorManager INSTANCE;
 
+    public static string installationName;
+
     public GameObject installation;
-    public List<GameObject> installationObjects = new List<GameObject>();
+    public List<GameObject> cubes = new List<GameObject>();
 
     public GameObject[] logicObjects;
 
@@ -27,7 +29,7 @@ public class CreatorManager : MonoBehaviour {
         switch (name) {
             case "Hypar Cube":
                 GameObject go = Instantiate(logicObjects[0], installation.transform);
-                installationObjects.Add(go);
+                cubes.Add(go);
                 break;
             default:
                 break;
@@ -37,5 +39,15 @@ public class CreatorManager : MonoBehaviour {
     // UI METHODS
     public void ToggleSpawnPanel () {
         UIManager.INSTANCE.ToggleSpawnPanelState();
+    }
+
+
+
+    public void SetInstallationName ( string fileName ) {
+        installationName = fileName;
+    }
+
+    public void SaveInstallation ( ) {
+        FileManagement.SaveInstallation(installationName, cubes.ToArray());
     }
 }

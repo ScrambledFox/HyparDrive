@@ -76,7 +76,7 @@ public class Gizmo : MonoBehaviour
                 Hide();
 
                 foreach (Transform trans in tranforms) {
-                    FindObjectOfType<CreatorManager>().installationObjects.Remove(trans.gameObject);
+                    FindObjectOfType<CreatorManager>().cubes.Remove(trans.gameObject);
                     Destroy(trans.gameObject);
                 }
 
