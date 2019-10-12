@@ -9,7 +9,7 @@ public static class FileManagement {
     private static readonly string INSTALLATION_SAVE_FOLDER = Application.persistentDataPath + "/installations/";
     private static readonly string FILE_EXTENSION = ".hype";
 
-    public static void CheckDirectory () {
+    public static void CheckIfDirectoryExists () {
         if (!Directory.Exists(INSTALLATION_SAVE_FOLDER)) {
             Debug.Log("Created installation save folder at " + INSTALLATION_SAVE_FOLDER);
             Directory.CreateDirectory(INSTALLATION_SAVE_FOLDER);
@@ -21,12 +21,13 @@ public static class FileManagement {
     }
 
     public static string[] LoadInstallationFiles (  ) {
+        CheckIfDirectoryExists();
         return Directory.GetFiles(INSTALLATION_SAVE_FOLDER);
     }
 
     public static void SaveInstallation ( string fileName, Cube[] cubes ) {
 
-        CheckDirectory();
+        CheckIfDirectoryExists();
 
         InstallationSaveState installationSaveState = new InstallationSaveState();
         installationSaveState.lastSaveTime = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
