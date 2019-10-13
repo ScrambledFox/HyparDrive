@@ -63,8 +63,6 @@ public class KeyFrame
     public float keyFrameTime; // In % van 100%
     public Color color;
     
-    //JORIS: add x y z scale van lightobject --> Niet van keyframe zelf
-    //Add color
 
     public KeyFrame(GameObject keyFrameObject)
     {

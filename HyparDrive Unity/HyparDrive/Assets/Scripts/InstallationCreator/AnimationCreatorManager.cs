@@ -51,6 +51,10 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     private void Update()
     {
+        // If playing --> move slider value
+
+        //TODO: Add playback function of lightobjects
+
         if (playing == true)
         {
             for (int i = 0; i < trackSlots.Count; i++)
@@ -69,6 +73,9 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public void AddAnimObject(string name)
     {
+        //TODO: Add more shapes
+
+        //Depending on which button was clicked, spawn a new lightobject
         GameObject go;
         switch (name)
         {
@@ -82,11 +89,15 @@ public class AnimationCreatorManager : MonoBehaviour {
         }
 
         go.GetComponent<LightObject>().SetTrackIndex(trackSlots.Count);
+
+        // Add new lightobject to list of lightobjects
         lightObjects.Add(go.GetComponent<LightObject>());
 
         AddNewTrack();
     }
 
+
+    // Animation Panel actions
     public void ShowPanel()
     {
         animator.SetBool("AnimationPanelState", true);
@@ -105,11 +116,32 @@ public class AnimationCreatorManager : MonoBehaviour {
             HidePanel();
     }
 
+
+    // Change name of animation
+    // TODO: Give a default name like "LightObject_01"
     public void SetAnimationName(string fileName)
     {
         animationName = fileName;
     }
 
+    // Edit speed of playback with inputfield
+    public void changeSpeed(Text input)
+    {
+        playbackSpeed = float.Parse(input.text.ToString());
+        Debug.Log(playbackSpeed);
+    }
+
+    // Change color of a lightobject
+    public void changeColors(GameObject colorButton)
+    {
+        UIManager.INSTANCE.ToggleColorPickerState();
+        Color color = FlexibleColorPicker.INSTANCE.color;
+        colorButton.GetComponent<Image>().color = color;
+        int trackIndex = Gizmo.INSTANCE.GetSelectedObjects[0].GetComponent<LightObject>().trackIndex;
+        lightObjects[trackIndex].SetColor(color);
+    }
+
+    // Save full animation to file
     public void SaveAnimation ( ) {
         FileManagement.SaveAnimation(animationName, trackSlots.ToArray());
     }
@@ -134,6 +166,8 @@ public class AnimationCreatorManager : MonoBehaviour {
             trackSlots[i].slider.value = 0;
         }
     }
+
+    // Spawn the new track
     private GameObject GenerateNewSlot()
     {
         GameObject newSlot = Instantiate(trackUIPrefab, GameObject.FindWithTag("TrackContent").transform);
@@ -141,24 +175,9 @@ public class AnimationCreatorManager : MonoBehaviour {
         return newSlot;
     }
 
-    public void changeSpeed(Text input)
-    {
-        playbackSpeed = float.Parse(input.text.ToString());
-        Debug.Log(playbackSpeed);        
-    }
-
-    public void changeColors(GameObject colorButton)
-    {
-        UIManager.INSTANCE.ToggleColorPickerState();
-        Color color = FlexibleColorPicker.INSTANCE.color;
-        colorButton.GetComponent<Image>().color = color;
-        int trackIndex = Gizmo.INSTANCE.GetSelectedObjects[0].GetComponent<LightObject>().trackIndex;
-        lightObjects[trackIndex].SetColor(color);
-    }
-
     public void PlayTracks()
     {
-        if (!playing)       // If it wasn't playing, start playing
+        if (!playing)       // If it wasn't playing, start playing. Reset when reaching the end of the slider
         {
             float minValue = 0;
             for (int i = 0; i < trackSlots.Count; i++)
@@ -182,12 +201,14 @@ public class AnimationCreatorManager : MonoBehaviour {
         Debug.Log(trackSlots.Count());
     }
 
+    // Find the index of a track using its gameobject
     public int indexOfTrack(GameObject trackObj)
     {
         int index = trackSlots.FindIndex(t => t.trackUI == trackObj);
         return index;
     }
     
+    // Create a keyframe using the current location and color etc
     public void addKeyframe(GameObject parentOfKeyFrame, KeyFrame keyFrame)
     {
         int index = indexOfTrack(parentOfKeyFrame);
@@ -203,9 +224,15 @@ public class AnimationCreatorManager : MonoBehaviour {
     public void removeKeyframe(GameObject parentOfKeyFrame, float thisKeyFramePos) //TODO: Add keyframe details joris needs --> percentage
     {
         int index = indexOfTrack(parentOfKeyFrame);
+        // Remove keyframe from the list inside its trackslot
+
+        // TODO: Change parentOfKeyFrame to trackIndex
+
         trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.keyFrameTime == thisKeyFramePos));
     }
 }
+
+// Trackslots list --> TrackSlot --> trackUI + keyFrames List --> keyFrameObject + position, color, trackindex, time, etc.
 
 public class TrackSlot
 {
