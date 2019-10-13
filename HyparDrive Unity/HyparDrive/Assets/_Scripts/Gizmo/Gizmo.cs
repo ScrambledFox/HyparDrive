@@ -8,6 +8,7 @@ public enum GizmoAxis { Center, X, Y, Z }
 
 public class Gizmo : MonoBehaviour 
 {
+    public static Gizmo INSTANCE;
     public GizmoHandle AxisCenter;
     public GizmoHandle AxisX;
     public GizmoHandle AxisY;
@@ -25,6 +26,7 @@ public class Gizmo : MonoBehaviour
 
     void Awake()
     {
+        INSTANCE = this;
         Visible = false;
         SetType(GizmoTypes.Position);
         Hide();
@@ -93,6 +95,12 @@ public class Gizmo : MonoBehaviour
             _transform.position = Center;
         }
 	}
+
+    public List<Transform> GetSelectedObjects {
+        get {
+            return SelectedObjects;
+        }
+    }
 
     public void SetType(GizmoTypes type)
     {

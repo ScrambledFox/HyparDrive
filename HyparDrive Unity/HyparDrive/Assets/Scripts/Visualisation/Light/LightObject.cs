@@ -13,6 +13,14 @@ public class LightObject : MonoBehaviour {
     [SerializeField]
     private Color colour = Color.white;
 
+    public int trackIndex;
+
+    public LightObject SetTrackIndex(int index)
+    {
+        this.trackIndex = index;
+        return this;
+    }
+
     public Collision.SPHERE Collider {
         get {
             return collider;
@@ -34,7 +42,7 @@ public class LightObject : MonoBehaviour {
     public event moved Moved;
 
     private void Start () {
-        InstallationManager.INSTANCE.SubscribeLightObject(this);
+        //InstallationManager.INSTANCE.SubscribeLightObject(this);
     }
 
     private void Update () {
@@ -55,15 +63,20 @@ public class LightObject : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        InstallationManager.INSTANCE.RemoveLightObject(this);
+        //InstallationManager.INSTANCE.RemoveLightObject(this);
     }
 
     private void OnDisable () {
-        InstallationManager.INSTANCE.RemoveLightObject(this);
+        //InstallationManager.INSTANCE.RemoveLightObject(this);
     }
 
     private void OnDrawGizmos () {
         Gizmos.color = this.colour * new Color(1, 1, 1, 0.2f);
         Gizmos.DrawSphere(transform.position, collider.radius);
+    }
+
+    public void SetColor(Color color)
+    {
+        colour = color;
     }
 }

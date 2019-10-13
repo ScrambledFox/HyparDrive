@@ -26,6 +26,7 @@ public class MovableObject : MonoBehaviour {
         } else {
             Debug.LogError("No Gizmo Registered.");
         }
+        UIManager.INSTANCE.SetSettingsScreenState(true);
     }
 
     private void Update () {

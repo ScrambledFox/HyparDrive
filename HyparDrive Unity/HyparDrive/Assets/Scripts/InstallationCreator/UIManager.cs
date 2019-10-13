@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour {
     private GameObject saveScreen;
     [SerializeField]
     private GameObject loadScreen;
+    [SerializeField]
+    private GameObject settingsScreen;
+    [SerializeField]
+    private GameObject colorPicker;
 
     public void Start () {
         if (INSTANCE == null) {
@@ -51,11 +55,31 @@ public class UIManager : MonoBehaviour {
         loadScreen.SetActive(state);
     }
 
+    public void SetSettingsScreenState ( bool state)
+    {
+        settingsScreen.SetActive(state);
+    }
+
+    public void ToggleColorPickerState()
+    {
+        colorPicker.SetActive(!colorPicker.activeSelf);
+    }
+
     public void CloseAllElements () {
         addObjectPanel.SetActive(false);
         translationArrows.SetActive(false);
         saveScreen.SetActive(false);
-        loadScreen.SetActive(false);
+        if (loadScreen != null)
+        {
+            loadScreen.SetActive(false);
+        }
+        if (settingsScreen != null)
+        {
+            settingsScreen.SetActive(false);
+        }
+        if (colorPicker != null)
+        {
+            colorPicker.SetActive(false);
+        }
     }
-
 }

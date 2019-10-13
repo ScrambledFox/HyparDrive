@@ -8,8 +8,8 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public static AnimationCreatorManager INSTANCE;
 
-    public delegate void OnAnimationTrackAdded ( Track track );
-    public event OnAnimationTrackAdded onAnimationTrackAdded;
+    //public delegate void OnAnimationTrackAdded ( Track track );
+    //public event OnAnimationTrackAdded onAnimationTrackAdded;
 
     public List<Track> tracks;
 
@@ -24,9 +24,10 @@ public class AnimationCreatorManager : MonoBehaviour {
     public Transform playTracksButton;
 
     private bool playing;
-    public static float playbackSpeed=0.3f;
+    public static float playbackSpeed=1f;
 
-    public GameObject[] animObjects;
+    public List<LightObject> lightObjects = new List<LightObject>();
+    public GameObject[] logicAnimObjects;
     public static string animationName;
 
 
@@ -68,18 +69,22 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public void AddAnimObject(string name)
     {
+        GameObject go;
         switch (name)
         {
             case "Blob":
-                //// TODO JORIS: spawn dingen met je mooie Gizmos
-                /*GameObject go = Instantiate(animObjects[0]);
-                go.GetComponent<Cube>().SetIndex(cubes.Count);
-                cubes.Add(go.GetComponent<Cube>());*/
                 Debug.Log("Spawning a blobbie");
+                go = Instantiate(logicAnimObjects[0]);
                 break;
             default:
+                go = Instantiate(logicAnimObjects[0]);
                 break;
         }
+
+        go.GetComponent<LightObject>().SetTrackIndex(trackSlots.Count);
+        lightObjects.Add(go.GetComponent<LightObject>());
+
+        AddNewTrack();
     }
 
     public void ShowPanel()
@@ -119,7 +124,7 @@ public class AnimationCreatorManager : MonoBehaviour {
         AddNewTrackSlot();
     }
     
-    //Create a list with the full trackslots OLD: AddNewTrackSlot(Track track)
+    //Create a list with the full trackslots 
     public void AddNewTrackSlot()
     {
         TrackSlot slot = new TrackSlot(GenerateNewSlot());
@@ -142,9 +147,18 @@ public class AnimationCreatorManager : MonoBehaviour {
         Debug.Log(playbackSpeed);        
     }
 
+    public void changeColors(GameObject colorButton)
+    {
+        UIManager.INSTANCE.ToggleColorPickerState();
+        Color color = FlexibleColorPicker.INSTANCE.color;
+        colorButton.GetComponent<Image>().color = color;
+        int trackIndex = Gizmo.INSTANCE.GetSelectedObjects[0].GetComponent<LightObject>().trackIndex;
+        lightObjects[trackIndex].SetColor(color);
+    }
+
     public void PlayTracks()
     {
-        if (!playing)
+        if (!playing)       // If it wasn't playing, start playing
         {
             float minValue = 0;
             for (int i = 0; i < trackSlots.Count; i++)
@@ -177,15 +191,19 @@ public class AnimationCreatorManager : MonoBehaviour {
     public void addKeyframe(GameObject parentOfKeyFrame, KeyFrame keyFrame)
     {
         int index = indexOfTrack(parentOfKeyFrame);
+        keyFrame.trackIndex = index;
+        keyFrame.position = lightObjects[index].transform.position;
+        keyFrame.rotation = lightObjects[index].transform.rotation;
+        keyFrame.scale = lightObjects[index].transform.localScale;
+        keyFrame.color = lightObjects[index].Colour;
+        keyFrame.keyFrameObject.GetComponent<Image>().color = lightObjects[index].Colour;
         trackSlots[index].keyFrames.Add(keyFrame);
-        Debug.Log(trackSlots[index].keyFrames[0].keyFrameTime);
     }
+
     public void removeKeyframe(GameObject parentOfKeyFrame, float thisKeyFramePos) //TODO: Add keyframe details joris needs --> percentage
     {
         int index = indexOfTrack(parentOfKeyFrame);
-        Debug.Log(index);
         trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.keyFrameTime == thisKeyFramePos));
-        Debug.Log(trackSlots[index].keyFrames.Count);
     }
 }
 
@@ -193,11 +211,9 @@ public class TrackSlot
 {
 
     public GameObject trackUI;
-    //Track track;
     public Slider slider;
     public List<KeyFrame> keyFrames;
 
-    //public TrackSlot(GameObject trackUI, Track track)
     public TrackSlot(GameObject trackUI)
     {
         this.trackUI = trackUI;
