@@ -36,6 +36,30 @@ public static class FileManagement {
         }
     }
 
+    public static string GetFilePath (string fileName) {
+        string filepath = null;
+
+        if (File.Exists(INSTALLATION_SAVE_FOLDER + fileName + FILE_EXTENSION)) {
+            filepath = INSTALLATION_SAVE_FOLDER + fileName + FILE_EXTENSION;
+        }
+
+        if (File.Exists(ANIMATION_SAVE_FOLDER + fileName + FILE_EXTENSION)) {
+            filepath = ANIMATION_SAVE_FOLDER + fileName + FILE_EXTENSION;
+        }
+
+        return filepath;
+    }
+
+    public static InstallationSaveData GetInstallationSaveData ( string filepath ) {
+        try {
+            return JsonUtility.FromJson<InstallationSaveData>(File.ReadAllText(filepath));
+        }
+        catch (Exception e) {
+            Debug.LogError("Got an exception getting the save data of a file.");
+            throw;
+        }
+    }
+
     public static int GetInstallationFileCount () {
         return Directory.GetFiles(INSTALLATION_SAVE_FOLDER).Length;
     }
@@ -43,6 +67,19 @@ public static class FileManagement {
     public static string[] LoadInstallationFiles (  ) {
         CheckSaveFileDirectorySetup();
         return Directory.GetFiles(INSTALLATION_SAVE_FOLDER);
+    }
+
+    public static string GetDateAndTime ( string filePath ) {
+        try {
+            string jsonString = File.ReadAllText(filePath);
+            InstallationSaveData installationSaveData = JsonUtility.FromJson<InstallationSaveData>(jsonString);
+            return installationSaveData.lastSaveTime;
+        }
+        catch (Exception e) {
+            Debug.LogError("Got an exception getting the time and date of a file.");
+            throw;
+        }
+
     }
 
     public static void SaveInstallation ( string fileName, Cube[] cubes ) {

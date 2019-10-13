@@ -15,12 +15,27 @@ public class LoadInstallationSelectorUI : MonoBehaviour
             return;
         }
 
-        foreach (string fileName in FileManagement.LoadInstallationFiles()) {
+        // Gets all the filepaths of files inside the installation folder.
+        foreach (string filepath in FileManagement.LoadInstallationFiles()) {
+            if (!filepath.Contains(".hype")) continue;
+
             GameObject go = Instantiate(itemPrefab);
             go.transform.SetParent(content.transform, true);
             go.transform.localPosition = Vector3.zero;
+            go.transform.localScale = Vector3.one;
 
-            go.transform.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+            TextMeshProUGUI[] texts = go.transform.GetComponentsInChildren<TextMeshProUGUI>();
+
+            texts[0].text = filepath;
+            texts[1].text = FileManagement.GetDateAndTime(filepath);
+
+            go.GetComponent<InstallationSaveFile>().SetSaveData(filepath);
+        }
+    }
+
+    private void OnDisable () {
+        for (int i = content.transform.childCount; i > 0; i--) {
+            Destroy(content.transform.GetChild(i - 1).gameObject);
         }
     }
 

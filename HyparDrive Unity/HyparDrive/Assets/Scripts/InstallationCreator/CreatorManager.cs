@@ -8,10 +8,11 @@ public class CreatorManager : MonoBehaviour {
 
     public static CreatorManager INSTANCE;
 
-    public static string installationName;
+    private static string currentFileName;
+    private static string currentFilePath;
 
     public GameObject installation;
-    public List<Cube> cubes = new List<Cube>();
+    private List<Cube> cubes = new List<Cube>();
 
     public GameObject[] logicObjects;
 
@@ -56,6 +57,11 @@ public class CreatorManager : MonoBehaviour {
         }
     }
 
+    public void RemoveCube (Cube cube) {
+        Destroy(cube.gameObject);
+        cubes.Remove(cube);
+    }
+
     // UI METHODS
     public void ToggleSpawnPanel () {
         UIManager.INSTANCE.ToggleSpawnPanelState();
@@ -68,14 +74,33 @@ public class CreatorManager : MonoBehaviour {
             fileName = "unnamed_" + DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString();
         }
 
-        installationName = fileName;
+        currentFileName = fileName;
+    }
+
+    private void ResetManager () {
+        foreach (Cube cube in cubes) {
+            Destroy(cube.gameObject);
+        }
+
+        cubes.Clear();
     }
 
     public void SaveInstallation ( ) {
-        FileManagement.SaveInstallation(installationName, cubes.ToArray());
+        FileManagement.SaveInstallation(currentFileName, cubes.ToArray());
     }
 
-    public void LoadInInstallation ( InstallationSaveData installationSaveData ) {
+    public void LoadInstallation ( InstallationSaveData installationSaveData ) {
+        ResetManager();
 
+        foreach (InstallationSaveData.HyparCube hyparCube in installationSaveData.hyparCubes) {
+            GameObject cube = Instantiate(logicObjects[0], installation.transform);
+            cube.GetComponent<Cube>().SetIndex(cubes.Count);
+            cubes.Add(cube.GetComponent<Cube>());
+
+            cube.transform.position = hyparCube.position;
+            cube.transform.rotation = Quaternion.Euler(hyparCube.rotation);
+            cube.transform.localScale = hyparCube.scale;
+            cube.transform.GetComponent<Cube>().SetIndex(hyparCube.id);
+        }
     }
 }
