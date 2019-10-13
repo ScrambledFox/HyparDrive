@@ -76,8 +76,7 @@ public class Gizmo : MonoBehaviour
                 Hide();
 
                 foreach (Transform trans in tranforms) {
-                    FindObjectOfType<CreatorManager>().cubes.Remove(trans.gameObject.GetComponent<Cube>());
-                    Destroy(trans.gameObject);
+                    FindObjectOfType<CreatorManager>().RemoveCube(trans.gameObject.GetComponent<Cube>());
                 }
 
                 return;
@@ -108,6 +107,7 @@ public class Gizmo : MonoBehaviour
         if (SelectedObjects == null) return;
 
         foreach (Transform obj in SelectedObjects) {
+            if (obj == null) continue;
             (obj.gameObject.GetComponent<MovableObject>()).Deselect();
         }
         SelectedObjects.Clear();
