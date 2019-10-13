@@ -5,6 +5,22 @@ using TMPro;
 
 public class FileNameSanitiser : MonoBehaviour {
 
-    public TextMeshProUGUI errorText;
+    TMP_InputField inputField;
+
+    private void Awake () {
+        inputField = GetComponent<TMP_InputField>();
+    }
+
+    public void CheckFileNameInput () {
+        string text = inputField.text;
+
+        text = text.Replace(" ", "");
+        text = text.Replace(".", "");
+        text = text.Replace("/", "");
+        text = text.Replace("\\", "");
+        text = text.Replace(" ", "");
+
+        inputField.text = text;
+    }
 
 }

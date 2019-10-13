@@ -6,19 +6,33 @@ using System;
 
 public static class FileManagement {
 
-    private static readonly string INSTALLATION_SAVE_FOLDER = Application.persistentDataPath + "/installations/";
-    private static readonly string ANIMATION_SAVE_FOLDER = Application.persistentDataPath + "/animations/";
-    private static readonly string FILE_EXTENSION = ".hype";
+    public static readonly string INSTALLATION_SAVE_FOLDER = Application.persistentDataPath + "/installations/";
+    public static readonly string ANIMATION_SAVE_FOLDER = Application.persistentDataPath + "/animations/";
+    public static readonly string FILE_EXTENSION = ".hype";
 
-    public static bool CheckIfDirectoryExists () {
+    public static void CheckSaveFileDirectorySetup () {
         if (!Directory.Exists(INSTALLATION_SAVE_FOLDER)) {
             Debug.Log("Created installation save folder at " + INSTALLATION_SAVE_FOLDER);
             Directory.CreateDirectory(INSTALLATION_SAVE_FOLDER);
         }
+
         if (!Directory.Exists(ANIMATION_SAVE_FOLDER))
         {
             Debug.Log("Created installation save folder at " + ANIMATION_SAVE_FOLDER);
             Directory.CreateDirectory(ANIMATION_SAVE_FOLDER);
+        }
+    }
+
+    public static bool CheckIfFileExists ( string fileName ) {
+        if (File.Exists(INSTALLATION_SAVE_FOLDER + fileName + FILE_EXTENSION)) {
+            Debug.Log("Found " + fileName + " at " + INSTALLATION_SAVE_FOLDER);
+            return true;
+        } else if (File.Exists(ANIMATION_SAVE_FOLDER + fileName + FILE_EXTENSION)) {
+            Debug.Log("Found " + fileName + " at " + ANIMATION_SAVE_FOLDER);
+            return true;
+        } else {
+            Debug.Log("File " + fileName + " not found at any of the local save directories.");
+            return false;
         }
     }
 
@@ -27,13 +41,13 @@ public static class FileManagement {
     }
 
     public static string[] LoadInstallationFiles (  ) {
-        CheckIfDirectoryExists();
+        CheckSaveFileDirectorySetup();
         return Directory.GetFiles(INSTALLATION_SAVE_FOLDER);
     }
 
     public static void SaveInstallation ( string fileName, Cube[] cubes ) {
 
-        CheckIfDirectoryExists();
+        CheckSaveFileDirectorySetup();
 
         InstallationSaveData installationSaveState = new InstallationSaveData();
         installationSaveState.lastSaveTime = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
@@ -60,7 +74,7 @@ public static class FileManagement {
     public static void SaveAnimation(string fileName, TrackSlot[] tracks)
     {
 
-        CheckIfDirectoryExists();
+        CheckSaveFileDirectorySetup();
 
 
         AnimationSaveState animationSaveState = new AnimationSaveState();

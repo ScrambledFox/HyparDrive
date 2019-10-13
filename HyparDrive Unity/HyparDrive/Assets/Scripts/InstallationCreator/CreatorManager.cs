@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class CreatorManager : MonoBehaviour {
 
@@ -63,6 +64,10 @@ public class CreatorManager : MonoBehaviour {
 
 
     public void SetInstallationName ( string fileName ) {
+        if (fileName.Equals("")) {
+            fileName = "unnamed_" + DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString();
+        }
+
         installationName = fileName;
     }
 
