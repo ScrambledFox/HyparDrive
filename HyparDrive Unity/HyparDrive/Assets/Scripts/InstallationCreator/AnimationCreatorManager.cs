@@ -8,8 +8,7 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public static AnimationCreatorManager INSTANCE;
 
-    //public delegate void OnAnimationTrackAdded ( Track track );
-    //public event OnAnimationTrackAdded onAnimationTrackAdded;
+    public static readonly int KEYFRAME_RATE = 600;
 
     public List<Track> tracks;
 
@@ -31,22 +30,15 @@ public class AnimationCreatorManager : MonoBehaviour {
     public static string animationName;
 
 
+
     private void Awake()
     {
         INSTANCE = this;
-
-        // Init list of tracks
-        //tracks = new List<Track>();
 
         animator = GameObject.FindGameObjectWithTag("UIAnimator").GetComponent<Animator>();
 
         // Init list of trackUIs
         trackSlots = new List<TrackSlot>();
-    }
-
-    private void Start()
-    {
-        //AnimationCreatorManager.INSTANCE.onAnimationTrackAdded += AddNewTrackSlot;
     }
 
     private void Update()
@@ -149,23 +141,38 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     //Create a list with all the tracks itself
     public void AddNewTrack () {
-        //Track track = new Track();
-        //tracks.Add(track);
-        //onAnimationTrackAdded?.Invoke(track);
-        
         AddNewTrackSlot();
     }
-    
+
     //Create a list with the full trackslots 
     public void AddNewTrackSlot()
     {
         TrackSlot slot = new TrackSlot(GenerateNewSlot());
         trackSlots.Add(slot);
+        slot.slider.onValueChanged.AddListener(delegate { setGlobalTime(slot.slider.value); });
+        slot.slider.onValueChanged.AddListener(delegate { checkKeyFrames(slot.slider.value); });
         for (int i = 0; i < trackSlots.Count; i++)
         {
             trackSlots[i].slider.value = 0;
         }
+
     }
+
+    public void setGlobalTime(float time)
+    {
+        for (int i = 0; i < trackSlots.Count; i++)
+        {
+            trackSlots[i].slider.value = time;
+        }
+    }
+    public void checkKeyFrames(float time)
+    {
+        float percentage = time*100;
+
+        //Move object through shit buffer
+        
+    }
+
 
     // Spawn the new track
     private GameObject GenerateNewSlot()
@@ -219,6 +226,8 @@ public class AnimationCreatorManager : MonoBehaviour {
         keyFrame.color = lightObjects[index].Colour;
         keyFrame.keyFrameObject.GetComponent<Image>().color = lightObjects[index].Colour;
         trackSlots[index].keyFrames.Add(keyFrame);
+
+        //Edit buffering
     }
 
     public void removeKeyframe(GameObject parentOfKeyFrame, float thisKeyFramePos) //TODO: Add keyframe details joris needs --> percentage
@@ -240,12 +249,14 @@ public class TrackSlot
     public GameObject trackUI;
     public Slider slider;
     public List<KeyFrame> keyFrames;
+    public List<KeyFrame> keyFrameBuffer;
 
     public TrackSlot(GameObject trackUI)
     {
         this.trackUI = trackUI;
         this.slider = trackUI.GetComponentInChildren<Slider>();
         this.keyFrames = new List<KeyFrame>();
+        this.keyFrameBuffer = new List<KeyFrame>();
     }
 
     public GameObject GetGameObject()
@@ -256,5 +267,17 @@ public class TrackSlot
     public List<KeyFrame> GetKeyFrames()
     {
         return keyFrames;
+    }
+    public List<KeyFrame> GetKeyFrameBuffer()
+    {
+        return keyFrameBuffer;
+    }
+
+    public void recalculateBuffer()
+    {
+        for (int i = 0; i < AnimationCreatorManager.KEYFRAME_RATE; i++)
+        {
+            // Do Shit aka joris
+        }
     }
 }
