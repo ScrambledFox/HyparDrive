@@ -13,7 +13,7 @@ public class TrackControls : MonoBehaviour
         {
             // TODO: Change to trackIndex rather than gameObject
 
-            AnimationCreatorManager.INSTANCE.removeThisTrack(this.gameObject);
+            AnimationCreatorManager.INSTANCE.RemoveThisTrack(this.gameObject);
             //Debug.Log(this.gameObject.GetComponent<KeyFrame>().trackIndex);
             Destroy(transform.gameObject);
         }

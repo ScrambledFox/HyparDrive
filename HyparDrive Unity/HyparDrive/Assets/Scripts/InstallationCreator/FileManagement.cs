@@ -136,8 +136,8 @@ public static class FileManagement {
                     tracks[i].keyFrames[j].position,
                     tracks[i].keyFrames[j].rotation,
                     tracks[i].keyFrames[j].scale,
-                    tracks[i].keyFrames[j].keyFrameTime,
-                    tracks[i].keyFrames[j].color
+                    tracks[i].keyFrames[j].time,
+                    tracks[i].keyFrames[j].colour
                     );
 
             }

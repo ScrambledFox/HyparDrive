@@ -149,8 +149,8 @@ public class AnimationCreatorManager : MonoBehaviour {
     {
         TrackSlot slot = new TrackSlot(GenerateNewSlot());
         trackSlots.Add(slot);
-        slot.slider.onValueChanged.AddListener(delegate { setGlobalTime(slot.slider.value); });
-        slot.slider.onValueChanged.AddListener(delegate { checkKeyFrames(slot.slider.value); });
+        slot.slider.onValueChanged.AddListener(delegate { SetGlobalTime(slot.slider.value); });
+        slot.slider.onValueChanged.AddListener(delegate { UpdateObjects(slot.slider.value); });
         for (int i = 0; i < trackSlots.Count; i++)
         {
             trackSlots[i].slider.value = 0;
@@ -158,18 +158,30 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     }
 
-    public void setGlobalTime(float time)
+    public void SetGlobalTime(float time)
     {
         for (int i = 0; i < trackSlots.Count; i++)
         {
             trackSlots[i].slider.value = time;
         }
     }
-    public void checkKeyFrames(float time)
-    {
-        float percentage = time*100;
 
-        //Move object through shit buffer
+    // Update data of all LO's.
+    public void UpdateObjects(float time) {
+
+        foreach (TrackSlot track in trackSlots) {
+            if (track.HasPreviousFrame(time)) {
+                Debug.Log("Has last frame, and updating..");
+                KeyFrame referenceFrame = track.GetPreviousFrame(time);
+                lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.position = referenceFrame.position;
+                lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.rotation = referenceFrame.rotation;
+                lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.localScale = referenceFrame.scale;
+                lightObjects[GetIndexOfTrack(track.GetGameObject())].SetColor(referenceFrame.colour);
+            } else {
+                // INVISILBE YAS
+                lightObjects[GetIndexOfTrack(track.GetGameObject())].SetColor(Color.clear);
+            }
+        }
         
     }
 
@@ -202,82 +214,141 @@ public class AnimationCreatorManager : MonoBehaviour {
         playing = !playing;
     }
 
-    public void removeThisTrack(GameObject trackObj)
+    public void RemoveThisTrack(GameObject trackObj)
     {
         trackSlots.Remove(trackSlots.Single(t => t.trackUI == trackObj));
         Debug.Log(trackSlots.Count());
     }
 
     // Find the index of a track using its gameobject
-    public int indexOfTrack(GameObject trackObj)
+    public int GetIndexOfTrack(GameObject trackObj)
     {
         int index = trackSlots.FindIndex(t => t.trackUI == trackObj);
         return index;
     }
     
     // Create a keyframe using the current location and color etc
-    public void addKeyframe(GameObject parentOfKeyFrame, KeyFrame keyFrame)
+    public void AddKeyframe(GameObject parentOfKeyFrame, KeyFrame keyFrame)
     {
-        int index = indexOfTrack(parentOfKeyFrame);
-        keyFrame.trackIndex = index;
+        int index = GetIndexOfTrack(parentOfKeyFrame);
         keyFrame.position = lightObjects[index].transform.position;
         keyFrame.rotation = lightObjects[index].transform.rotation;
         keyFrame.scale = lightObjects[index].transform.localScale;
-        keyFrame.color = lightObjects[index].Colour;
+        keyFrame.colour = lightObjects[index].Colour;
         keyFrame.keyFrameObject.GetComponent<Image>().color = lightObjects[index].Colour;
         trackSlots[index].keyFrames.Add(keyFrame);
+        trackSlots[index].keyFrames = trackSlots[index].keyFrames.OrderBy( t => t.time).ToList();
+        trackSlots[index].RecalculateBuffer();
 
         //Edit buffering
     }
 
     public void removeKeyframe(GameObject parentOfKeyFrame, float thisKeyFramePos) //TODO: Add keyframe details joris needs --> percentage
     {
-        int index = indexOfTrack(parentOfKeyFrame);
+        int index = GetIndexOfTrack(parentOfKeyFrame);
         // Remove keyframe from the list inside its trackslot
 
         // TODO: Change parentOfKeyFrame to trackIndex
 
-        trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.keyFrameTime == thisKeyFramePos));
+        trackSlots[index].keyFrames.Remove(trackSlots[index].keyFrames.Single(k => k.time == thisKeyFramePos));
     }
 }
 
 // Trackslots list --> TrackSlot --> trackUI + keyFrames List --> keyFrameObject + position, color, trackindex, time, etc.
 
-public class TrackSlot
-{
+public class TrackSlot {
 
     public GameObject trackUI;
     public Slider slider;
     public List<KeyFrame> keyFrames;
-    public List<KeyFrame> keyFrameBuffer;
+    public List<KeyFrame> frameBuffer;
 
     public TrackSlot(GameObject trackUI)
     {
         this.trackUI = trackUI;
         this.slider = trackUI.GetComponentInChildren<Slider>();
         this.keyFrames = new List<KeyFrame>();
-        this.keyFrameBuffer = new List<KeyFrame>();
+        this.frameBuffer = new List<KeyFrame>();
     }
 
-    public GameObject GetGameObject()
-    {
+    public GameObject GetGameObject() {
         return trackUI;
     }
 
-    public List<KeyFrame> GetKeyFrames()
-    {
+    public List<KeyFrame> GetKeyFrames() {
         return keyFrames;
     }
-    public List<KeyFrame> GetKeyFrameBuffer()
-    {
-        return keyFrameBuffer;
+    public List<KeyFrame> GetKeyFrameBuffer() {
+        return frameBuffer;
     }
 
-    public void recalculateBuffer()
+    public bool HasPreviousFrame ( float time ) {        
+        return frameBuffer.FindLast(f => f.time <= time) != null ? true : false;
+    }
+
+    public KeyFrame GetPreviousFrame ( float time ) {
+        return frameBuffer.FindLast(f => f.time <= time);
+    }
+
+    public KeyFrame GetLastKeyFrame ( float time ) {
+        return keyFrames.FindLast(k => k.time <= time);
+    }
+
+    public bool HasLastKeyFrame ( float time ) {
+        return keyFrames.FindLast(k => k.time <= time) == null ? false : true;
+    }
+
+    public void AddFrameToBuffer ( KeyFrame frame ) {
+        this.frameBuffer.Add(frame);
+    }
+
+    public KeyFrame GetNextKeyFrame ( float time ) {
+        return keyFrames.Find(k => k.time > time);
+    }
+
+    public bool HasNextKeyFrame ( float time ) {
+        return keyFrames.Find(k => k.time > time) == null ? false : true;
+    }
+
+    public void RecalculateBuffer()
     {
-        for (int i = 0; i < AnimationCreatorManager.KEYFRAME_RATE; i++)
-        {
-            // Do Shit aka joris
+        int KEYFRAME_START;
+        int KEYFRAME_END;
+
+        if (keyFrames.Count == 0) {
+            // Do nothing, there are no keyframes.
+            KEYFRAME_START = 0;
+            KEYFRAME_END = -1;
+        } else if (keyFrames.Count == 1) {
+            KEYFRAME_START = Mathf.RoundToInt(keyFrames[0].time * AnimationCreatorManager.KEYFRAME_RATE);
+            KEYFRAME_END = KEYFRAME_START;
+        } else {
+            KEYFRAME_START = Mathf.RoundToInt(keyFrames[0].time * AnimationCreatorManager.KEYFRAME_RATE);
+            KEYFRAME_END = AnimationCreatorManager.KEYFRAME_RATE;
+        }
+
+        for (int t = KEYFRAME_START; t <= KEYFRAME_END; t++) {
+            if (frameBuffer.Count == 0) {
+                KeyFrame referenceFrame = GetLastKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
+                AddFrameToBuffer(new KeyFrame(referenceFrame.time, referenceFrame.position, referenceFrame.rotation, referenceFrame.scale, referenceFrame.colour));
+            }
+
+            if (HasNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE)) {
+                float timeConstant = ((t - KEYFRAME_START)) / AnimationCreatorManager.KEYFRAME_RATE;
+
+                KeyFrame firstReferenceFrame = GetLastKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
+                KeyFrame lastReferenceFrame = GetNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
+
+                AddFrameToBuffer(new KeyFrame(Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant), 
+                    Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant), 
+                    Quaternion.Lerp(firstReferenceFrame.rotation, lastReferenceFrame.rotation, timeConstant), 
+                    Vector3.Lerp(firstReferenceFrame.scale, lastReferenceFrame.scale, timeConstant),
+                    Color.Lerp(firstReferenceFrame.colour, lastReferenceFrame.colour, timeConstant))
+                );
+
+            } else {
+                break;
+            }
         }
     }
 }
