@@ -57,7 +57,9 @@ public class UIManager : MonoBehaviour {
 
     public void SetSettingsScreenState ( bool state)
     {
-        settingsScreen.SetActive(state);
+        if (settingsScreen != null) {
+            settingsScreen.SetActive(state);
+        }
     }
 
     public void ToggleColorPickerState()
