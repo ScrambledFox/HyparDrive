@@ -334,10 +334,11 @@ public class TrackSlot {
             }
 
             if (HasNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE)) {
-                float timeConstant = ((t - KEYFRAME_START)) / AnimationCreatorManager.KEYFRAME_RATE;
-
                 KeyFrame firstReferenceFrame = GetLastKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
                 KeyFrame lastReferenceFrame = GetNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
+
+                float timeConstant = (((float)t - firstReferenceFrame.time * AnimationCreatorManager.KEYFRAME_RATE) / (AnimationCreatorManager.KEYFRAME_RATE * (lastReferenceFrame.time - firstReferenceFrame.time)));
+                Debug.Log("frame " + t + ", with tc " + timeConstant + ", lerped time " + Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant));
 
                 AddFrameToBuffer(new KeyFrame(Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant), 
                     Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant), 
