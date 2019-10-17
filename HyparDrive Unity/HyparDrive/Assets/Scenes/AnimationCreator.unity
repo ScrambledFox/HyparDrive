@@ -3044,7 +3044,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   installation: {fileID: 1626653748}
-  cubes: []
   logicObjects:
   - {fileID: 6431822489519111880, guid: 7766ebabc368cab47a604faf909f500d, type: 3}
 --- !u!114 &1437355545

@@ -8,7 +8,7 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public static AnimationCreatorManager INSTANCE;
 
-    public static readonly int KEYFRAME_RATE = 600;
+    public static readonly int KEYFRAME_RATE = 30;
 
     public List<Track> tracks;
 
@@ -119,8 +119,12 @@ public class AnimationCreatorManager : MonoBehaviour {
     // Edit speed of playback with inputfield
     public void changeSpeed(Text input)
     {
-        playbackSpeed = float.Parse(input.text.ToString());
-        Debug.Log(playbackSpeed);
+        try {
+            playbackSpeed = float.Parse(input.text.ToString());
+        } catch (System.Exception) {
+            input.text = "1";
+            //throw;
+        }
     }
 
     // Change color of a lightobject
@@ -171,9 +175,9 @@ public class AnimationCreatorManager : MonoBehaviour {
 
         foreach (TrackSlot track in trackSlots) {
             if (track.HasPreviousFrame(time)) {
-                Debug.Log("Has last frame, and updating..");
                 KeyFrame referenceFrame = track.GetPreviousFrame(time);
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.position = referenceFrame.position;
+                Debug.Log("POS: " + referenceFrame.position.x);
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.rotation = referenceFrame.rotation;
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.localScale = referenceFrame.scale;
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].SetColor(referenceFrame.colour);
@@ -300,8 +304,9 @@ public class TrackSlot {
 
     public void AddFrameToBuffer ( KeyFrame frame ) {
         this.frameBuffer.Add(frame);
+        //Debug.Log("BUF" + frame.time + ", V:" + frame.position + ", R:{" + frame.position.x + ", " + frame.position.y + ", " + frame.position.z + "}");
     }
-
+        
     public KeyFrame GetNextKeyFrame ( float time ) {
         return keyFrames.Find(k => k.time > time);
     }
@@ -329,20 +334,23 @@ public class TrackSlot {
 
         for (int t = KEYFRAME_START; t <= KEYFRAME_END; t++) {
             if (frameBuffer.Count == 0) {
-                KeyFrame referenceFrame = GetLastKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
+                KeyFrame referenceFrame = GetLastKeyFrame((t + 0.50000f) / AnimationCreatorManager.KEYFRAME_RATE);
                 AddFrameToBuffer(new KeyFrame(referenceFrame.time, referenceFrame.position, referenceFrame.rotation, referenceFrame.scale, referenceFrame.colour));
             }
 
             if (HasNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE)) {
-                KeyFrame firstReferenceFrame = GetLastKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
-                KeyFrame lastReferenceFrame = GetNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE);
+                KeyFrame firstReferenceFrame = GetLastKeyFrame((t + 0.50000f) / AnimationCreatorManager.KEYFRAME_RATE);
+                KeyFrame lastReferenceFrame = GetNextKeyFrame((t + 0.50000f) / AnimationCreatorManager.KEYFRAME_RATE);
 
                 float timeConstant = (((float)t - firstReferenceFrame.time * AnimationCreatorManager.KEYFRAME_RATE) / (AnimationCreatorManager.KEYFRAME_RATE * (lastReferenceFrame.time - firstReferenceFrame.time)));
-                Debug.Log("frame " + t + ", with tc " + timeConstant + ", lerped time " + Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant));
+                //Debug.Log("frame " + t + ", with tc " + timeConstant + ", lerped time " + Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant));
 
-                AddFrameToBuffer(new KeyFrame(Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant), 
-                    Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant), 
-                    Quaternion.Lerp(firstReferenceFrame.rotation, lastReferenceFrame.rotation, timeConstant), 
+                //Debug.Log(Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant));
+
+                AddFrameToBuffer(new KeyFrame(
+                    Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant),
+                    Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant),
+                    Quaternion.Lerp(firstReferenceFrame.rotation, lastReferenceFrame.rotation, timeConstant),
                     Vector3.Lerp(firstReferenceFrame.scale, lastReferenceFrame.scale, timeConstant),
                     Color.Lerp(firstReferenceFrame.colour, lastReferenceFrame.colour, timeConstant))
                 );
