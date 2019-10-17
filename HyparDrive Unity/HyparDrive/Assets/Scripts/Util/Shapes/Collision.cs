@@ -49,12 +49,12 @@ public static class Collision {
         return false;
     }
     */
-
+    /*
     public static bool HasIntersection ( POINT a, POINT b ) {
         Debug.LogWarning("Points cannot intersect.");
         return false;
     }
-
+    */
     public static bool HasIntersection ( AABB b, POINT a ) {
         return  (a.x >= b.minX && a.x <= b.maxX) &&
                 (a.y >= b.minY && a.y <= b.maxY) &&
@@ -64,7 +64,7 @@ public static class Collision {
     public static bool HasIntersection ( POINT a, AABB b ) {
         return HasIntersection(b, a);
     }
-
+    
     public static bool HasIntersection (AABB a, AABB b) {
         return  (a.minX <= b.maxX && a.maxX >= b.minX) &&
                 (a.minY <= b.maxY && a.maxY >= b.minY) &&
@@ -84,25 +84,33 @@ public static class Collision {
     public static bool HasIntersection ( SPHERE s, AABB b ) {
         return HasIntersection(b, s);
     }
-
+    
     public static bool HasIntersection ( POINT p, SPHERE s ) {
-        float sqrDst =  (p.x - s.x) * (p.x - s.x) +
-                        (p.y - s.y) * (p.y - s.y) +
-                        (p.z - s.z) * (p.z - s.z);
-        return sqrDst < s.radius * s.radius;
+        //float sqrDst =  (p.x - s.x) * (p.x - s.x) +
+        //                (p.y - s.y) * (p.y - s.y) +
+        //                (p.z - s.z) * (p.z - s.z);
+        // radius x y en z  naar 1
+        // punt x ook naar scale die radius x doet
+        p.x = p.x / s.radiusX;
+        p.y = p.y / s.radiusY;
+        p.z = p.z / s.radiusZ;
+        float sqrDst = (p.x - s.x) * (p.x - s.x) +
+                    (p.y - s.y) * (p.y - s.y) +
+                    (p.z - s.z) * (p.z - s.z);
+        return sqrDst < 1;
     }
 
     public static bool HasIntersection ( SPHERE s, POINT p ) {
         return HasIntersection(p, s);
     }
-
+/*
     public static bool HasIntersection ( SPHERE a, SPHERE b ) {
         float sqrDst =  (a.x - b.x) * (a.x - b.x) +
                         (a.y - b.y) * (a.y - b.y) +
                         (a.z - b.z) * (a.z - b.z);
         return sqrDst < (a.radius * a.radius + b.radius * b.radius);
     }
-
+    */
     /*
     /// <summary>
     /// Basic Shape
@@ -170,21 +178,35 @@ public static class Collision {
         public float x;
         public float y;
         public float z;
-
-        public float radius;
+        public float radiusX;
+        public float radiusY;
+        public float radiusZ;
+        public float rotationX;
+        public float rotationY;
+        public float rotationZ;
 
         public SPHERE ( Vector3 centre, float radius ) {
             this.x = centre.x;
             this.y = centre.y;
             this.z = centre.z;
-            this.radius = radius;
+            this.radiusX = radius;
+            this.radiusY = radius;
+            this.radiusZ = radius;
+            this.rotationX = 0;
+            this.rotationY = 0;
+            this.rotationZ = 0;
         }
 
-        public SPHERE ( float x, float y, float z, float radius ) {
+        public SPHERE ( float x, float y, float z, float radiusX, float radiusY,float radiusZ, float rotationX, float rotationY, float rotationZ ) {
             this.x = x;
             this.y = y;
             this.z = z;
-            this.radius = radius;
+            this.radiusX = radiusX;
+            this.radiusY = radiusY;
+            this.radiusZ = radiusZ;
+            this.rotationX = rotationX;
+            this.rotationY = rotationY;
+            this.rotationZ = rotationZ;
         }
 
     }
