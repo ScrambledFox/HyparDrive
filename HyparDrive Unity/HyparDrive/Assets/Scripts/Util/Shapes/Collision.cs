@@ -86,18 +86,10 @@ public static class Collision {
     }
     
     public static bool HasIntersection ( POINT p, SPHERE s ) {
-        //float sqrDst =  (p.x - s.x) * (p.x - s.x) +
-        //                (p.y - s.y) * (p.y - s.y) +
-        //                (p.z - s.z) * (p.z - s.z);
-        // radius x y en z  naar 1
-        // punt x ook naar scale die radius x doet
-        p.x = p.x / s.radiusX;
-        p.y = p.y / s.radiusY;
-        p.z = p.z / s.radiusZ;
         float sqrDst = (p.x - s.x) * (p.x - s.x) +
-                    (p.y - s.y) * (p.y - s.y) +
-                    (p.z - s.z) * (p.z - s.z);
-        return sqrDst < 1;
+                        (p.y - s.y) * (p.y - s.y) +
+                        (p.z - s.z) * (p.z - s.z);
+        return sqrDst < s.radius * s.radius;
     }
 
     public static bool HasIntersection ( SPHERE s, POINT p ) {
@@ -178,35 +170,14 @@ public static class Collision {
         public float x;
         public float y;
         public float z;
-        public float radiusX;
-        public float radiusY;
-        public float radiusZ;
-        public float rotationX;
-        public float rotationY;
-        public float rotationZ;
+        public float radius;
+
 
         public SPHERE ( Vector3 centre, float radius ) {
             this.x = centre.x;
             this.y = centre.y;
             this.z = centre.z;
-            this.radiusX = radius;
-            this.radiusY = radius;
-            this.radiusZ = radius;
-            this.rotationX = 0;
-            this.rotationY = 0;
-            this.rotationZ = 0;
-        }
-
-        public SPHERE ( float x, float y, float z, float radiusX, float radiusY,float radiusZ, float rotationX, float rotationY, float rotationZ ) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.radiusX = radiusX;
-            this.radiusY = radiusY;
-            this.radiusZ = radiusZ;
-            this.rotationX = rotationX;
-            this.rotationY = rotationY;
-            this.rotationZ = rotationZ;
+            this.radius = radius;
         }
 
     }

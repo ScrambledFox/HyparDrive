@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour {
 
+    public static GridManager INSTANCE;
+    
     public bool gridActive;
 
     public Vector3 gridSize = new Vector3(10f, 10f, 10f);
     [Range(0.1f, 10f)]
     public float cellSize = 1f;
 
+
+    private void Awake () {
+        if (!INSTANCE) {
+            INSTANCE = this;
+        } else {
+            Debug.LogError("Instancing error.");
+        }
+    }
 
     // DEBUG GIZMOS
     private void OnDrawGizmos () {

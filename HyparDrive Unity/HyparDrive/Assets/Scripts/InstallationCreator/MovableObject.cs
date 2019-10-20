@@ -38,10 +38,13 @@ public class MovableObject : MonoBehaviour {
         }
 
         // Grid Snapping
-        //Vector3 currentGridPos = transform.position / CreatorManager.INSTANCE.GridManager.cellSize;
-        //transform.position = new Vector3(Mathf.Round(currentGridPos.x) * CreatorManager.INSTANCE.GridManager.cellSize,
-        //                             Mathf.Round(currentGridPos.y) * CreatorManager.INSTANCE.GridManager.cellSize,
-        //                             Mathf.Round(currentGridPos.z) * CreatorManager.INSTANCE.GridManager.cellSize);
+        if (GridManager.INSTANCE.gridActive) {
+            Vector3 currentGridPos = transform.position / CreatorManager.INSTANCE.GridManager.cellSize;
+            transform.position = new Vector3(Mathf.Round(currentGridPos.x) * CreatorManager.INSTANCE.GridManager.cellSize,
+                                         Mathf.Round(currentGridPos.y) * CreatorManager.INSTANCE.GridManager.cellSize,
+                                         Mathf.Round(currentGridPos.z) * CreatorManager.INSTANCE.GridManager.cellSize);
+        }
+        
     }
 
     public void Deselect () {

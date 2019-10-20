@@ -20,6 +20,7 @@ public class Cube : MonoBehaviour {
     /// <summary>
     /// Array with all of the LEDs inside of this cube.
     /// </summary>
+    [SerializeField]
     private LED[] leds;
 
     private void Start() {
@@ -50,13 +51,6 @@ public class Cube : MonoBehaviour {
     /// </summary>
     /// <returns>Returns an array of all LED components in this cube</returns>
     private LED[] GetAllLEDs () {
-        if (leds != null) return leds;
-
-        leds = new LED[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++) {
-            leds[i] = transform.GetChild(i).GetComponent<LED>();
-        }
-
         return leds;
     }
 
@@ -67,7 +61,6 @@ public class Cube : MonoBehaviour {
         if (this.zone == null) return;
         LightObject[] los = this.zone.GetLightObjects();
 
-        if (leds == null) leds = GetAllLEDs();
         if (los == null) return;
         if (los.Length == 0) return;
 

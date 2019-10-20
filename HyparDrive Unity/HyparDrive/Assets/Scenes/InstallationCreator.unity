@@ -3669,7 +3669,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   installation: {fileID: 1626653748}
-  cubes: []
   logicObjects:
   - {fileID: 6431822489519111880, guid: 7766ebabc368cab47a604faf909f500d, type: 3}
 --- !u!114 &1437355545
@@ -3700,6 +3699,8 @@ MonoBehaviour:
   translationArrows: {fileID: 1070539720}
   saveScreen: {fileID: 1154413418}
   loadScreen: {fileID: 210919860}
+  settingsScreen: {fileID: 0}
+  colorPicker: {fileID: 0}
 --- !u!114 &1437355547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6171,27 +6172,27 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5688110477938674255, guid: 5bfb834771941fc48a93776a020ebe43,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1437355544}
     - target: {fileID: 5688110477153447174, guid: 5bfb834771941fc48a93776a020ebe43,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1437355546}
+    - target: {fileID: 5688110477938674255, guid: 5bfb834771941fc48a93776a020ebe43,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1437355544}
+    - target: {fileID: 5688110476930786888, guid: 5bfb834771941fc48a93776a020ebe43,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1829385479}
     - target: {fileID: 5688110477583305701, guid: 5bfb834771941fc48a93776a020ebe43,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1437355546}
     - target: {fileID: 5688110478555599547, guid: 5bfb834771941fc48a93776a020ebe43,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1829385479}
-    - target: {fileID: 5688110476930786888, guid: 5bfb834771941fc48a93776a020ebe43,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

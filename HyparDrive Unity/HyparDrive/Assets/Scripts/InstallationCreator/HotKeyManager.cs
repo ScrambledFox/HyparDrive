@@ -9,6 +9,10 @@ public class HotKeyManager : MonoBehaviour {
     /// </summary>
     private void Update () {
 
+        if (Input.GetKeyDown(KeyCode.K)) {
+            Camera.main.GetComponent<OrbitalCamera>().ToggleAuto();
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape)) {
             CreatorManager.INSTANCE.ToggleSpawnPanel();
         }

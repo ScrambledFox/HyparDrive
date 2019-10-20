@@ -8,7 +8,7 @@ public class LightObject : MonoBehaviour {
             return transform.position; } }
 
     [SerializeField]
-    private new Collision.SPHERE collider = new Collision.SPHERE(0, 0, 0, 10f,10f,10f,0,0,0);
+    private new Collision.SPHERE collider = new Collision.SPHERE(Vector3.zero, 10f);
 
     [SerializeField]
     private Color colour = Color.white;
@@ -42,7 +42,7 @@ public class LightObject : MonoBehaviour {
     public event moved Moved;
 
     private void Start () {
-        //InstallationManager.INSTANCE.SubscribeLightObject(this);
+        InstallationManager.INSTANCE.SubscribeLightObject(this);
     }
 
     private void Update () {
@@ -63,16 +63,16 @@ public class LightObject : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        //InstallationManager.INSTANCE.RemoveLightObject(this);
+        InstallationManager.INSTANCE.RemoveLightObject(this);
     }
 
     private void OnDisable () {
-        //InstallationManager.INSTANCE.RemoveLightObject(this);
+        InstallationManager.INSTANCE.RemoveLightObject(this);
     }
 
     private void OnDrawGizmos () {
         Gizmos.color = this.colour * new Color(1, 1, 1, 0.2f);
-        Gizmos.DrawSphere(transform.position, collider.radiusX);
+        Gizmos.DrawSphere(transform.position, collider.radius);
     }
 
     public void SetColor(Color color)

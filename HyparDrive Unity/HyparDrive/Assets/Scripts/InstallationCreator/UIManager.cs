@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject colorPicker;
 
-    public void Start () {
+    public void Awake () {
         if (INSTANCE == null) {
             INSTANCE = this;
         }

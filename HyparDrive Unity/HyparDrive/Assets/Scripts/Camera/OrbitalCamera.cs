@@ -27,6 +27,8 @@ public class OrbitalCamera : MonoBehaviour {
 
     private Vector2 rotation;
 
+    private bool autoRotate = false;
+
     /// <summary>
     /// Setup camera focus point.
     /// </summary>
@@ -35,10 +37,16 @@ public class OrbitalCamera : MonoBehaviour {
         target.name = "FocusPoint";
     }
 
+    public void ToggleAuto () {
+        autoRotate = !autoRotate;
+    }
+
     /// <summary>
     /// Sets the position and rotation for the orbital camera as well   -   movable by holding the right mouse button
     /// </summary>
     private void Update () {
+
+        if (autoRotate) rotation += new Vector2(0.01f * rotationSpeed * Time.deltaTime, 0f * rotationSpeed * Time.deltaTime);
 
         // You can rotate by holding down the right mouse button.
         if (Input.GetMouseButton(1)) {

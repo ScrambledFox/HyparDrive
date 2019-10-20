@@ -19,7 +19,8 @@ public class LED : MonoBehaviour {
         Color colour = Color.black;
 
         for (int i = 0; i < lightObjects.Length; i++) {
-            //colour += lightObjects[i].Colour * Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - transform.position));
+            if (lightObjects[i] == null) return;
+            colour += lightObjects[i].Colour * Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - transform.position));
         }
 
         SetColour( colour );

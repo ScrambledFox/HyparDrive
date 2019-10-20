@@ -9,12 +9,8 @@ public class InstallationManager : MonoBehaviour {
 
     public static InstallationManager INSTANCE;
 
-    // File that contains the position of the cubes
-    public TextAsset hyparPositionFile;
-
     // Cube setup logic
-    int cubeAmount = 192;
-    public GameObject cubePrefab;
+    public GameObject hyparCubePrefab;
     Cube[] cubes;
     LED[] LEDs;
 
@@ -35,7 +31,6 @@ public class InstallationManager : MonoBehaviour {
     public bool doVisualisation = true;
 
     public Texture2D textureMap;
-    private Thread visualisationThread;
     public const float targetFPS = 40f;
     private const long frameTickLength = (long)((1f / targetFPS) * 1000 * 10000);
     private static System.DateTime currentTime;
@@ -48,35 +43,16 @@ public class InstallationManager : MonoBehaviour {
             INSTANCE = this;
         }
 
-        cubes = SetupCubes(ReadHyparPositionsFromFile());
+        InstallationSaveData saveData = FileManagement.GetInstallationSaveData(FileManagement.INSTALLATION_SAVE_FOLDER + "Hypar160" + FileManagement.FILE_EXTENSION);
+        LoadInstallation(saveData);
         zones = SetupZones(zoneCount, zoneSize);
 
         lightObjectThread = new Thread(new ThreadStart(LightObjectThread));
         lightObjectThread.Start();
 
-        visualisationThread = new Thread(new ThreadStart(VisualisationThread));
-        visualisationThread.Start();
-
-        //StartCoroutine("SetTestTexture");
-
 #if UNITY_EDITOR
         Invoke("CheckAmountCleanedTiles", 1.0f);
 #endif
-    }
-
-    /// <summary>
-    /// Sets the texture for the test image.
-    /// </summary>
-    /// <returns>IEnumerator</returns>
-    IEnumerator SetTestTexture () {
-        while (true) {
-            if (textureMap == null) yield return new WaitForSeconds(1f);
-
-            rawImage.texture = textureMap;
-            //UnityEngine.Debug.Log("Set the new texture.");
-
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 
     /// <summary>
@@ -86,37 +62,20 @@ public class InstallationManager : MonoBehaviour {
         
     }
 
-    /// <summary>
-    /// Generates the Installation Texure.
-    /// </summary>
-    public static void VisualisationThread () {
-        while (true) {
-            currentTime = System.DateTime.Now;
+    public void LoadInstallation ( InstallationSaveData installationSaveData ) {
+        List<Cube> newCubes = new List<Cube>();
 
-            //Debug.Log(currentTime.Millisecond + " ---- " + (lastTickMillis + frameTime));
+        foreach (InstallationSaveData.HyparCube hyparCube in installationSaveData.hyparCubes) {
+            GameObject cube = Instantiate(hyparCubePrefab, this.transform);
+            newCubes.Add(cube.GetComponent<Cube>());
 
-            if (currentTime.Ticks > lastTick + frameTickLength) {
-                lastTick = currentTime.Ticks;
-                VisualisationTick();
-            }
+            cube.transform.position = hyparCube.position;
+            cube.transform.rotation = Quaternion.Euler(hyparCube.rotation);
+            cube.transform.localScale = hyparCube.scale;
+            cube.transform.GetComponent<Cube>().SetIndex(hyparCube.id);
         }
-    }
 
-    /// <summary>
-    /// Does the frame update for the texture thread.
-    /// </summary>
-    private static void VisualisationTick () {
-        /*
-        lock (InstallationManager.INSTANCE.textureMap) {
-            Color[] data = InstallationManager.INSTANCE.GetLEDColourData();
-
-            if (data != null) {
-                ThreadHelper.Execute(() => {
-                    
-                });
-            }
-        }
-        */
+        cubes = newCubes.ToArray();
     }
 
     /// <summary>
@@ -190,36 +149,36 @@ public class InstallationManager : MonoBehaviour {
     /// </summary>
     /// <param name="positions">The positions where the cubes are going to be located. CubeAmount depends on this array.</param>
     /// <returns>Returns the spawned cubes.</returns>
-    private Cube[] SetupCubes ( Vector3[] positions ) {
-        Cube[] cubes = new Cube[positions.Length];
-        for (int i = 0; i < positions.Length; i++) {
-            GameObject cube = Instantiate(cubePrefab, positions[i], Quaternion.Euler(-90, 0, 0));
-            cube.transform.parent = transform;
-            cube.name = "Cube " + (i + 1);
+    //private Cube[] SetupCubes ( Vector3[] positions ) {
+    //    Cube[] cubes = new Cube[positions.Length];
+    //    for (int i = 0; i < positions.Length; i++) {
+    //        GameObject cube = Instantiate(hyparCubePrefab, positions[i], Quaternion.Euler(-90, 0, 0));
+    //        cube.transform.parent = transform;
+    //        cube.name = "Cube " + (i + 1);
 
-            cubes[i] = cube.GetComponent<Cube>().SetIndex(i);
-        }
+    //        cubes[i] = cube.GetComponent<Cube>().SetIndex(i);
+    //    }
 
-        return cubes;
-    }
+    //    return cubes;
+    //}
 
     /// <summary>
     /// Reads 3D positional data from a file.
     /// </summary>
     /// <returns>Returns a Vector3 array, containing every position.</returns>
-    Vector3[] ReadHyparPositionsFromFile () {
-        string[] lines = hyparPositionFile.text.Split(
-            new[] { System.Environment.NewLine },
-            System.StringSplitOptions.None);
+    //Vector3[] ReadHyparPositionsFromFile () {
+    //    string[] lines = hyparPositionFile.text.Split(
+    //        new[] { System.Environment.NewLine },
+    //        System.StringSplitOptions.None);
 
-        List<Vector3> positions = new List<Vector3>();
-        foreach (string line in lines) {
-            string[] coords = line.Split(',');
-            positions.Add(new Vector3(float.Parse(coords[0]), float.Parse(coords[1]), float.Parse(coords[2])));
-        }
+    //    List<Vector3> positions = new List<Vector3>();
+    //    foreach (string line in lines) {
+    //        string[] coords = line.Split(',');
+    //        positions.Add(new Vector3(float.Parse(coords[0]), float.Parse(coords[1]), float.Parse(coords[2])));
+    //    }
 
-        return positions.ToArray();
-    }
+    //    return positions.ToArray();
+    //}
 
     /// <summary>
     /// Sets up the zones around the installation. Can be controlled via the zoneCount variable.
@@ -231,7 +190,7 @@ public class InstallationManager : MonoBehaviour {
         GameObject[,,] zones = new GameObject[(int)zoneCount.x, (int)zoneCount.y, (int)zoneCount.z];
 
         GameObject zonesFolder = new GameObject("Zones");
-        zonesFolder.transform.parent = transform.parent;
+        zonesFolder.transform.parent = this.transform.parent;
 
         for (int z = 0; z < zones.GetLength(2); z++) {
             for (int y = 0; y < zones.GetLength(1); y++) {
@@ -304,17 +263,14 @@ public class InstallationManager : MonoBehaviour {
 
     private void OnApplicationQuit () {
         lightObjectThread.Abort();
-        visualisationThread.Abort();
     }
 
     private void OnDestroy () {
         lightObjectThread.Abort();
-        visualisationThread.Abort();
     }
 
     private void OnDisable () {
         lightObjectThread.Abort();
-        visualisationThread.Abort();
     }
 
 }

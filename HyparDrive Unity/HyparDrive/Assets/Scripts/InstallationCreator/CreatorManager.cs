@@ -34,6 +34,8 @@ public class CreatorManager : MonoBehaviour {
             if (FileManagement.CheckIfFileExists(fileName)) {
                 Debug.Log("LastInstallationFile key found: " + PlayerPrefs.GetString("LastInstallationFile") + ", file also exists: " + fileName + FileManagement.FILE_EXTENSION + ", loading it now...");
 
+                UIManager.INSTANCE.CloseAllElements();
+                CreatorManager.INSTANCE.LoadInstallation(FileManagement.GetInstallationSaveData(FileManagement.INSTALLATION_SAVE_FOLDER + fileName + FileManagement.FILE_EXTENSION));
                 //TODO: Load startup file
             } else {
                 Debug.Log("LastInstallationFile key found: " + PlayerPrefs.GetString("LastInstallationFile") + ", however no file with name " + fileName + " found. Is the file extension " + FileManagement.FILE_EXTENSION + " correctly set?");
