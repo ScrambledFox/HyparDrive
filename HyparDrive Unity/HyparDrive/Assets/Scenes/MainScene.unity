@@ -449,6 +449,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73c82070d98f56c42bb637786285db6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &281028714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 281028716}
+  - component: {fileID: 281028715}
+  m_Layer: 0
+  m_Name: ArtNet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &281028715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281028714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed006d3623d42740b764bb2722a8f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testLedIndex: 0
+--- !u!4 &281028716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281028714}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 450.91415, y: 203.00368, z: -102.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &316142158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -694,9 +738,7 @@ MonoBehaviour:
     type: 3}
   zoneCount: {x: 5, y: 3, z: 4}
   zoneSize: 2
-  rawImage: {fileID: 1172842880}
   doVisualisation: 1
-  textureMap: {fileID: 0}
 --- !u!1 &729889683
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +748,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 729889685}
+  - component: {fileID: 729889684}
   m_Layer: 0
   m_Name: ThreadHelper
   m_TagString: Untagged
@@ -713,6 +756,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &729889684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729889683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02760836e13f7f64cbd98cc080a1ada6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &729889685
 Transform:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class InteractionController : MonoBehaviour
         //FOR TESTING
         for (int k = 0; k < 5 * 120; k++)
         {
-            ArtNetController.INSTANCE.SendArtNet(k, 0, 0, 0);
+            //ArtNetController.INSTANCE.SendArtNet(k, 0, 0, 0);
         }
         //
 
@@ -83,7 +83,7 @@ public class InteractionController : MonoBehaviour
             //FOR TESTING
             for (int j = interactors[i] * 120; j < interactors[i] * 120 + 120; j++)
             {
-                ArtNetController.INSTANCE.SendArtNet(j, 0, 255, 0);
+                //ArtNetController.INSTANCE.SendArtNet(j, 0, 255, 0);
             }
             //
 
@@ -93,9 +93,8 @@ public class InteractionController : MonoBehaviour
     public static void checkInteraction(InteractionData thisInteraction)
     {
         //  FOR TESTING
-        for (int i = 0; i < thisInteraction.duration; i++)
-        {
-            ArtNetController.INSTANCE.SendArtNet(i, 255, 0, 0);
+        for (int i = 0; i < thisInteraction.duration; i++) {
+            //ArtNetController.INSTANCE.SendArtNet(i, 255, 0, 0);
         }
     }
 }

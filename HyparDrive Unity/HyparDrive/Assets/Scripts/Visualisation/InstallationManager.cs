@@ -26,11 +26,8 @@ public class InstallationManager : MonoBehaviour {
     public Vector3 zoneCount = new Vector3(10, 10, 10);
     public int zoneSize = 1;
 
-    // Texture map
-    public RawImage rawImage;
     public bool doVisualisation = true;
 
-    public Texture2D textureMap;
     public const float targetFPS = 40f;
     private const long frameTickLength = (long)((1f / targetFPS) * 1000 * 10000);
     private static System.DateTime currentTime;
@@ -55,11 +52,33 @@ public class InstallationManager : MonoBehaviour {
 #endif
     }
 
+
+    long lastUpdateTicks;
     /// <summary>
     /// Threading Test
     /// </summary>
-    public static void LightObjectThread () {
-        
+    public void LightObjectThread () {
+
+        while (true) {
+            currentTime = System.DateTime.Now;
+
+            if (currentTime.Ticks > lastUpdateTicks + 10000000) {
+                ThreadHelper.ExecuteInUpdate(() => {
+                    UpdateActiveCubes();
+                });
+
+                lastUpdateTicks = currentTime.Ticks;
+            }
+
+        }
+
+    }
+
+    private void UpdateActiveCubes () {
+        for (int i = 0; i < cubes.Length; i++) {
+            // Zone already gets checked in UpdateLEDs.
+            cubes[i].UpdateLEDs();
+        }
     }
 
     public void LoadInstallation ( InstallationSaveData installationSaveData ) {

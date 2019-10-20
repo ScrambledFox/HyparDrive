@@ -12,10 +12,8 @@ public class Cube : MonoBehaviour {
 
     MovableObject selectableObject;
 
-    /// <summary>
-    /// Zone assigned to this cube.
-    /// </summary>
-    private Zone zone;
+    List<Zone> zones = new List<Zone>();
+    List<LightObject> lightObjects = new List<LightObject>();
 
     /// <summary>
     /// Array with all of the LEDs inside of this cube.
@@ -51,6 +49,10 @@ public class Cube : MonoBehaviour {
     /// </summary>
     /// <returns>Returns an array of all LED components in this cube</returns>
     private LED[] GetAllLEDs () {
+        for (int l = 0; l < 120; l++) {
+            leds[l].SetIndex(index * 120 + l);
+        }
+
         return leds;
     }
 
@@ -58,15 +60,29 @@ public class Cube : MonoBehaviour {
     /// Updates the LEDs of this cube.
     /// </summary>
     public void UpdateLEDs () {
-        if (this.zone == null) return;
-        LightObject[] los = this.zone.GetLightObjects();
-
-        if (los == null) return;
-        if (los.Length == 0) return;
-
         for (int i = 0; i < leds.Length; i++) {
-            leds[i].UpdateColour(los);
+            leds[i].UpdateColour(lightObjects.ToArray());
         }
+    }
+
+    public void UpdateLightObjects () {
+        lightObjects.Clear();
+
+        foreach (Zone zone in zones) {
+            foreach (LightObject lightObject in zone.GetLightObjects()) {
+                if (!lightObjects.Contains(lightObject)) {
+                    lightObjects.Add(lightObject);
+                }
+            }
+        }
+    }
+
+    public void RemoveLightObjects (List<LightObject> lightObjectsToRemove) {
+        lightObjects.RemoveAll(l => lightObjectsToRemove.Contains(l));
+    }
+
+    public void RemoveLightObject ( LightObject lightObjectToRemove ) {
+        lightObjects.Remove(lightObjectToRemove);
     }
 
     public int GetIndex () {
@@ -78,7 +94,7 @@ public class Cube : MonoBehaviour {
         return this;
     }
 
-    public void SetZone (Zone zone) {
-        this.zone = zone;
+    public void AddZone (Zone zone) {
+        zones.Add(zone);
     }
 }

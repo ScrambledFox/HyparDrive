@@ -68,9 +68,15 @@ public class UIManager : MonoBehaviour {
     }
 
     public void CloseAllElements () {
-        addObjectPanel.SetActive(false);
-        translationArrows.SetActive(false);
-        saveScreen.SetActive(false);
+        if (addObjectPanel != null) {
+            addObjectPanel.SetActive(false);
+        }
+        if (translationArrows != null) {
+            translationArrows.SetActive(false);
+        }
+        if (saveScreen != null) {
+            saveScreen.SetActive(false);
+        }
         if (loadScreen != null)
         {
             loadScreen.SetActive(false);

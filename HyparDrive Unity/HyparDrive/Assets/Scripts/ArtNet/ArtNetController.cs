@@ -11,15 +11,13 @@ public class ArtNetController : MonoBehaviour
     public static ArtNetController INSTANCE = null;
     private ArtNetDmxNode node;
     private List<DmxUniverse> universes = new List<DmxUniverse>();
-    private int numUniverses = 5;
+    private int numUniverses = 226;
     public int testLedIndex;
 
-    public void Awake()
-    {
+    public void Awake() {
         INSTANCE = this;
-        node = new ArtNetDmxNode("Broadcast Node", "127.0.0.2");   // 10.0.0.3 or IP of advatek board (169.????)
-        for (int i = 0; i < numUniverses; i++)
-        {
+        node = new ArtNetDmxNode("Broadcast Node", "192.168.0.21");   // 10.0.0.3 or IP of advatek board (169.????)
+        for (int i = 0; i < numUniverses; i++) {
             universes.Add(new DmxUniverse(i));
             node.AddUniverse(universes[i]);
         }  
@@ -27,8 +25,7 @@ public class ArtNetController : MonoBehaviour
 
 
 
-    public void SendArtNet(int ledIndex, byte r, byte g, byte b)
-    {
+    public void SendArtNet(int ledIndex, byte r, byte g, byte b) {
         int channelIndex = ledIndex * 3;
         int universeNumber = channelIndex / 512;
         int channelNumber = channelIndex % 512;
@@ -38,11 +35,9 @@ public class ArtNetController : MonoBehaviour
             universes[universeNumber].SetValue(channelNumber+1, g);
             universes[universeNumber].SetValue(channelNumber+2, b);
             //Debug.Log("normal");
-        } else
-        {
+        } else {
             //Debug.Log("difficult");
-            for (int i = channelIndex; i < (channelIndex + 3); i++)
-            {
+            for (int i = channelIndex; i < (channelIndex + 3); i++) {
                 universeNumber = i / 512;
                 channelNumber = i % 512;
                 switch (i - channelIndex)

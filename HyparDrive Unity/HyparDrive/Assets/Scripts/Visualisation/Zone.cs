@@ -17,7 +17,8 @@ public class Zone : MonoBehaviour {
 
     private void Awake () {
         cubes = FindCubesWithinCollider();
-        if (cubes.Length <= 0) {
+
+        if (cubes.Length == 0) {
             Destroy(gameObject);
         } else {
             InstallationManager.INSTANCE.HandleLightObject += HandleLightObjectRegistrationChange;
@@ -35,7 +36,7 @@ public class Zone : MonoBehaviour {
     /// </summary>
     private void InitCubes () {
         for (int i = 0; i < cubes.Length; i++) {
-            cubes[i].SetZone(this);
+            cubes[i].AddZone(this);
             cubes[i].UpdateLEDs();
         }
     }
@@ -44,8 +45,8 @@ public class Zone : MonoBehaviour {
     /// Get the active light objects affecting this zone.
     /// </summary>
     /// <returns>Returns an array of Light Objects.</returns>
-    public LightObject[] GetLightObjects () {
-        return lightObjectsInZone.ToArray();
+    public List<LightObject> GetLightObjects () {
+        return lightObjectsInZone;
     }
 
     /// <summary>
@@ -55,10 +56,8 @@ public class Zone : MonoBehaviour {
     /// <param name="removed">Is the light object removed?</param>
     private void HandleLightObjectRegistrationChange ( LightObject lo, bool removed ) {
         if (removed) {
-            NotifyCubes(lo);
             lo.Moved -= CheckLightObjectPosition;
         } else {
-            NotifyCubes(lo);
             lo.Moved += CheckLightObjectPosition;
         }
     }
@@ -68,7 +67,7 @@ public class Zone : MonoBehaviour {
     /// </summary>
     public void NotifyCubes (LightObject lo) {
         for (int i = 0; i < cubes.Length; i++) {
-            cubes[i].UpdateLEDs();
+            //cubes[i].UpdateLEDs();
         }
     }
 
@@ -80,15 +79,19 @@ public class Zone : MonoBehaviour {
     /// <param name="radius">Radius of the LO</param>
     private void CheckLightObjectPosition (LightObject lo) {
         if (Collision.HasIntersection(collider, lo.Collider)) {
+
             if (!lightObjectsInZone.Contains(lo)) {
                 lightObjectsInZone.Add(lo);
-                lo.Moved += NotifyCubes;
             }
+
             if (!active) SetActive(true);
         } else {
             lightObjectsInZone.Remove(lo);
-            NotifyCubes(lo);
-            lo.Moved -= NotifyCubes;
+
+            foreach (Cube cube in cubes) {
+                cube.RemoveLightObject(lo);
+            }
+
             if (lightObjectsInZone.Count == 0) SetActive(false);
         }
     }
