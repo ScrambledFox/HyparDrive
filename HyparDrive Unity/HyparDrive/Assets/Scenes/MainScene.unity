@@ -679,6 +679,7 @@ MonoBehaviour:
   rotationInvertY: 1
   translationInvertX: 0
   translationInvertY: 0
+  autoRotate: 1
 --- !u!1 &596196177 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5688110478842626570, guid: 5bfb834771941fc48a93776a020ebe43,

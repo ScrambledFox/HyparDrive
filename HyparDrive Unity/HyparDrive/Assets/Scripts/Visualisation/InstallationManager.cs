@@ -62,10 +62,12 @@ public class InstallationManager : MonoBehaviour {
         while (true) {
             currentTime = System.DateTime.Now;
 
-            if (currentTime.Ticks > lastUpdateTicks + 10000000) {
+            if (currentTime.Ticks > lastUpdateTicks + 250000) {
                 ThreadHelper.ExecuteInUpdate(() => {
                     UpdateActiveCubes();
                 });
+
+                ArtNetController.INSTANCE.NodeUpdateTick();
 
                 lastUpdateTicks = currentTime.Ticks;
             }

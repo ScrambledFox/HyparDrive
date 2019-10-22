@@ -27,7 +27,7 @@ public class OrbitalCamera : MonoBehaviour {
 
     private Vector2 rotation;
 
-    private bool autoRotate = false;
+    public bool autoRotate = false;
 
     /// <summary>
     /// Setup camera focus point.

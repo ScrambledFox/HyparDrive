@@ -8,5 +8,6 @@ public static class INSTALLATION_CONFIG {
     /// The LEDs per Strip.
     /// </summary>
     public static readonly int LEDS_PER_STRIP = 10;
+    public static readonly bool VISUALISE = false;
 
 }

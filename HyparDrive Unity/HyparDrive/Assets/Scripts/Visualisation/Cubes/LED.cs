@@ -26,13 +26,14 @@ public class LED : MonoBehaviour {
         SetColour( colour );
 
         ArtNetController.INSTANCE.SendArtNet(index, (byte)(colour.r * 255), (byte)(colour.g * 255), (byte)(colour.b * 255));
-
     }
 
     private void SetColour (Color colour) {
         this.colour = colour;
 
-        UpdateMaterialColour(colour);
+        if (INSTALLATION_CONFIG.VISUALISE) {
+            UpdateMaterialColour(colour);
+        }
     }
 
     public Color GetColour () {

@@ -82,6 +82,7 @@ public class Zone : MonoBehaviour {
 
             if (!lightObjectsInZone.Contains(lo)) {
                 lightObjectsInZone.Add(lo);
+                NotifyCubesOfLightObjectChange();
             }
 
             if (!active) SetActive(true);
@@ -92,7 +93,15 @@ public class Zone : MonoBehaviour {
                 cube.RemoveLightObject(lo);
             }
 
+            NotifyCubesOfLightObjectChange();
+
             if (lightObjectsInZone.Count == 0) SetActive(false);
+        }
+    }
+
+    private void NotifyCubesOfLightObjectChange () {
+        foreach (Cube cube in cubes) {
+            cube.UpdateLightObjects();
         }
     }
 

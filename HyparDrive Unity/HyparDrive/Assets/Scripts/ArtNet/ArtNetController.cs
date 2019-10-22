@@ -11,7 +11,7 @@ public class ArtNetController : MonoBehaviour
     public static ArtNetController INSTANCE = null;
     private ArtNetDmxNode node;
     private List<DmxUniverse> universes = new List<DmxUniverse>();
-    private int numUniverses = 226;
+    const int numUniverses = 113;
     public int testLedIndex;
 
     public void Awake() {
@@ -62,7 +62,7 @@ public class ArtNetController : MonoBehaviour
               
     }
 
-    private void LateUpdate()
+    public void NodeUpdateTick()
     {
         node.Send();
     }
