@@ -28,6 +28,8 @@ public class InstallationManager : MonoBehaviour {
 
     public bool doVisualisation = true;
 
+    public bool sendArtNetData = false;
+
     public const float targetFPS = 40f;
     private const long frameTickLength = (long)((1f / targetFPS) * 1000 * 10000);
     private static System.DateTime currentTime;
@@ -62,12 +64,14 @@ public class InstallationManager : MonoBehaviour {
         while (true) {
             currentTime = System.DateTime.Now;
 
-            if (currentTime.Ticks > lastUpdateTicks + 250000) {
+            if (currentTime.Ticks > lastUpdateTicks + 1000000) {
                 ThreadHelper.ExecuteInUpdate(() => {
                     UpdateActiveCubes();
                 });
 
-                ArtNetController.INSTANCE.NodeUpdateTick();
+                if (sendArtNetData) {
+                    ArtNetController.INSTANCE.NodeUpdateTick();
+                }
 
                 lastUpdateTicks = currentTime.Ticks;
             }
@@ -94,6 +98,8 @@ public class InstallationManager : MonoBehaviour {
             cube.transform.rotation = Quaternion.Euler(hyparCube.rotation);
             cube.transform.localScale = hyparCube.scale;
             cube.transform.GetComponent<Cube>().SetIndex(hyparCube.id);
+
+            cube.gameObject.isStatic = true;
         }
 
         cubes = newCubes.ToArray();

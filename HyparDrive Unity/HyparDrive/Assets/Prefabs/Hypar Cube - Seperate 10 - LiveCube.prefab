@@ -7475,7 +7475,6 @@ GameObject:
   - component: {fileID: 4719414478447675924}
   - component: {fileID: 113494215981654433}
   - component: {fileID: 7173004021756947795}
-  - component: {fileID: 1381169628}
   m_Layer: 0
   m_Name: Hypar Cube - Seperate 10 - LiveCube
   m_TagString: Untagged
@@ -7817,19 +7816,6 @@ MonoBehaviour:
   - {fileID: 9162607387699851895}
   - {fileID: 6226085752439351772}
   - {fileID: 687686133780247601}
---- !u!65 &1381169628
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6431822489519111880}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2.0000005, z: 2.0000005}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6485739450082212037
 GameObject:
   m_ObjectHideFlags: 0

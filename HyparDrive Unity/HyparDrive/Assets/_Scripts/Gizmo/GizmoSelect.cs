@@ -24,6 +24,7 @@ public class GizmoSelect : MonoBehaviour
             gameObject.layer = 2;
         }
     }
+
 	// Update is called once per frame
 	void Update () 
     {

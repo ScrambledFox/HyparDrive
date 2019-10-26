@@ -21,6 +21,7 @@ public class deleteKeyframe : MonoBehaviour
 
     public void onDeleteClick()
     {
+#if UNITY_EDITOR
         if (EditorUtility.DisplayDialog("Delete?!", "Are you sure you want to delete this item?", "Yes", "Hell no"))
         {
             //Remove this keyframe from list + destroy it
@@ -28,5 +29,10 @@ public class deleteKeyframe : MonoBehaviour
             AnimationCreatorManager.INSTANCE.removeKeyframe(this.transform.parent.parent.parent.gameObject, thisLocation);
             Destroy(gameObject);     
         }
+#else
+        float thisLocation = (transform.GetComponent<RectTransform>().anchoredPosition.x / transform.parent.GetComponent<RectTransform>().rect.width + 0.5f);
+        AnimationCreatorManager.INSTANCE.removeKeyframe(this.transform.parent.parent.parent.gameObject, thisLocation);
+        Destroy(gameObject);
+#endif
     }
 }

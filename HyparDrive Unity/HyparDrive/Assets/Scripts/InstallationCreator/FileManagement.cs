@@ -108,7 +108,7 @@ public static class FileManagement {
 
     }
 
-    public static void SaveAnimation(string fileName, TrackSlot[] tracks)
+    public static void SaveAnimation(string fileName, string description, TrackSlot[] tracks)
     {
 
         CheckSaveFileDirectorySetup();
@@ -116,6 +116,7 @@ public static class FileManagement {
 
         AnimationSaveState animationSaveState = new AnimationSaveState();
         animationSaveState.lastSaveTime = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+        animationSaveState.description = description;
 
         // Make appropriate amount of tracks in save file
         animationSaveState.tracks = new AnimationSaveState.Track[tracks.Length];
@@ -177,6 +178,7 @@ public class AnimationSaveState
 {
 
     public string lastSaveTime;
+    public string description;
     public Track[] tracks;
 
     [Serializable]

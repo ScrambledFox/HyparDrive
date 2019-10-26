@@ -14,7 +14,7 @@ public class HotKeyManager : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            CreatorManager.INSTANCE.ToggleSpawnPanel();
+            UIManager.INSTANCE.SetSpawnPanelState(true);
         }
 
     }

@@ -8,7 +8,7 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public static AnimationCreatorManager INSTANCE;
 
-    public static readonly int KEYFRAME_RATE = 30;
+    public static readonly int KEYFRAME_RATE = 600;
 
     public List<Track> tracks;
 
@@ -28,6 +28,7 @@ public class AnimationCreatorManager : MonoBehaviour {
     public List<LightObject> lightObjects = new List<LightObject>();
     public GameObject[] logicAnimObjects;
     public static string animationName;
+    public static string animationDescription;
 
 
 
@@ -116,6 +117,10 @@ public class AnimationCreatorManager : MonoBehaviour {
         animationName = fileName;
     }
 
+    public void SetAnimationDescription (string description) {
+        animationDescription = description;
+    }
+
     // Edit speed of playback with inputfield
     public void changeSpeed(Text input)
     {
@@ -139,7 +144,7 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     // Save full animation to file
     public void SaveAnimation ( ) {
-        FileManagement.SaveAnimation(animationName, trackSlots.ToArray());
+        FileManagement.SaveAnimation(animationName, animationDescription, trackSlots.ToArray());
     }
 
 
@@ -177,7 +182,6 @@ public class AnimationCreatorManager : MonoBehaviour {
             if (track.HasPreviousFrame(time)) {
                 KeyFrame referenceFrame = track.GetPreviousFrame(time);
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.position = referenceFrame.position;
-                Debug.Log("POS: " + referenceFrame.position.x);
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.rotation = referenceFrame.rotation;
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.localScale = referenceFrame.scale;
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].SetColor(referenceFrame.colour);
@@ -220,8 +224,8 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     public void RemoveThisTrack(GameObject trackObj)
     {
+        //trackSlots.Find(trackSlots.Single(t => t.trackUI == trackObj)).GetGameObject();
         trackSlots.Remove(trackSlots.Single(t => t.trackUI == trackObj));
-        Debug.Log(trackSlots.Count());
     }
 
     // Find the index of a track using its gameobject
@@ -331,6 +335,11 @@ public class TrackSlot {
             KEYFRAME_START = Mathf.RoundToInt(keyFrames[0].time * AnimationCreatorManager.KEYFRAME_RATE);
             KEYFRAME_END = AnimationCreatorManager.KEYFRAME_RATE;
         }
+
+#if UNITY_EDITOR
+        Debug.Log("Added " + (KEYFRAME_END - KEYFRAME_START) + " keyframes.");
+#endif
+
 
         for (int t = KEYFRAME_START; t <= KEYFRAME_END; t++) {
             if (frameBuffer.Count == 0) {
