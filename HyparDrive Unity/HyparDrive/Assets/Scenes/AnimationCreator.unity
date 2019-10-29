@@ -4435,7 +4435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9227c02aea80b3d408b9f25d8e747b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hyparCubePrefab: {fileID: 6431822489519111880, guid: d23623717e16ef5419b568fdaeb8e78d,
+  hyparCubePrefab: {fileID: 6431822489519111880, guid: 7603435311e2101418a6fef64c0c23aa,
     type: 3}
   zoneCount: {x: 5, y: 5, z: 5}
   zoneSize: 2

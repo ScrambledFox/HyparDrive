@@ -44,6 +44,7 @@ public class InstallationManager : MonoBehaviour {
 
         InstallationSaveData saveData = FileManagement.GetInstallationSaveData(FileManagement.INSTALLATION_SAVE_FOLDER + "Hypar160" + FileManagement.FILE_EXTENSION);
         LoadInstallation(saveData);
+
         zones = SetupZones(zoneCount, zoneSize);
 
         lightObjectThread = new Thread(new ThreadStart(LightObjectThread));
