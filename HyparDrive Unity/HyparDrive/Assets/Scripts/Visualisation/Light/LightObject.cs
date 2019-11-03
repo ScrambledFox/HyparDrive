@@ -46,8 +46,6 @@ public class LightObject : MonoBehaviour {
     private void Start () {
         InstallationManager.INSTANCE.SubscribeLightObject(this);
         renderer = this.GetComponent<MeshRenderer>();
-
-        renderer.material.color = new Color(colour.r, colour.g, colour.g, 0.5f);
     }
 
     private void Update () {
@@ -58,6 +56,9 @@ public class LightObject : MonoBehaviour {
 
             Moved?.Invoke(this);
         }
+
+        transform.localScale = Vector3.one * this.collider.radius;
+        renderer.material.color = new Color(colour.r, colour.g, colour.b, 0.5f);
 
     }
 
@@ -75,10 +76,10 @@ public class LightObject : MonoBehaviour {
         InstallationManager.INSTANCE.RemoveLightObject(this);
     }
 
-    private void OnDrawGizmos () {
-        Gizmos.color = this.colour * new Color(1, 1, 1, 0.2f);
-        Gizmos.DrawSphere(transform.position, collider.radius);
-    }
+    //private void OnDrawGizmos () {
+    //    Gizmos.color = this.colour * new Color(1, 1, 1, 0.2f);
+    //    Gizmos.DrawSphere(transform.position, collider.radius);
+    //}
 
     public void SetColor(Color color)
     {

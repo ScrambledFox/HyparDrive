@@ -114,18 +114,18 @@ public static class FileManagement {
         CheckSaveFileDirectorySetup();
 
 
-        AnimationSaveState animationSaveState = new AnimationSaveState();
+        AnimationSaveData animationSaveState = new AnimationSaveData();
         animationSaveState.lastSaveTime = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
         animationSaveState.description = description;
 
         // Make appropriate amount of tracks in save file
-        animationSaveState.tracks = new AnimationSaveState.Track[tracks.Length];
+        animationSaveState.tracks = new AnimationSaveData.Track[tracks.Length];
 
         // Loop through all tracks in save file
         for (int i = 0; i < animationSaveState.tracks.Length; i++)
         {
             // Create new trackitems in save file, with appropriate amount of keyframes
-            animationSaveState.tracks[i] = new AnimationSaveState.Track(
+            animationSaveState.tracks[i] = new AnimationSaveData.Track(
                 i,
                 tracks[i].keyFrames.Count
                 );
@@ -133,7 +133,7 @@ public static class FileManagement {
             // Loop through all keyframes in track, make them with properties
             for (int j = 0; j < tracks[i].keyFrames.Count; j++)
             {
-                animationSaveState.tracks[i].keyFrames[j] = new AnimationSaveState.KeyFrame(
+                animationSaveState.tracks[i].keyFrames[j] = new AnimationSaveData.KeyFrame(
                     tracks[i].keyFrames[j].position,
                     tracks[i].keyFrames[j].rotation,
                     tracks[i].keyFrames[j].scale,
@@ -148,6 +148,15 @@ public static class FileManagement {
         string jsonData = JsonUtility.ToJson(animationSaveState, true);
         File.WriteAllText(ANIMATION_SAVE_FOLDER + fileName + FILE_EXTENSION, jsonData);
         Debug.Log("Saved " + fileName + " to " + ANIMATION_SAVE_FOLDER + fileName + FILE_EXTENSION);
+    }
+
+    public static AnimationSaveData GetAnimationSaveData ( string filepath ) {
+        try {
+            return JsonUtility.FromJson<AnimationSaveData>(File.ReadAllText(filepath));
+        } catch (Exception e) {
+            Debug.LogError("Got an exception getting the save data of a file.");
+            throw;
+        }
     }
 
 }
@@ -174,7 +183,7 @@ public class InstallationSaveData {
 
 }
 
-public class AnimationSaveState
+public class AnimationSaveData
 {
 
     public string lastSaveTime;
@@ -182,15 +191,29 @@ public class AnimationSaveState
     public Track[] tracks;
 
     [Serializable]
-    public class Track
-    {
+    public class Track {
         public int trackIndex;
         public KeyFrame[] keyFrames;
 
-        public Track(int trackIndex, int keyframeLength)
-        {
+        public Track ( int trackIndex, int keyframeLength ) {
             this.trackIndex = trackIndex;
             this.keyFrames = new KeyFrame[keyframeLength]; ;
+        }
+            
+        public KeyFrame GetKeyFrameAt ( float time ) {
+            for (int i = 0; i < keyFrames.Length; i++) {
+                if (keyFrames[i].time > time) {
+                    return keyFrames[i];
+                }
+            }
+
+            return null;
+        }
+
+        public void PrintKeyFrames () {
+            for (int i = 0; i < keyFrames.Length; i++) {
+                Debug.Log(keyFrames[i].time);
+            }
         }
     }
 
