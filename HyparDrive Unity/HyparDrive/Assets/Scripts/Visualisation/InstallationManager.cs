@@ -9,6 +9,9 @@ public class InstallationManager : MonoBehaviour {
 
     public static InstallationManager INSTANCE;
 
+    public static float TICKS_TO_SECONDS = (1f/10000000f);
+    public static int SECONDS_TO_TICKS = 10000000;
+
     // Cube setup logic
     public GameObject hyparCubePrefab;
     Cube[] cubes;
@@ -65,7 +68,7 @@ public class InstallationManager : MonoBehaviour {
         while (true) {
             currentTime = System.DateTime.Now;
 
-            if (currentTime.Ticks > lastUpdateTicks + 1000000) {
+            if (currentTime.Ticks > lastUpdateTicks + 500000) {
                 ThreadHelper.ExecuteInUpdate(() => {
                     UpdateActiveCubes();
                 });

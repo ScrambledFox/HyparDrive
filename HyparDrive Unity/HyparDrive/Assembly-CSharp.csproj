@@ -147,6 +147,7 @@
     <Compile Include="Assets\Scripts\Visualisation\Cubes\Shapes\PentagonTubeGeneration.cs" />
     <Compile Include="Assets\Scripts\Visualisation\Cubes\Shapes\TubeTest.cs" />
     <Compile Include="Assets\Scripts\Visualisation\InstallationManager.cs" />
+    <Compile Include="Assets\Scripts\Visualisation\InteractionLightManager.cs" />
     <Compile Include="Assets\Scripts\Visualisation\Light\LightObject.cs" />
     <Compile Include="Assets\Scripts\Visualisation\UI\AnimationPanelUI.cs" />
     <Compile Include="Assets\Scripts\Visualisation\UI\ApplicationManager.cs" />

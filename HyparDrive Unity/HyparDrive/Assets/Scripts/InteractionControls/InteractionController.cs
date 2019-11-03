@@ -12,8 +12,7 @@ public class InteractionController : MonoBehaviour
     public static float margin = 1f;
     public static List<int> collaborativeInteractions = new List<int>();
 
-    public void Awake()
-    {
+    public void Awake() {
         INSTANCE = this;
     }
 

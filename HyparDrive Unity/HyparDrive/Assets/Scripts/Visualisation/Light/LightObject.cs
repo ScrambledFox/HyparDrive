@@ -57,8 +57,8 @@ public class LightObject : MonoBehaviour {
             Moved?.Invoke(this);
         }
 
-        transform.localScale = Vector3.one * this.collider.radius;
-        renderer.material.color = new Color(colour.r, colour.g, colour.b, 0.5f);
+        transform.localScale = Vector3.one * this.collider.radius * 2;
+        renderer.material.color = new Color(colour.r, colour.g, colour.b, 0.1f);
 
     }
 
