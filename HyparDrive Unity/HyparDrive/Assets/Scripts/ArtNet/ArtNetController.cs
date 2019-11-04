@@ -20,9 +20,9 @@ public class ArtNetController : MonoBehaviour
 
     public void Awake() {
         INSTANCE = this;
-        installationNode1 = new ArtNetDmxNode("Broadcast Node", "192.168.0.11");     // ADVA INSTALLATIE 1
-        installationNode2 = new ArtNetDmxNode("Broadcast Node", "192.168.0.12");     // ADVA INSTALLATIE 2
-        interactionNode = new ArtNetDmxNode("Broadcast Node", "192.168.0.31");     // ADVA INTERACTIE
+        installationNode1 = new ArtNetDmxNode("Installation Node 1", "192.168.0.11");     // ADVA INSTALLATIE 1
+        installationNode2 = new ArtNetDmxNode("Installation Node 2", "192.168.0.12");     // ADVA INSTALLATIE 2
+        interactionNode = new ArtNetDmxNode("Interaction Node", "192.168.0.31");     // ADVA INTERACTIE
 
         for (int i = 0; i < numInstallation1Universes; i++) {
             installation1Universes.Add(new DmxUniverse(i));

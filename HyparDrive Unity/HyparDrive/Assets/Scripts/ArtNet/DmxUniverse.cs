@@ -12,7 +12,7 @@ namespace HauteTechnique.Dmx
         private const int DmxDataSize = 512;
 
         private int _universe;
-        private byte[] _data;// = new byte[ArtnetHeaderSize + DmxDataSize];
+        private byte[] _data = new byte[ArtnetHeaderSize + DmxDataSize];
 
         public DmxUniverse(int universe)
         {

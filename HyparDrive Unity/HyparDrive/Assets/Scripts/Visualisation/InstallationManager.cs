@@ -68,7 +68,7 @@ public class InstallationManager : MonoBehaviour {
         while (true) {
             currentTime = System.DateTime.Now;
 
-            if (currentTime.Ticks > lastUpdateTicks + 500000) {
+            if (currentTime.Ticks > lastUpdateTicks + /*500000 /*Twenty times per second*/ 10000000) {
                 ThreadHelper.ExecuteInUpdate(() => {
                     UpdateActiveCubes();
                 });
