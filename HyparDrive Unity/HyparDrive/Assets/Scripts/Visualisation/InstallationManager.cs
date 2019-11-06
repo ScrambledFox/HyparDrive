@@ -59,6 +59,8 @@ public class InstallationManager : MonoBehaviour {
     }
 
 
+    public int getal = 19200;
+
     long lastUpdateTicks;
     /// <summary>
     /// Threading Test
@@ -68,7 +70,7 @@ public class InstallationManager : MonoBehaviour {
         while (true) {
             currentTime = System.DateTime.Now;
 
-            if (currentTime.Ticks > lastUpdateTicks + /*500000 /*Twenty times per second*/ 10000000) {
+            if (currentTime.Ticks > lastUpdateTicks + 500000) {
                 ThreadHelper.ExecuteInUpdate(() => {
                     UpdateActiveCubes();
                 });

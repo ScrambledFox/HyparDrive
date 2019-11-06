@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light Sphere (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 396391611726293627, guid: ab4c2d0a0224be6428789a3a074f21f2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 396391611726293625, guid: ab4c2d0a0224be6428789a3a074f21f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -605,6 +610,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light Sphere
       objectReference: {fileID: 0}
+    - target: {fileID: 396391611726293627, guid: ab4c2d0a0224be6428789a3a074f21f2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 396391611726293625, guid: ab4c2d0a0224be6428789a3a074f21f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -847,6 +857,7 @@ MonoBehaviour:
   zoneSize: 2
   doVisualisation: 1
   sendArtNetData: 1
+  getal: 50
 --- !u!1 &729889683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1364,6 +1375,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light Sphere (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 396391611726293627, guid: ab4c2d0a0224be6428789a3a074f21f2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 396391611726293625, guid: ab4c2d0a0224be6428789a3a074f21f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1624,6 +1640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98e1a9a2afb0cb44a4f6adb6ffb7a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sendArtNetData: 1
 --- !u!1 &1979272105 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 396391611726293627, guid: ab4c2d0a0224be6428789a3a074f21f2,

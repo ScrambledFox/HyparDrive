@@ -13,9 +13,9 @@ public class ArtNetController : MonoBehaviour
     private List<DmxUniverse> installation1Universes = new List<DmxUniverse>();
     private List<DmxUniverse> installation2Universes = new List<DmxUniverse>();
     private List<DmxUniverse> interactionUniverses = new List<DmxUniverse>();
-    const int numInstallation1Universes = 45;
-    const int numInstallation2Universes = 68;
-    const int numInteractionUniverses = 2;
+    public const int numInstallation1Universes = 45;
+    public const int numInstallation2Universes = 68;
+    public const int numInteractionUniverses = 10;
     public int testLedIndex;
 
     public void Awake() {
@@ -33,7 +33,7 @@ public class ArtNetController : MonoBehaviour
             installationNode2.AddUniverse(installation2Universes[i]);
         }
         for (int i = 0; i < numInteractionUniverses; i++) {
-            interactionUniverses.Add(new DmxUniverse(i + numInstallation1Universes + numInstallation2Universes + 1));
+            interactionUniverses.Add(new DmxUniverse(i + numInstallation1Universes + numInstallation2Universes));
             interactionNode.AddUniverse(interactionUniverses[i]);
         }
     }
@@ -42,32 +42,32 @@ public class ArtNetController : MonoBehaviour
 
     public void SendArtNet(int ledIndex, byte r, byte g, byte b) {
         int channelIndex = ledIndex * 3;
-        int universeNumber = channelIndex / 512;
-        int channelNumber = channelIndex % 512;
+        int universeNumber = channelIndex / 510;
+        int channelNumber = channelIndex % 510;
 
         ADVATEK_BOARD board;
 
-        board = universeNumber > numInstallation1Universes - 1 ? (universeNumber > numInstallation1Universes + numInstallation2Universes + 1 ? ADVATEK_BOARD.INTERACTION : ADVATEK_BOARD.INSTALLATION2) : ADVATEK_BOARD.INSTALLATION1;
+        board = universeNumber > numInstallation1Universes - 1 ? (universeNumber > numInstallation1Universes + numInstallation2Universes - 1 ? ADVATEK_BOARD.INTERACTION : ADVATEK_BOARD.INSTALLATION2) : ADVATEK_BOARD.INSTALLATION1;
 
         switch (board) {
             case ADVATEK_BOARD.INSTALLATION1:
                 // nothing
                 break;
             case ADVATEK_BOARD.INSTALLATION2:
-                channelIndex -= 512 * numInstallation1Universes;
-                universeNumber = channelIndex / 512;
-                channelNumber = channelNumber % 512;
+                channelIndex -= 510 * numInstallation1Universes;
+                universeNumber = channelIndex / 510;
+                channelNumber = channelNumber % 510;
                 break;
             case ADVATEK_BOARD.INTERACTION:
-                channelIndex -= 512 * (numInstallation1Universes + numInstallation2Universes + 1);
-                universeNumber = channelIndex / 512;
-                channelNumber = channelNumber % 512;
+                channelIndex -= 510 * (numInstallation1Universes + numInstallation2Universes);
+                universeNumber = channelIndex / 510;
+                channelNumber = channelNumber % 510;
                 break;
             default:
                 break;
         }
 
-        if ((channelIndex%512) <= 509)
+        if ((channelIndex% 510) <= 506)
         {
             switch (board) {
                 case ADVATEK_BOARD.INSTALLATION1:
@@ -93,8 +93,8 @@ public class ArtNetController : MonoBehaviour
         } else {
             //Debug.Log("difficult");
             for (int i = channelIndex; i < (channelIndex + 3); i++) {
-                universeNumber = i / 512;
-                channelNumber = i % 512;
+                universeNumber = i / 510;
+                channelNumber = i % 510;
                 switch (i - channelIndex)
                 {
                     case 0:
