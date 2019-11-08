@@ -12,7 +12,7 @@ public class LED : MonoBehaviour {
     private Vector3 size = new Vector3(0.05f, 0.05f, 0.05f);
 
     private void Awake () {
-        //material = GetComponent<MeshRenderer>().material;
+        material = GetComponent<MeshRenderer>().material;
     }
 
     public void UpdateColour (LightObject[] lightObjects) {
@@ -41,7 +41,7 @@ public class LED : MonoBehaviour {
     }
 
     private void UpdateMaterialColour ( Color colour ) {
-        //material.color = colour;
+        material.color = colour;
     }
 
     public void SetIndex ( int index ) {

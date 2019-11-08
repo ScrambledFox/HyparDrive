@@ -13,12 +13,12 @@ public class AnimationPlayer : MonoBehaviour {
     float timerBig = 0;
     int indexBgAnim =0;
 
-    private int BackgroundAnims     = 3;
+    private int BackgroundAnims     = 0;
     private int Tech1SmallAnims     = 0;
     private int Tech2SmallAnims     = 0;
     private int Tech1BigAnims       = 0;
     private int Tech2BigAnims       = 0;
-    private int Nature1SmallAnims   = 1;
+    private int Nature1SmallAnims   = 0;
     private int Nature2SmallAnims   = 0;
     private int Nature1BigAnims     = 0;
     private int Nature2BigAnims     = 0;
@@ -101,7 +101,10 @@ public class AnimationPlayer : MonoBehaviour {
         {
             timer = 10;
             Debug.Log("hoi");
-            playBackgroundAnim(background[indexBgAnim]);
+            if (background.Count > 0)
+            {
+                playBackgroundAnim(background[indexBgAnim]);
+            }
         }
         if (timerBig <= 0)
         {
