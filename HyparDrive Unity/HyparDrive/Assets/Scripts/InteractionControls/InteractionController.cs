@@ -7,6 +7,7 @@ using System.Linq;
 
 public class InteractionController : MonoBehaviour
 {
+
     public static InteractionController INSTANCE = null;
     public static InteractionData[] lastInteractions = new InteractionData[4];
     public static float margin = 1f;
@@ -25,18 +26,9 @@ public class InteractionController : MonoBehaviour
         lastInteractions[interactionData.unit - 1] = interactionData;
         collaborativeInteractions.Clear();
 
-        //FOR TESTING
-        for (int k = 0; k < 5 * 120; k++)
-        {
-            //ArtNetController.INSTANCE.SendArtNet(k, 0, 0, 0);
-        }
-        //
-
-
         //Check of deze interactie bijna tegelijk was met een ander
-        checkCollab(interactionData);
+        HandleInteraction(interactionData);
         //}
-        Debug.Log(interactionData.time);
     }
 
 
@@ -46,7 +38,7 @@ public class InteractionController : MonoBehaviour
     }
 
 
-    public static void checkCollab(InteractionData thisInteraction)
+    public static void HandleInteraction(InteractionData thisInteraction)
     {
         // All units of interactions within margin are put into a list
 
@@ -63,37 +55,104 @@ public class InteractionController : MonoBehaviour
         Debug.Log("Interaction between " + thisInteraction.unit + " and " + (collaborativeInteractions.Count - 1) + " others.");
         if (collaborativeInteractions.Count > 1)
         {
-            collaboration(collaborativeInteractions);
+            Interaction interaction = new Interaction();
+            interaction.type = Interaction.InteractionType.COLLABORATION;
+            interaction.interactionModules = new InteractionLightManager.InteractionTowerPhysicalLocations[collaborativeInteractions.Count];
+
+            for (int i = 0; i < collaborativeInteractions.Count; i++) {
+                switch (collaborativeInteractions[i]) {
+                    case 0:
+                        interaction.interactionModules[i] = InteractionLightManager.InteractionTowerPhysicalLocations.SW;
+                        break;
+                    case 1:
+                        interaction.interactionModules[i] = InteractionLightManager.InteractionTowerPhysicalLocations.SE;
+                        break;
+                    case 2:
+                        interaction.interactionModules[i] = InteractionLightManager.InteractionTowerPhysicalLocations.NW;
+                        break;
+                    case 3:
+                        interaction.interactionModules[i] = InteractionLightManager.InteractionTowerPhysicalLocations.NE;
+                        break;
+                    default:
+                        Debug.LogError("WOAT");
+                        break;
+                }
+            }
+
+            DoInteraction(interaction);
         }
         else
         {
-            checkInteraction(thisInteraction);
-        }
-    }
+            Interaction interaction = new Interaction();
+            interaction.type = Interaction.InteractionType.SINGLE;
 
-
-    public static void collaboration(List<int> interactors)
-    {
-        // For all collaborators turn on Cube + debug
-        for (int i = 0; i < interactors.Count; i++)
-        {
-            Debug.Log("Collaborators are: " + (interactors[i] + 1));
-
-            //FOR TESTING
-            for (int j = interactors[i] * 120; j < interactors[i] * 120 + 120; j++)
-            {
-                //ArtNetController.INSTANCE.SendArtNet(j, 0, 255, 0);
+            switch (thisInteraction.unit) {
+                case 1:
+                    interaction.interactionModules[0] = InteractionLightManager.InteractionTowerPhysicalLocations.SW;
+                    break;
+                case 2:
+                    interaction.interactionModules[0] = InteractionLightManager.InteractionTowerPhysicalLocations.SE;
+                    break;
+                case 3:
+                    interaction.interactionModules[0] = InteractionLightManager.InteractionTowerPhysicalLocations.NW;
+                    break;
+                case 4:
+                    interaction.interactionModules[0] = InteractionLightManager.InteractionTowerPhysicalLocations.NE;
+                    break;
+                default:
+                    Debug.LogError("WOAT");
+                    break;
             }
-            //
 
+            DoInteraction(interaction);
         }
     }
 
-    public static void checkInteraction(InteractionData thisInteraction)
-    {
-        //  FOR TESTING
-        for (int i = 0; i < thisInteraction.duration; i++) {
-            //ArtNetController.INSTANCE.SendArtNet(i, 255, 0, 0);
+    public static void DoInteraction (Interaction interaction) {
+
+        switch (interaction.type) {
+            case Interaction.InteractionType.SINGLE:
+
+                switch (interaction.interactionModules[0]) {
+                    case InteractionLightManager.InteractionTowerPhysicalLocations.NE:
+                        // PlayAnimation();
+                        break;
+                    case InteractionLightManager.InteractionTowerPhysicalLocations.NW:
+                        // PlayAnimation();
+                        break;
+                    case InteractionLightManager.InteractionTowerPhysicalLocations.SE:
+                        // PlayAnimation();
+                        break;
+                    case InteractionLightManager.InteractionTowerPhysicalLocations.SW:
+                        // PlayAnimation();
+                        break;
+                    default:
+                        break;
+                }
+
+                break;
+            case Interaction.InteractionType.COLLABORATION:
+
+                bool[] interactions = new bool[4];
+
+                for (int i = 0; i < interaction.interactionModules.Length; i++) {
+
+                }
+
+                break;
+            default:
+                break;
         }
+
+    }
+
+    public struct Interaction {
+
+        public enum InteractionType {
+            SINGLE, COLLABORATION
+        }
+
+        public InteractionType type;
+        public InteractionLightManager.InteractionTowerPhysicalLocations[] interactionModules;
     }
 }
