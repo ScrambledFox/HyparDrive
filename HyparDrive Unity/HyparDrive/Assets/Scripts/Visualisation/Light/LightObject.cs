@@ -13,7 +13,7 @@ public class LightObject : MonoBehaviour {
     [SerializeField]
     private Color colour = Color.white;
 
-    private MeshRenderer renderer;
+    private new MeshRenderer renderer;
 
     public int trackIndex;
 
@@ -43,7 +43,7 @@ public class LightObject : MonoBehaviour {
     public delegate void moved ( LightObject lightObject );
     public event moved Moved;
 
-    private void Start () {
+    private void Awake () {
         InstallationManager.INSTANCE.SubscribeLightObject(this);
         renderer = this.GetComponent<MeshRenderer>();
     }
@@ -83,7 +83,7 @@ public class LightObject : MonoBehaviour {
 
     public void SetColor(Color color)
     {
-        colour = color;
+        colour = new Color(color.r, color.g, color.b, 1.0f);
 
         renderer.material.color = new Color(color.r, color.g, color.g, 0.5f);
     }

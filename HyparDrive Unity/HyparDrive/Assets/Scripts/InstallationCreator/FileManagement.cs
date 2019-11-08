@@ -134,10 +134,10 @@ public static class FileManagement {
             for (int j = 0; j < tracks[i].keyFrames.Count; j++)
             {
                 animationSaveState.tracks[i].keyFrames[j] = new AnimationSaveData.KeyFrame(
+                    tracks[i].keyFrames[j].time,
                     tracks[i].keyFrames[j].position,
                     tracks[i].keyFrames[j].rotation,
                     tracks[i].keyFrames[j].scale,
-                    tracks[i].keyFrames[j].time,
                     tracks[i].keyFrames[j].colour
                     );
 
@@ -224,15 +224,15 @@ public class AnimationSaveData
         public Vector3 rotation;
         public Vector3 scale;
         public float time;
-        public Color color;
+        public Color colour;
 
-        public KeyFrame(Vector3 position, Quaternion rotation, Vector3 scale, float time, Color color)
+        public KeyFrame(float time, Vector3 position, Quaternion rotation, Vector3 scale, Color color)
         {
             this.position = position;
             this.rotation = rotation.eulerAngles;
             this.scale = scale;
             this.time = time;
-            this.color = color;
+            this.colour = color;
         }
     }   
 }

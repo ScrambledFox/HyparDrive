@@ -3,24 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationLoader : MonoBehaviour {
-
-    public void PlayAnimation (string name) {
-
-        switch (name) {
-            case "testing":
-                LoadAnimation(FileManagement.ANIMATION_SAVE_FOLDER + "testing" + FileManagement.FILE_EXTENSION);
-                break;
-            default:
-                Debug.LogError("Animation name not known...");
-                break;
-        }
-
+    public static AnimationLoader INSTANCE = null;
+    public void Awake()
+    {
+        INSTANCE = this;
     }
 
-    private void LoadAnimation (string filepath) {
-        if (FileManagement.CheckIfFileExists(filepath)) {
+    public void LoadAnimation (string filename) {
+        //check if nam is something nice
+        //then put in list
+        //else fu
+        string filePath = FileManagement.ANIMATION_SAVE_FOLDER + filename + FileManagement.FILE_EXTENSION;
+        if (FileManagement.CheckIfFileExists(filename)) {
 
-            FindObjectOfType<AnimationPlayer>().HandleNewAnimation(FileManagement.GetAnimationSaveData(filepath));
+            FindObjectOfType<AnimationPlayer>().HandleNewAnimation(FileManagement.GetAnimationSaveData(filePath));
 
         } else {
             Debug.LogError("File not found.");

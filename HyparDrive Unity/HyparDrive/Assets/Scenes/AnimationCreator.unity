@@ -4439,8 +4439,9 @@ MonoBehaviour:
     type: 3}
   zoneCount: {x: 5, y: 5, z: 5}
   zoneSize: 2
-  doVisualisation: 1
+  doVisualisation: 0
   sendArtNetData: 0
+  getal: 19200
 --- !u!1 &1663524726
 GameObject:
   m_ObjectHideFlags: 0
