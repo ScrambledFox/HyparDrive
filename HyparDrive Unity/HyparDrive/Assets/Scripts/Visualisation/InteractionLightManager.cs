@@ -24,6 +24,11 @@ public class InteractionLightManager : MonoBehaviour {
     private Color techGradientColour1 = new Color(4 / 255f, 255 / 255f, 255 / 255f);
     private Color techGradientColour2 = new Color(255 / 255f, 44 / 255f, 226 / 255f);
 
+    private Color natureGradientColour1 = new Color(0, 1.0f, 0);
+    private Color natureGradientColour2 = new Color(1.0f, 165 / 255f, 0);
+
+    private float interactionUpdateRate = 1 / 60f;
+
     public bool sendArtNetData = true;
 
     private InteractionTowerData[] towers = new InteractionTowerData[4];
@@ -44,12 +49,12 @@ public class InteractionLightManager : MonoBehaviour {
         while (true) {
             currentTime = System.DateTime.Now;
 
-            if (currentTime.Ticks > lastUpdateTicks + 200000) {
+            if (currentTime.Ticks > lastUpdateTicks + 500000) {
 
                 if (sendArtNetData) {
-                    //towers[0].state = InteractionTowerState.READY;
-                    //towers[1].state = InteractionTowerState.READY;
-                    //towers[2].state = InteractionTowerState.READY;
+                    towers[0].state = InteractionTowerState.READY;
+                    towers[1].state = InteractionTowerState.READY;
+                    towers[2].state = InteractionTowerState.READY;
                     //towers[3].state = InteractionTowerState.READY;
                     InteractionTowerUpdate();
                 }
@@ -72,6 +77,7 @@ public class InteractionLightManager : MonoBehaviour {
                             }
                             break;
                         case InteractionTowerState.CHARGING:
+                            /* RANDOM LEDS
                             if (towers[i].chargeStatus.ledStates == null) {
                                 towers[i].chargeStatus.ledStates = new bool[INSTALLATION_CONFIG.LEDS_PER_TOWER];
                             }
@@ -87,12 +93,53 @@ public class InteractionLightManager : MonoBehaviour {
                                 }
                             }
 
-                            towers[i].chargeStatus.progress += (1 / 10000f);
+                            towers[i].chargeStatus.progress += interactionUpdateRate;
 
                             for (int k = 0; k < INSTALLATION_CONFIG.LEDS_PER_TOWER; k++) {
                                 if (towers[i].chargeStatus.ledStates[k]) {
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + k, 0, 255, 0);
                                 }
+                            }*/
+
+                            // GROWING
+                            for (int u = 19; u > -1; u++) {
+                                if (towers[i].chargeStatus.progress * 80f > (20 - u) * 4f) {
+                                    Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (20 - u) / 20f);
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + u, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
+                                } else {
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + u, 0, 0, 0);
+                                }
+                            }
+                            for (int o = 20; o < 40; o++) {
+                                if (towers[i].chargeStatus.progress * 80f > (o - 20) * 4f) {
+                                    Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (o - 20) / 20f);
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + o, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
+                                } else {
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + o, 0, 0, 0);
+                                }
+                            }
+                            for (int p = 59; p > 39; p++) {
+                                if (towers[i].chargeStatus.progress * 80f > (20 - (p - 40)) * 4f) {
+                                    Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (20 - (p - 40)) / 20f);
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + p, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
+                                } else {
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + p, 0, 0, 0);
+                                }
+                            }
+                            for (int q = 60; q < 80; q++) {
+                                if (towers[i].chargeStatus.progress * 80f > (q - 60) * 4f) {
+                                    Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (q - 60) / 20f);
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + q, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
+                                } else {
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + q, 0, 0, 0);
+                                }
+                            }
+
+                            towers[i].chargeStatus.progress += interactionUpdateRate;
+
+                            if (towers[i].chargeStatus.progress >= 1.0f) {
+                                towers[i].state = InteractionTowerState.READY;
+                                towers[i].chargeStatus = new ChargeStatus();
                             }
                             break;
                         case InteractionTowerState.DISABLED:
@@ -124,14 +171,14 @@ public class InteractionLightManager : MonoBehaviour {
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + j, (byte)(colour.r * 255), (byte)(colour.g * 255), (byte)(colour.b * 255));
                                 } else {
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + j, 0, 0, 0);
-                                }
+                                }   
+                            }
 
-                                towers[i].chargeStatus.progress += (1 / 10000f);
+                            towers[i].chargeStatus.progress += interactionUpdateRate;
 
-                                if (towers[i].chargeStatus.progress >= 1f) {
-                                    towers[i].state = InteractionTowerState.READY;
-                                    towers[i].chargeStatus = new ChargeStatus();
-                                }
+                            if (towers[i].chargeStatus.progress >= 1f) {
+                                towers[i].state = InteractionTowerState.READY;
+                                towers[i].chargeStatus = new ChargeStatus();
                             }
                             break;
                         case InteractionTowerState.DISABLED:
