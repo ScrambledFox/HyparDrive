@@ -25,7 +25,7 @@ public class InteractionLightManager : MonoBehaviour {
     private Color techGradientColour2 = new Color(255 / 255f, 44 / 255f, 226 / 255f);
 
     private Color natureGradientColour1 = new Color(0, 1.0f, 0);
-    private Color natureGradientColour2 = new Color(1.0f, 165 / 255f, 0);
+    private Color natureGradientColour2 = new Color(1.0f, 1.0f, 0);
 
     private float interactionUpdateRate = 1 / 60f;
 
@@ -52,9 +52,9 @@ public class InteractionLightManager : MonoBehaviour {
             if (currentTime.Ticks > lastUpdateTicks + 500000) {
 
                 if (sendArtNetData) {
-                    towers[0].state = InteractionTowerState.READY;
-                    towers[1].state = InteractionTowerState.READY;
-                    towers[2].state = InteractionTowerState.READY;
+                    //towers[0].state = InteractionTowerState.READY;
+                    //towers[1].state = InteractionTowerState.READY;
+                    //towers[2].state = InteractionTowerState.READY;
                     //towers[3].state = InteractionTowerState.READY;
                     InteractionTowerUpdate();
                 }
@@ -102,8 +102,11 @@ public class InteractionLightManager : MonoBehaviour {
                             }*/
 
                             // GROWING
-                            for (int u = 19; u > -1; u++) {
-                                if (towers[i].chargeStatus.progress * 80f > (20 - u) * 4f) {
+                            for (int u = 19; u > -1; u--) {
+
+                                float randomProgress = towers[i].chargeStatus.progress * 80f + (Mathf.PerlinNoise(System.DateTime.Now.Millisecond / 1000f, System.DateTime.Now.Millisecond / 1000f) * 60f - 30f);
+
+                                if (randomProgress > (20 - u) * 4f) {
                                     Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (20 - u) / 20f);
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + u, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
                                 } else {
@@ -111,23 +114,32 @@ public class InteractionLightManager : MonoBehaviour {
                                 }
                             }
                             for (int o = 20; o < 40; o++) {
-                                if (towers[i].chargeStatus.progress * 80f > (o - 20) * 4f) {
+
+                                float randomProgress = towers[i].chargeStatus.progress * 80f + (Mathf.PerlinNoise(System.DateTime.Now.Millisecond / 1000f + 500, System.DateTime.Now.Millisecond / 1000f + 500) * 60f - 30f);
+
+                                if (randomProgress > (o - 20) * 4f) {
                                     Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (o - 20) / 20f);
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + o, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
                                 } else {
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + o, 0, 0, 0);
                                 }
                             }
-                            for (int p = 59; p > 39; p++) {
-                                if (towers[i].chargeStatus.progress * 80f > (20 - (p - 40)) * 4f) {
+                            for (int p = 59; p > 39; p--) {
+
+                                float randomProgress = towers[i].chargeStatus.progress * 80f + (Mathf.PerlinNoise(System.DateTime.Now.Millisecond / 1000f + 1000, System.DateTime.Now.Millisecond / 1000f + 1000) * 60f - 30f);
+
+                                if (randomProgress > (20 - (p - 40)) * 4f) {
                                     Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (20 - (p - 40)) / 20f);
-                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + p, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
+                                    ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + p, (byte)(gradientColour.r * (254 + 1) /* Milou's  plus one.*/ ), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
                                 } else {
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + p, 0, 0, 0);
                                 }
                             }
                             for (int q = 60; q < 80; q++) {
-                                if (towers[i].chargeStatus.progress * 80f > (q - 60) * 4f) {
+
+                                float randomProgress = towers[i].chargeStatus.progress * 80f + (Mathf.PerlinNoise(System.DateTime.Now.Millisecond / 1000f + 1500, System.DateTime.Now.Millisecond / 1000f + 1500) * 60f - 30f);
+
+                                if (randomProgress > (q - 60) * 4f) {
                                     Color gradientColour = Color.Lerp(natureGradientColour1, natureGradientColour2, (q - 60) / 20f);
                                     ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + q, (byte)(gradientColour.r * 255), (byte)(gradientColour.g * 255), (byte)(gradientColour.b * 255));
                                 } else {
@@ -138,8 +150,9 @@ public class InteractionLightManager : MonoBehaviour {
                             towers[i].chargeStatus.progress += interactionUpdateRate;
 
                             if (towers[i].chargeStatus.progress >= 1.0f) {
-                                towers[i].state = InteractionTowerState.READY;
-                                towers[i].chargeStatus = new ChargeStatus();
+                                //towers[i].state = InteractionTowerState.READY;
+                                //towers[i].chargeStatus = new ChargeStatus();
+                                towers[i].chargeStatus.progress = 0;
                             }
                             break;
                         case InteractionTowerState.DISABLED:
