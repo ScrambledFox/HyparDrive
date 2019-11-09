@@ -19,9 +19,6 @@ public class InteractionController : MonoBehaviour
 
     public void registerNewInteraction(InteractionData interactionData)
     {
-        //TOEVOEGEN, VOOR DEBUG ZO LATEN:
-        //if (TimeSyncer.happyFam == true)
-        //{
         // Put timesent into array with all timesents at unit-1
         lastInteractions[interactionData.unit - 1] = interactionData;
         collaborativeInteractions.Clear();
@@ -85,6 +82,13 @@ public class InteractionController : MonoBehaviour
         {
             Interaction interaction = new Interaction();
             interaction.type = Interaction.InteractionType.SINGLE;
+            if (thisInteraction.duration <= 1000) {
+                interaction.speed = Interaction.InteractionSpeed.SMALL;
+            }
+            else
+            {
+                interaction.speed = Interaction.InteractionSpeed.BIG;
+            }
 
             switch (thisInteraction.unit) {
                 case 1:
@@ -115,16 +119,43 @@ public class InteractionController : MonoBehaviour
 
                 switch (interaction.interactionModules[0]) {
                     case InteractionLightManager.InteractionTowerPhysicalLocations.NE:
-                        // PlayAnimation();
+                        if(interaction.speed == Interaction.InteractionSpeed.BIG)
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("tech2big");
+                        } else
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("tech2small");
+                        }
                         break;
                     case InteractionLightManager.InteractionTowerPhysicalLocations.NW:
-                        // PlayAnimation();
+                        if (interaction.speed == Interaction.InteractionSpeed.BIG)
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("tech1big");
+                        }
+                        else
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("tech1small");
+                        }
                         break;
                     case InteractionLightManager.InteractionTowerPhysicalLocations.SE:
-                        // PlayAnimation();
+                        if (interaction.speed == Interaction.InteractionSpeed.BIG)
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("nature2big");
+                        }
+                        else
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("nature2small");
+                        }
                         break;
                     case InteractionLightManager.InteractionTowerPhysicalLocations.SW:
-                        // PlayAnimation();
+                        if (interaction.speed == Interaction.InteractionSpeed.BIG)
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("nature1big");
+                        }
+                        else
+                        {
+                            AnimationPlayer.INSTANCE.PlayAnimation("nature1small");
+                        }
                         break;
                     default:
                         break;
@@ -134,9 +165,18 @@ public class InteractionController : MonoBehaviour
             case Interaction.InteractionType.COLLABORATION:
 
                 bool[] interactions = new bool[4];
-
-                for (int i = 0; i < interaction.interactionModules.Length; i++) {
-
+                if (collaborativeInteractions.Count == 4)
+                {
+                    Debug.Log("BigCollab");
+                    AnimationPlayer.INSTANCE.PlayAnimation("bigCollab");
+                } else if(collaborativeInteractions.Contains(0) && collaborativeInteractions.Contains(1))
+                {
+                    Debug.Log("NatureCollab");
+                    AnimationPlayer.INSTANCE.PlayAnimation("natureCollab");
+                } else if (collaborativeInteractions.Contains(2) && collaborativeInteractions.Contains(3))
+                {
+                    Debug.Log("TechCollab");
+                    AnimationPlayer.INSTANCE.PlayAnimation("techCollab");
                 }
 
                 break;
@@ -146,13 +186,23 @@ public class InteractionController : MonoBehaviour
 
     }
 
+    public void PlayAnimation()
+    {
+
+    }
+
     public struct Interaction {
 
         public enum InteractionType {
             SINGLE, COLLABORATION
         }
+        public enum InteractionSpeed
+        {
+            BIG, SMALL
+        }
 
         public InteractionType type;
+        public InteractionSpeed speed;
         public InteractionLightManager.InteractionTowerPhysicalLocations[] interactionModules;
     }
 }

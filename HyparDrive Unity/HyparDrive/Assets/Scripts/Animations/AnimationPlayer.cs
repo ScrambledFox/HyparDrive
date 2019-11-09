@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 public class AnimationPlayer : MonoBehaviour {
+    public static AnimationPlayer INSTANCE = null;
 
     public GameObject lightObject;
 
@@ -13,7 +14,7 @@ public class AnimationPlayer : MonoBehaviour {
     float timerBig = 0;
     int indexBgAnim =0;
 
-    private int BackgroundAnims     = 1;
+    private int BackgroundAnims     = 0;
     private int Tech1SmallAnims     = 0;
     private int Tech2SmallAnims     = 0;
     private int Tech1BigAnims       = 0;
@@ -41,6 +42,7 @@ public class AnimationPlayer : MonoBehaviour {
 
     public void Awake()
     {
+        INSTANCE = this;
         // zoek voor naampje
         for (int i = 1; i <= BackgroundAnims; i++)
         {
@@ -161,6 +163,63 @@ public class AnimationPlayer : MonoBehaviour {
 
         animationObjects.Add(new AnimationObject(go, track));
 
+    }
+
+    public void PlayAnimation(string interactionType)
+    {
+        switch (interactionType)
+        {
+            case "nature1big":
+                if (nature1big.Count != 0) {
+                    AnimationLoader.INSTANCE.LoadAnimation(nature1big[Random.Range(0, nature1big.Count)]);
+                }
+                break;
+            case "nature1small":
+                if (nature1small.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(nature1small[Random.Range(0, nature1small.Count)]);
+                }
+                break;
+            case "nature2big":
+                if (nature2big.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(nature2big[Random.Range(0, nature2big.Count)]);
+                }
+                break;
+            case "nature2small":
+                if (nature2small.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(nature2small[Random.Range(0, nature2small.Count)]);
+                }
+                break;
+            case "tech1big":
+                if (tech1big.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(tech1big[Random.Range(0, tech1big.Count)]);
+                }
+                break;
+            case "tech1small":
+                if (tech1small.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(tech1small[Random.Range(0, tech1small.Count)]);
+                }
+                break;
+            case "tech2big":
+                if (tech2big.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(tech2big[Random.Range(0, tech2big.Count)]);
+                }
+                break;
+            case "tech2small":
+                if (tech2small.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(tech2small[Random.Range(0, tech2small.Count)]);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
 
