@@ -14,8 +14,8 @@ public class AnimationPlayer : MonoBehaviour {
     float timerBig = 0;
     int indexBgAnim =0;
 
-    private int BackgroundAnims     = 0;
-    private int Tech1SmallAnims     = 0;
+    private int BackgroundAnims     = 1;
+    private int Tech1SmallAnims     = 1;
     private int Tech2SmallAnims     = 0;
     private int Tech1BigAnims       = 0;
     private int Tech2BigAnims       = 0;
