@@ -59,7 +59,7 @@ public class KeyFrame
     public float time; // 0.0 naar 1.0
     public Vector3 position;
     public Quaternion rotation;
-    public Vector3 scale;
+    public float radius;
     public Color colour;
     
 
@@ -67,11 +67,11 @@ public class KeyFrame
         this.keyFrameObject = keyFrameObject;
     }
 
-    public KeyFrame ( float time, Vector3 position, Quaternion rotation, Vector3 scale, Color colour  ) {
+    public KeyFrame ( float time, Vector3 position, Quaternion rotation, float radius, Color colour  ) {
         this.time = time;
         this.position = position;
         this.rotation = rotation;
-        this.scale = scale;
+        this.radius = radius;
         this.colour = colour;
     }
 

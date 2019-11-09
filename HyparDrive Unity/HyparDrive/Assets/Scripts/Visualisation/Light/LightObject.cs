@@ -45,6 +45,7 @@ public class LightObject : MonoBehaviour {
 
     private void Start() {
         InstallationManager.INSTANCE.SubscribeLightObject(this);
+        Debug.Log("subbed");
         renderer = this.GetComponent<MeshRenderer>();
     }
 
@@ -60,6 +61,10 @@ public class LightObject : MonoBehaviour {
         transform.localScale = Vector3.one * this.collider.radius * 2;
         renderer.material.color = new Color(colour.r, colour.g, colour.b, 0.1f);
 
+    }
+
+    public void SetRadius( float radius ) {
+        this.collider.radius = radius;
     }
 
     private void UpdateColliderPosition () {
@@ -85,6 +90,6 @@ public class LightObject : MonoBehaviour {
     {
         colour = new Color(color.r, color.g, color.b, 1.0f);
 
-        renderer.material.color = new Color(color.r, color.g, color.g, 0.5f);
+        //renderer.material.color = new Color(color.r, color.g, color.g, 0.5f);
     }
 }

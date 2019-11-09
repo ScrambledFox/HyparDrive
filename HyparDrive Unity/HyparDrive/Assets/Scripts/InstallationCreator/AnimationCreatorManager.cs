@@ -29,8 +29,7 @@ public class AnimationCreatorManager : MonoBehaviour {
     public GameObject[] logicAnimObjects;
     public static string animationName;
     public static string animationDescription;
-
-
+    public static float animationSpeed;
 
     private void Awake()
     {
@@ -121,6 +120,18 @@ public class AnimationCreatorManager : MonoBehaviour {
         animationDescription = description;
     }
 
+    public void setAnimationSpeed( string speed) {
+        try
+        {
+            animationSpeed = float.Parse(speed);
+        }
+        catch (System.Exception)
+        {
+            // error
+            // throw;
+        }
+    }
+
     // Edit speed of playback with inputfield
     public void changeSpeed(Text input)
     {
@@ -144,7 +155,7 @@ public class AnimationCreatorManager : MonoBehaviour {
 
     // Save full animation to file
     public void SaveAnimation ( ) {
-        FileManagement.SaveAnimation(animationName, animationDescription, trackSlots.ToArray());
+        FileManagement.SaveAnimation(animationName, animationDescription, animationSpeed, trackSlots.ToArray());
     }
 
 
@@ -183,7 +194,7 @@ public class AnimationCreatorManager : MonoBehaviour {
                 KeyFrame referenceFrame = track.GetPreviousFrame(time);
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.position = referenceFrame.position;
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.rotation = referenceFrame.rotation;
-                lightObjects[GetIndexOfTrack(track.GetGameObject())].transform.localScale = referenceFrame.scale;
+                lightObjects[GetIndexOfTrack(track.GetGameObject())].SetRadius(referenceFrame.radius);
                 lightObjects[GetIndexOfTrack(track.GetGameObject())].SetColor(referenceFrame.colour);
             } else {
                 // INVISILBE YAS
@@ -241,7 +252,7 @@ public class AnimationCreatorManager : MonoBehaviour {
         int index = GetIndexOfTrack(parentOfKeyFrame);
         keyFrame.position = lightObjects[index].transform.position;
         keyFrame.rotation = lightObjects[index].transform.rotation;
-        keyFrame.scale = lightObjects[index].transform.localScale;
+        keyFrame.radius = lightObjects[index].GetComponent<LightObject>().Collider.radius;
         keyFrame.colour = lightObjects[index].Colour;
         keyFrame.keyFrameObject.GetComponent<Image>().color = lightObjects[index].Colour;
         trackSlots[index].keyFrames.Add(keyFrame);
@@ -344,7 +355,7 @@ public class TrackSlot {
         for (int t = KEYFRAME_START; t <= KEYFRAME_END; t++) {
             if (frameBuffer.Count == 0) {
                 KeyFrame referenceFrame = GetLastKeyFrame((t + 0.50000f) / AnimationCreatorManager.KEYFRAME_RATE);
-                AddFrameToBuffer(new KeyFrame(referenceFrame.time, referenceFrame.position, referenceFrame.rotation, referenceFrame.scale, referenceFrame.colour));
+                AddFrameToBuffer(new KeyFrame(referenceFrame.time, referenceFrame.position, referenceFrame.rotation, referenceFrame.radius, referenceFrame.colour));
             }
 
             if (HasNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE)) {
@@ -360,7 +371,7 @@ public class TrackSlot {
                     Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant),
                     Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant),
                     Quaternion.Lerp(firstReferenceFrame.rotation, lastReferenceFrame.rotation, timeConstant),
-                    Vector3.Lerp(firstReferenceFrame.scale, lastReferenceFrame.scale, timeConstant),
+                    Mathf.Lerp(firstReferenceFrame.radius, lastReferenceFrame.radius, timeConstant),
                     Color.Lerp(firstReferenceFrame.colour, lastReferenceFrame.colour, timeConstant))
                 );
 

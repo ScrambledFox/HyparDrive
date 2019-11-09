@@ -9,11 +9,11 @@ public class AnimationPlayer : MonoBehaviour {
 
     [SerializeField]
     private List<AnimationObject> animationObjects = new List<AnimationObject>();
-    float timer = 0;
+    float timer = 5;
     float timerBig = 0;
     int indexBgAnim =0;
 
-    private int BackgroundAnims     = 0;
+    private int BackgroundAnims     = 1;
     private int Tech1SmallAnims     = 0;
     private int Tech2SmallAnims     = 0;
     private int Tech1BigAnims       = 0;
@@ -100,7 +100,6 @@ public class AnimationPlayer : MonoBehaviour {
         if (timer <= 0)
         {
             timer = 10;
-            Debug.Log("hoi");
             if (background.Count > 0)
             {
                 playBackgroundAnim(background[indexBgAnim]);
@@ -109,7 +108,6 @@ public class AnimationPlayer : MonoBehaviour {
         if (timerBig <= 0)
         {
             timerBig = 20;
-            Debug.Log("Switch");
             indexBgAnim = Random.Range(0, background.Count);
         }
 
@@ -124,7 +122,7 @@ public class AnimationPlayer : MonoBehaviour {
                     KeyFrame referenceFrame = animationObjects[i].GetPreviousFrame((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / 100000000f);
                     animationObjects[i].gameObject.transform.position = referenceFrame.position;
                     animationObjects[i].gameObject.transform.rotation = referenceFrame.rotation;
-                    animationObjects[i].gameObject.transform.localScale = referenceFrame.scale;
+                    animationObjects[i].gameObject.GetComponent<LightObject>().SetRadius(referenceFrame.radius);
                     animationObjects[i].gameObject.GetComponent<LightObject>().SetColor(referenceFrame.colour);
                 }
                 else
@@ -197,8 +195,8 @@ public class AnimationPlayer : MonoBehaviour {
             List<KeyFrame> keyframeNew = new List<KeyFrame>();
             foreach (AnimationSaveData.KeyFrame keyframe in oldKeyframes)
             {
-                Debug.Log(keyframe.time);
-                keyframeNew.Add(new KeyFrame(keyframe.time, keyframe.position, Quaternion.Euler(keyframe.rotation.x, keyframe.rotation.y, keyframe.rotation.z), keyframe.scale, keyframe.colour));
+                //Debug.Log(keyframe.time);
+                keyframeNew.Add(new KeyFrame(keyframe.time, keyframe.position, Quaternion.Euler(keyframe.rotation.x, keyframe.rotation.y, keyframe.rotation.z), keyframe.radius, keyframe.colour));
             }
             return keyframeNew;
         }
@@ -272,7 +270,7 @@ public class AnimationPlayer : MonoBehaviour {
             }
 
 #if UNITY_EDITOR
-            Debug.Log("Added " + (KEYFRAME_END - KEYFRAME_START) + " keyframes.");
+            //Debug.Log("Added " + (KEYFRAME_END - KEYFRAME_START) + " keyframes.");
 #endif
 
 
@@ -281,7 +279,7 @@ public class AnimationPlayer : MonoBehaviour {
                 if (frameBuffer.Count == 0)
                 {
                     KeyFrame referenceFrame = GetLastKeyFrame((t + 0.50000f) / AnimationCreatorManager.KEYFRAME_RATE);
-                    AddFrameToBuffer(new KeyFrame(referenceFrame.time, referenceFrame.position, referenceFrame.rotation, referenceFrame.scale, referenceFrame.colour));
+                    AddFrameToBuffer(new KeyFrame(referenceFrame.time, referenceFrame.position, referenceFrame.rotation, referenceFrame.radius, referenceFrame.colour));
                 }
 
                 if (HasNextKeyFrame((t + 0.5f) / AnimationCreatorManager.KEYFRAME_RATE))
@@ -298,7 +296,7 @@ public class AnimationPlayer : MonoBehaviour {
                         Mathf.Lerp(firstReferenceFrame.time, lastReferenceFrame.time, timeConstant),
                         Vector3.Lerp(firstReferenceFrame.position, lastReferenceFrame.position, timeConstant),
                         Quaternion.Lerp(firstReferenceFrame.rotation, lastReferenceFrame.rotation, timeConstant),
-                        Vector3.Lerp(firstReferenceFrame.scale, lastReferenceFrame.scale, timeConstant),
+                        Mathf.Lerp(firstReferenceFrame.radius, lastReferenceFrame.radius, timeConstant),
                         Color.Lerp(firstReferenceFrame.colour, lastReferenceFrame.colour, timeConstant))
                     );
 
