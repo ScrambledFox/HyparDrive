@@ -52,10 +52,10 @@ public class InteractionLightManager : MonoBehaviour {
             if (currentTime.Ticks > lastUpdateTicks + 500000) {
 
                 if (sendArtNetData) {
-                    //towers[0].state = InteractionTowerState.READY;
-                    //towers[1].state = InteractionTowerState.READY;
-                    //towers[2].state = InteractionTowerState.READY;
-                    //towers[3].state = InteractionTowerState.READY;
+                    towers[0].state = InteractionTowerState.READY;
+                    towers[1].state = InteractionTowerState.READY;
+                    towers[2].state = InteractionTowerState.READY;
+                    towers[3].state = InteractionTowerState.READY;
                     InteractionTowerUpdate();
                 }
 

@@ -43,7 +43,7 @@ public class LightObject : MonoBehaviour {
     public delegate void moved ( LightObject lightObject );
     public event moved Moved;
 
-    private void Awake () {
+    private void Start() {
         InstallationManager.INSTANCE.SubscribeLightObject(this);
         renderer = this.GetComponent<MeshRenderer>();
     }
