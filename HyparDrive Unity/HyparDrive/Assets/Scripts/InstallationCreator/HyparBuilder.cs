@@ -7,14 +7,14 @@ using System.IO;
 public class HyparBuilder : MonoBehaviour {
 
     Cube[] arc = new Cube[16] {
-        new Cube(0, new Vector3(0, 0, -2.5f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(1, new Vector3(0, 0.5f, -2.299999952316284f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(2, new Vector3(0, 1f, -2.0f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(3, new Vector3(0, 1.5f, -1.8f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(4, new Vector3(0, 2f, -1.6f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(5, new Vector3(0, 2.5f, -1.2f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(6, new Vector3(0, 2.9f, -0.7f), Quaternion.Euler(90, 90, 0), Vector3.one),
-        new Cube(7, new Vector3(0, 3.0f, -0.2f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(0, new Vector3(0, 3.0f, -0.2f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(1, new Vector3(0, 2.9f, -0.7f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(2, new Vector3(0, 2.5f, -1.2f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(3, new Vector3(0, 2f, -1.6f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(4, new Vector3(0, 1.5f, -1.8f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(5, new Vector3(0, 1f, -2.0f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(6, new Vector3(0, 0.5f, -2.299999952316284f), Quaternion.Euler(90, 90, 0), Vector3.one),
+        new Cube(7, new Vector3(0, 0, -2.5f), Quaternion.Euler(90, 90, 0), Vector3.one),
         new Cube(8, new Vector3(0, 3.0f, 0.3f), Quaternion.Euler(90, 90, 0), Vector3.one),
         new Cube(9, new Vector3(0, 2.9f, 0.8f), Quaternion.Euler(90, 90, 0), Vector3.one),
         new Cube(10, new Vector3(0, 2.5f, 1.3f), Quaternion.Euler(90, 90, 0), Vector3.one),
@@ -36,7 +36,7 @@ public class HyparBuilder : MonoBehaviour {
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 16; i++) {
                 Cube newCube = arc[i];
-                newCube.id = j * 16 + i;
+                newCube.id += j * 16;
                 newCube.position += new Vector3((j - 5f) * 0.5f, 0, 0);
 
                 if (j == 0 || j == 9) {
