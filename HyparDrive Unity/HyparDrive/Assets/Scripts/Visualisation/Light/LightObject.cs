@@ -8,7 +8,7 @@ public class LightObject : MonoBehaviour {
             return transform.position; } }
 
     [SerializeField]
-    private new Collision.SPHERE collider = new Collision.SPHERE(Vector3.zero, 10f);
+    private new Collision.SPHERE collider = new Collision.SPHERE(Vector3.zero, 2f);
 
     [SerializeField]
     private Color colour = Color.white;

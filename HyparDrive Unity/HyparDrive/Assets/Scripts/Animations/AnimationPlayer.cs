@@ -14,13 +14,13 @@ public class AnimationPlayer : MonoBehaviour {
     float timerBig = 0;
     int indexBgAnim =0;
 
-    public int BackgroundAnims     = 1;
-    public int Tech1SmallAnims     = 1;
+    public int Nature2SmallAnims   = 0;
+    public int Nature1SmallAnims   = 1;
+    public int Tech2BigAnims       = 0;
     public int Tech2SmallAnims     = 0;
     public int Tech1BigAnims       = 1;
-    public int Tech2BigAnims       = 0;
-    public int Nature1SmallAnims   = 1;
-    public int Nature2SmallAnims   = 0;
+    public int BackgroundAnims     = 1;
+    public int Tech1SmallAnims     = 1;
     public int Nature1BigAnims     = 1;
     public int Nature2BigAnims     = 0;
     public int TechCollabAnims     = 0;
