@@ -16,11 +16,51 @@ public class LED : MonoBehaviour {
     }
 
     public void UpdateColour (LightObject[] lightObjects) {
-        Color colour = Color.black;
+        /*float r = 0;
+        float g = 0;
+        float b = 0;
+
+        int count = 0;
 
         for (int i = 0; i < lightObjects.Length; i++) {
             if (lightObjects[i] == null) return;
-            colour += lightObjects[i].Colour * Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - transform.position));
+
+            float distance = Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - transform.position));
+
+            if (distance > 0.001f)
+            {
+                r += lightObjects[i].Colour.r * distance;
+                g += lightObjects[i].Colour.g * distance;
+                b += lightObjects[i].Colour.b * distance;
+
+                count++;
+            }
+
+            
+        }
+
+        r /= count;
+        g /= count;
+        b /= count;
+
+        r = Mathf.Min(1.0f, r);
+        g = Mathf.Min(1.0f, g);
+        b = Mathf.Min(1.0f, b);
+
+        SetColour( new Color(r, g, b) );
+
+        ArtNetController.INSTANCE.SendArtNet(index, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));*/
+
+        Color colour = Color.black;
+
+        for (int i = 0; i < lightObjects.Length; i++)
+        {
+            if (lightObjects[i] == null) return;
+
+            float distance = Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - transform.position));
+            colour += lightObjects[i].Colour * distance;
+
+
         }
 
         SetColour( colour );

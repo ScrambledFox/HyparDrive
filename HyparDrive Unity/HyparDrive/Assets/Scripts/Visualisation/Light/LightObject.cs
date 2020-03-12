@@ -35,7 +35,7 @@ public class LightObject : MonoBehaviour {
         }
     }
 
-    const float moveThreshold = 0.1f;
+    const float moveThreshold = 0.001f;
     const float sqrMoveThreshold = moveThreshold * moveThreshold;
 
     private Vector3 positionLast;

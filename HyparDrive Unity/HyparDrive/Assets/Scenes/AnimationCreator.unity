@@ -1940,6 +1940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc1bb629da64d643961dd3e5a451bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  netHandler: {fileID: 0}
   ip: 192.168.0.40
   port: 1883
 --- !u!4 &783336181
@@ -4451,7 +4452,7 @@ MonoBehaviour:
   zoneCount: {x: 5, y: 5, z: 5}
   zoneSize: 2
   doVisualisation: 0
-  sendArtNetData: 0
+  sendArtNetData: 1
   getal: 19200
 --- !u!1 &1663524726
 GameObject:
