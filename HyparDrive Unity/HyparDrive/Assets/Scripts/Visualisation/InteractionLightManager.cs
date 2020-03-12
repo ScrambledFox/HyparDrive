@@ -6,8 +6,10 @@ using System;
 
 public class InteractionLightManager : MonoBehaviour {
 
+    public static InteractionLightManager INSTANCE;
+
     public enum InteractionTowerState {
-        READY, CHARGING, DISABLED, SPECIAL
+        READY, CHARGING, DISABLED, INTERACT
     }
 
     public enum InteractionTowerType {
@@ -33,11 +35,13 @@ public class InteractionLightManager : MonoBehaviour {
 
     private InteractionTowerData[] towers = new InteractionTowerData[4];
 
-    private void Awake () {
+    private void Start () {
+        INSTANCE = this;
+
         towers[0] = new InteractionTowerData(InteractionTowerState.CHARGING, InteractionTowerType.TECHNOLOGY, InteractionTowerPhysicalLocations.SW, new ChargeStatus());
         towers[1] = new InteractionTowerData(InteractionTowerState.CHARGING, InteractionTowerType.TECHNOLOGY, InteractionTowerPhysicalLocations.SE, new ChargeStatus());
-        towers[2] = new InteractionTowerData(InteractionTowerState.CHARGING, InteractionTowerType.NATURE, InteractionTowerPhysicalLocations.NW, new ChargeStatus());
-        towers[3] = new InteractionTowerData(InteractionTowerState.CHARGING, InteractionTowerType.NATURE, InteractionTowerPhysicalLocations.NE, new ChargeStatus());
+        towers[2] = new InteractionTowerData(InteractionTowerState.CHARGING, InteractionTowerType.NATURE, InteractionTowerPhysicalLocations.NE, new ChargeStatus());
+        towers[3] = new InteractionTowerData(InteractionTowerState.CHARGING, InteractionTowerType.NATURE, InteractionTowerPhysicalLocations.NW, new ChargeStatus());
 
         interactionLightThread = new Thread(new ThreadStart(InteractionLightThread));
         interactionLightThread.Start();
@@ -52,10 +56,10 @@ public class InteractionLightManager : MonoBehaviour {
             if (currentTime.Ticks > lastUpdateTicks + 500000) {
 
                 if (sendArtNetData) {
-                    towers[0].state = InteractionTowerState.READY;
-                    towers[1].state = InteractionTowerState.READY;
-                    towers[2].state = InteractionTowerState.READY;
-                    towers[3].state = InteractionTowerState.READY;
+                    //towers[0].state = InteractionTowerState.READY;
+                    //towers[1].state = InteractionTowerState.READY;
+                    //towers[2].state = InteractionTowerState.READY;
+                    //towers[3].state = InteractionTowerState.READY;
                     InteractionTowerUpdate();
                 }
 
@@ -63,6 +67,14 @@ public class InteractionLightManager : MonoBehaviour {
             }
 
         }
+    }
+
+    public InteractionTowerState GetTowerState( int towerId ) {
+        return towers[towerId].state;
+    }
+
+    public void SetTowerState ( int towerId, InteractionTowerState state ) {
+        towers[towerId].state = state;
     }
 
     private void InteractionTowerUpdate () {
@@ -150,9 +162,9 @@ public class InteractionLightManager : MonoBehaviour {
                             towers[i].chargeStatus.progress += interactionUpdateRate;
 
                             if (towers[i].chargeStatus.progress >= 1.0f) {
-                                //towers[i].state = InteractionTowerState.READY;
-                                //towers[i].chargeStatus = new ChargeStatus();
-                                towers[i].chargeStatus.progress = 0;
+                                towers[i].state = InteractionTowerState.READY;
+                                towers[i].chargeStatus = new ChargeStatus();
+                                //towers[i].chargeStatus.progress = 0;
                             }
                             break;
                         case InteractionTowerState.DISABLED:
@@ -160,7 +172,7 @@ public class InteractionLightManager : MonoBehaviour {
                                 ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + j, 255, 0, 0);
                             }
                             break;
-                        case InteractionTowerState.SPECIAL:
+                        case InteractionTowerState.INTERACT:
                             break;
                         default:
                             break;
@@ -199,7 +211,7 @@ public class InteractionLightManager : MonoBehaviour {
                                 ArtNetController.INSTANCE.SendArtNet(towers[i].LED_START + j, 255, 0, 0);
                             }
                             break;
-                        case InteractionTowerState.SPECIAL:
+                        case InteractionTowerState.INTERACT:
                             break;
                         default:
                             break;

@@ -10,22 +10,22 @@ public class AnimationPlayer : MonoBehaviour {
 
     [SerializeField]
     private List<AnimationObject> animationObjects = new List<AnimationObject>();
-    float timer = 5;
+    float timer = 40;
     float timerBig = 0;
     int indexBgAnim =0;
 
-    private int BackgroundAnims     = 0;
-    private int Tech1SmallAnims     = 0;
-    private int Tech2SmallAnims     = 0;
-    private int Tech1BigAnims       = 0;
-    private int Tech2BigAnims       = 0;
-    private int Nature1SmallAnims   = 0;
-    private int Nature2SmallAnims   = 0;
-    private int Nature1BigAnims     = 0;
-    private int Nature2BigAnims     = 0;
-    private int TechCollabAnims     = 0;
-    private int NatureCollabAnims   = 0;
-    private int BigCollabAnims      = 0;
+    public int BackgroundAnims     = 1;
+    public int Tech1SmallAnims     = 1;
+    public int Tech2SmallAnims     = 0;
+    public int Tech1BigAnims       = 1;
+    public int Tech2BigAnims       = 0;
+    public int Nature1SmallAnims   = 1;
+    public int Nature2SmallAnims   = 0;
+    public int Nature1BigAnims     = 1;
+    public int Nature2BigAnims     = 0;
+    public int TechCollabAnims     = 0;
+    public int NatureCollabAnims   = 0;
+    public int BigCollabAnims      = 1;
 
     public List<string> background = new List<string>();
     public List<string> tech1small = new List<string>();
@@ -119,9 +119,9 @@ public class AnimationPlayer : MonoBehaviour {
         {
             if (animationObjects[i].gameObject != null)
             {
-                if (animationObjects[i].HasPreviousFrame((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / 100000000f))
+                if (animationObjects[i].HasPreviousFrame((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / (100000000f / 1.8f)))
                 {
-                    KeyFrame referenceFrame = animationObjects[i].GetPreviousFrame((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / 100000000f);
+                    KeyFrame referenceFrame = animationObjects[i].GetPreviousFrame((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / (100000000f / 1.8f));
                     animationObjects[i].gameObject.transform.position = referenceFrame.position;
                     animationObjects[i].gameObject.transform.rotation = referenceFrame.rotation;
                     animationObjects[i].gameObject.GetComponent<LightObject>().SetRadius(referenceFrame.radius);
@@ -130,10 +130,10 @@ public class AnimationPlayer : MonoBehaviour {
                 else
                 {
                     // INVISILBE YAS
-                    animationObjects[i].gameObject.GetComponent<LightObject>().SetColor(Color.magenta);
+                    animationObjects[i].gameObject.GetComponent<LightObject>().SetColor(Color.black);
                 }
 
-                if ((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / 100000000f >= 1)
+                if ((System.DateTime.Now.Ticks - animationObjects[i].animStartTicks) / (100000000f / 1.8f) >= 1)
                 {
                     Debug.Log("deleeeeeete");
                     //system reboot.
@@ -216,7 +216,12 @@ public class AnimationPlayer : MonoBehaviour {
                     AnimationLoader.INSTANCE.LoadAnimation(tech2small[Random.Range(0, tech2small.Count)]);
                 }
                 break;
-
+            case "bigCollab":
+                if (bigCollab.Count != 0)
+                {
+                    AnimationLoader.INSTANCE.LoadAnimation(bigCollab[Random.Range(0, bigCollab.Count)]);
+                }
+                break;
             default:
                 break;
         }

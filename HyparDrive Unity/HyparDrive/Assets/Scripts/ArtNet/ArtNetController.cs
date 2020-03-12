@@ -13,8 +13,8 @@ public class ArtNetController : MonoBehaviour
     private List<DmxUniverse> installation1Universes = new List<DmxUniverse>();
     private List<DmxUniverse> installation2Universes = new List<DmxUniverse>();
     private List<DmxUniverse> interactionUniverses = new List<DmxUniverse>();
-    public const int numInstallation1Universes = 45;
-    public const int numInstallation2Universes = 68;
+    public const int numInstallation1Universes = 68;
+    public const int numInstallation2Universes = 45;
     public const int numInteractionUniverses = 2;
     public int testLedIndex;
 

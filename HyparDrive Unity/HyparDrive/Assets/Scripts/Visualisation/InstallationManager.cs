@@ -159,6 +159,7 @@ public class InstallationManager : MonoBehaviour {
     /// <param name="lo">The light object to remove.</param>
     public void RemoveLightObject (LightObject lo) {
         lightObjects.Remove(lo);
+        UpdateActiveZonesLastUpdate(lo);
         HandleLightObject?.Invoke(lo, true);
     }
 

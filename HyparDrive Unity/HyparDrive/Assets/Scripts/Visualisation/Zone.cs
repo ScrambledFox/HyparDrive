@@ -57,6 +57,7 @@ public class Zone : MonoBehaviour {
     private void HandleLightObjectRegistrationChange ( LightObject lo, bool removed ) {
         if (removed) {
             lo.Moved -= CheckLightObjectPosition;
+            lightObjectsInZone.Remove(lo);
         } else {
             lo.Moved += CheckLightObjectPosition;
         }
