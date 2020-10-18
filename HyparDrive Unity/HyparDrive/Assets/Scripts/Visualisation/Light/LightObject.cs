@@ -49,6 +49,14 @@ public class LightObject : MonoBehaviour {
         renderer = this.GetComponent<MeshRenderer>();
     }
 
+    //OnEnable to subscribe when the script is enabled again --ADDED BY GINO
+    void OnEnable()
+    {
+        InstallationManager.INSTANCE.SubscribeLightObject(this);
+        Debug.Log("subbed");
+        renderer = this.GetComponent<MeshRenderer>();
+    }
+
     private void Update () {
 
         if ((positionLast - this.Pos).magnitude > sqrMoveThreshold) {
@@ -79,6 +87,7 @@ public class LightObject : MonoBehaviour {
 
     private void OnDisable () {
         InstallationManager.INSTANCE.RemoveLightObject(this);
+        Debug.Log("disabled");
     }
 
     //private void OnDrawGizmos () {
