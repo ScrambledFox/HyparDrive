@@ -5296,6 +5296,7 @@ MonoBehaviour:
   - {fileID: 11500000, guid: 9a3162a466ac11b4c86f7e01ede5319e, type: 3}
   - {fileID: 11500000, guid: 4e2fa53d922397a4aadccdfe6e1ab0fd, type: 3}
   - {fileID: 11500000, guid: 97e13b7f38993fa4b905e896f9ca0a1e, type: 3}
+  - {fileID: 11500000, guid: 2e3050451c4e98640abd2b98512ae57c, type: 3}
   animationDropdown: {fileID: 1273516043}
   loop: 0
   loopTime: 60

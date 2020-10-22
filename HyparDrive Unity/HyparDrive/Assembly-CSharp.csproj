@@ -140,6 +140,7 @@
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDW_BPM_Jump.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDW_Strobo.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDW_VU.cs" />
+    <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\Loading_Animation.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\Patroon\Balls_inside_outside.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\Patroon\Balls_outside_inside.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\Patroon\BPM_Jump.cs" />
