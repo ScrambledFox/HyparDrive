@@ -18,7 +18,6 @@ public class SoundInput : MonoBehaviour {
 
 	void Start() {
 		
-
 		//get components you'll need
 		audioSource = GetComponent<AudioSource> ();
 

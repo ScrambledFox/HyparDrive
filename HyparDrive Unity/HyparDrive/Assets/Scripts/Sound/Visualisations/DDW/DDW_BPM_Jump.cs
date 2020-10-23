@@ -7,6 +7,7 @@ public class DDW_BPM_Jump : MonoBehaviour
     Vector3[] locations;
     float totalSpheres;
     public List<GameObject> spheres = new List<GameObject>();
+    private List<LightObject> sphereLightObjects = new List<LightObject>();
     int currentLocation = 0;
     int numberOfCubes = 14;
     double distanceBetweenCubes;
@@ -22,7 +23,9 @@ public class DDW_BPM_Jump : MonoBehaviour
         for (int i = 0; i < totalSpheres; i++)
         {
             spheres.Add(Instantiate(GetComponent<AudioVisualizer>().lightSphere));
-            spheres[i].GetComponent<LightObject>().SetRadius(0.5f);
+            sphereLightObjects.Add(spheres[i].GetComponent<LightObject>());
+            sphereLightObjects[i].SetRadius(1f);
+            sphereLightObjects[i].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
 
         }
         updateSpheres();
@@ -33,6 +36,11 @@ public class DDW_BPM_Jump : MonoBehaviour
     {
         spectrum = new float[AudioVisualizer.numberOfSamples / 4];
         GetComponent<AudioSource>().GetSpectrumData(spectrum, 0, GetComponent<AudioVisualizer>().fftWindow);
+
+        foreach (LightObject lightObject in sphereLightObjects) {
+            lightObject.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        }
+
         audioAnimation();
     }
 

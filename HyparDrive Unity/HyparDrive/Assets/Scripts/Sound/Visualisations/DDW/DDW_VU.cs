@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class DDW_VU : MonoBehaviour
 {
-    public List<GameObject> towerLightObjects = new List<GameObject>();
-    float offsetDown = -2f;
+    public List<GameObject> towerLights = new List<GameObject>();
+    private List<LightObject> towerLightObjects = new List<LightObject>();
+    float offsetDown = -2.5f;
     private float[] spectrum;
     // Start is called before the first frame update
     void Start()
     {      
-        towerLightObjects.Add(Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(-2f, offsetDown, 0), Quaternion.identity));
-        towerLightObjects.Add(Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(2f, offsetDown, 0), Quaternion.identity));
-        towerLightObjects[0].GetComponent<LightObject>().SetRadius(2.0f);
-        towerLightObjects[1].GetComponent<LightObject>().SetRadius(2.0f);
+        towerLights.Add(Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(-4f, offsetDown, 0), Quaternion.identity));
+        towerLights.Add(Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(4f, offsetDown, 0), Quaternion.identity));
+        towerLightObjects.Add(towerLights[0].GetComponent<LightObject>());
+        towerLightObjects.Add(towerLights[1].GetComponent<LightObject>());
+        towerLightObjects[0].SetRadius(2.0f);
+        towerLightObjects[0].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        towerLightObjects[1].SetRadius(2.0f);
+        towerLightObjects[1].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
     }
 
     // Update is called once per frame
@@ -23,29 +28,33 @@ public class DDW_VU : MonoBehaviour
 
         // populate array with fequency spectrum data
         GetComponent<AudioSource>().GetSpectrumData(spectrum, 0, GetComponent<AudioVisualizer>().fftWindow);
+
+        towerLightObjects[0].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        towerLightObjects[1].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+
         audioAnimation();
     }
 
     private void audioAnimation()
     {
-        for (int i = 0; i < towerLightObjects.Count; i++)
+        for (int i = 0; i < towerLights.Count; i++)
         {
 
             // apply height multiplier to intensity
             float intensity = spectrum[i + 10] * AudioVisualizer.heightMultiplier;
 
             // calculate object's scale
-            float lerpY = Mathf.Lerp(towerLightObjects[i].transform.position.y, intensity + offsetDown, GetComponent<AudioVisualizer>().lerpTime);
-            Vector3 newPos = new Vector3(towerLightObjects[i].transform.position.x, lerpY, towerLightObjects[i].transform.position.z);
+            float lerpY = Mathf.Lerp(towerLights[i].transform.position.y, intensity + offsetDown, GetComponent<AudioVisualizer>().lerpTime);
+            Vector3 newPos = new Vector3(towerLights[i].transform.position.x, lerpY, towerLights[i].transform.position.z);
 
             // appply new position to object
-            towerLightObjects[i].transform.position = newPos;
+            towerLights[i].transform.position = newPos;
 
         }
     }
     void OnDestroy()
     {
-        Destroy(towerLightObjects[0]);
-        Destroy(towerLightObjects[1]);
+        Destroy(towerLights[0]);
+        Destroy(towerLights[1]);
     }
 }

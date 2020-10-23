@@ -4,33 +4,51 @@ using UnityEngine;
 
 public class Loading_Animation : MonoBehaviour
 {
-    private GameObject sphere;
+    private AudioVisualizer audioVis;
+
+    private List<GameObject> spheres = new List<GameObject>();
+    private List<LightObject> sphereLOs = new List<LightObject>();
     // Start is called before the first frame update
-    void Start()
-    {
-        sphere = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(0, -4.5f, 0), Quaternion.identity);
-        sphere.GetComponent<LightObject>().SetRadius(4);
+    void Start() {
+        audioVis = this.GetComponent<AudioVisualizer>();
+
+        spheres.Add(Instantiate(audioVis.lightSphere, new Vector3(-4f, -4.5f, 0), Quaternion.identity));
+        spheres.Add(Instantiate(audioVis.lightSphere, new Vector3(4f, -4.5f, 0), Quaternion.identity));
+        for (int i = 0; i < spheres.Count; i++) {
+            sphereLOs.Add(spheres[i].GetComponent<LightObject>());
+            sphereLOs[i].SetRadius(4);
+            sphereLOs[i].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        }
+        
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        animation();
-    }
-
-    private void animation()
-    {
-        float lerpY = Mathf.Lerp(sphere.transform.position.y, sphere.transform.position.y + (AudioVisualizer.heightMultiplier/40000f), GetComponent<AudioVisualizer>().lerpTime);
-        if(lerpY > -0.5f)
-        {
-            lerpY = -4.5f;
+    void Update() {
+        foreach (LightObject sphere in sphereLOs) {
+            sphere.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
         }
-        Vector3 newPos = new Vector3(sphere.transform.position.x, lerpY, sphere.transform.position.z);
-        sphere.transform.position = newPos;
-    }
-    void OnDestroy()
-    {
-        Destroy(sphere);
 
+        Animation();
+    }
+
+    private void Animation() {
+        float y = spheres[0].transform.position.y;
+        float newY = y;
+
+        if (newY > 1f) {
+            newY = 1f;
+        } else {
+            newY = y + Time.deltaTime * audioVis.sensitivitySlider.value * 0.001f;
+        }
+
+        foreach (GameObject sphere in spheres) {
+            sphere.transform.position = new Vector3(sphere.transform.position.x, newY, sphere.transform.position.z);
+        }
+    }
+
+    void OnDestroy() {
+        foreach (GameObject sphere in spheres) {
+            Destroy(sphere);
+        }
     }
 }

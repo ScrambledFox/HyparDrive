@@ -16,13 +16,15 @@ public class DDW_Alternating_Strobo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stroboscoopLeft = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(-3, 2, 0), Quaternion.identity);
-        //stroboscoop.GetComponent<Transform>().localScale = new Vector3(15, 15, 15);
-        stroboscoopLeft.GetComponent<LightObject>().SetRadius(3);
+        stroboscoopLeft = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(-4, 1, 0), Quaternion.identity);
+        LightObject loLeft = stroboscoopLeft.GetComponent<LightObject>();
+        loLeft.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        loLeft.SetRadius(5f);
 
-        stroboscoopRight = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(3, 2, 0), Quaternion.identity);
-        //stroboscoop.GetComponent<Transform>().localScale = new Vector3(15, 15, 15);
-        stroboscoopRight.GetComponent<LightObject>().SetRadius(3);
+        stroboscoopRight = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(4, 1, 0), Quaternion.identity);
+        LightObject loRight = stroboscoopRight.GetComponent<LightObject>();
+        loRight.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        loRight.SetRadius(5f);
     }
 
     // Update is called once per frame
@@ -49,13 +51,13 @@ public class DDW_Alternating_Strobo : MonoBehaviour
                     if (left)
                     {
                         left = !left;
-                        stroboscoopLeft.GetComponent<LightObject>().SetColor(Color.red);
+                        stroboscoopLeft.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
                         StartCoroutine(TurnOffStroboscoopLeft(0.14f));
                     }
                     else
                     {
                         left = !left;
-                        stroboscoopRight.GetComponent<LightObject>().SetColor(Color.red);
+                        stroboscoopRight.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
                         StartCoroutine(TurnOffStroboscoopRight(0.14f));
                     }
 

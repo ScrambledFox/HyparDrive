@@ -13,9 +13,10 @@ public class DDW_Strobo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stroboscoop = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(0, 4, 0), Quaternion.identity);
-        //stroboscoop.GetComponent<Transform>().localScale = new Vector3(15, 15, 15);
-        stroboscoop.GetComponent<LightObject>().SetRadius(8);
+        stroboscoop = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(0, 1, 0), Quaternion.identity);
+        LightObject stroboscoopLO = stroboscoop.GetComponent<LightObject>();
+        stroboscoopLO.SetRadius(20f);
+        stroboscoopLO.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class DDW_Strobo : MonoBehaviour
                 if (currentBeat >= GetComponent<AudioVisualizer>().beatAmount)
                 {
                     currentBeat = 0;
-                    stroboscoop.GetComponent<LightObject>().SetColor(Color.red);
+                    stroboscoop.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
                     StartCoroutine(TurnOffStroboscoop(0.14f));
                 }
 

@@ -2,8 +2,6 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <CscToolPath>C:\Program Files\Unity\Hub\Editor\2019.2.2f1\Editor\Data\Tools\RoslynScripts</CscToolPath>
-    <CscToolExe>unity_csc.bat</CscToolExe>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,6 +51,9 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2019.2.2f1</UnityVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2019.2.2f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -133,6 +134,7 @@
     <Compile Include="Assets\Scripts\MQTT\Utility\QueueExtension.cs" />
     <Compile Include="Assets\Scripts\MQTT\Utility\Trace.cs" />
     <Compile Include="Assets\Scripts\Sound\AudioVisualizer.cs" />
+    <Compile Include="Assets\Scripts\Sound\AutopilotManager.cs" />
     <Compile Include="Assets\Scripts\Sound\Popup_Controller.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundInput.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundPrefManager.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDW_BPM_Jump.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDW_Strobo.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDW_VU.cs" />
+    <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\DDWColourVisualisation.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\DDW\Loading_Animation.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\Patroon\Balls_inside_outside.cs" />
     <Compile Include="Assets\Scripts\Sound\Visualisations\Patroon\Balls_outside_inside.cs" />
@@ -195,31 +198,31 @@
     <None Include="Assets\Scripts\MQTT\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\Scripts\MQTT\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/20176076/Documents/githubs/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/Universiteit/Hypar Collective/HyperDrive2019/HyparDrive/HyparDrive Unity/HyparDrive/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
