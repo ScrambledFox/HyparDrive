@@ -73,6 +73,7 @@ public class LightObject : MonoBehaviour {
 
     public void SetRadius( float radius ) {
         this.collider.radius = radius;
+        Moved?.Invoke(this);
     }
 
     private void UpdateColliderPosition () {
@@ -98,7 +99,16 @@ public class LightObject : MonoBehaviour {
     public void SetColor(Color color)
     {
         colour = new Color(color.r, color.g, color.b, 1.0f);
+        Moved?.Invoke(this);
+
 
         //renderer.material.color = new Color(color.r, color.g, color.g, 0.5f);
+    }
+
+    public void SetColorWithIntensity ( Color color, float intensity ) {
+
+        colour = new Color(color.r * intensity, color.g * intensity, color.b * intensity, 1.0f);
+        Moved?.Invoke(this);
+
     }
 }

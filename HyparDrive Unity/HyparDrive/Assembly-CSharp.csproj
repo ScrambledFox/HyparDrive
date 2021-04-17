@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Animations\AnimationPlayer.cs" />
     <Compile Include="Assets\Scripts\Animations\CustomAnimationController.cs" />
     <Compile Include="Assets\Scripts\Animations\Dropper.cs" />
+    <Compile Include="Assets\Scripts\Animations\Steam\Steam_Fade.cs" />
     <Compile Include="Assets\Scripts\Animations\Steam\Steam_Gradient.cs" />
     <Compile Include="Assets\Scripts\Animations\Steam\Steam_MovingGradient.cs" />
     <Compile Include="Assets\Scripts\Animations\Steam\Steam_StaticColour.cs" />

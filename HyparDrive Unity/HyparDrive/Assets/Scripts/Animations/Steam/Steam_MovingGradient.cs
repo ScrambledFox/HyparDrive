@@ -11,8 +11,6 @@ public class Steam_MovingGradient : MonoBehaviour
     public int amount = 4;
     public float spacing = 3.0f;
 
-    public bool direction = false;
-
     private bool state = false;
 
     // Start is called before the first frame update
@@ -42,7 +40,7 @@ public class Steam_MovingGradient : MonoBehaviour
     }
 
     private void animate () {
-        float speed = (direction ? CustomAnimationController.speedMultiplier : -CustomAnimationController.speedMultiplier) * Time.deltaTime;
+        float speed = (CustomAnimationController.direction ? CustomAnimationController.speedMultiplier : -CustomAnimationController.speedMultiplier) * Time.deltaTime;
 
         for (int i = 0; i < towerLights.Count; i++) {
             if (i % 2 == 0) {

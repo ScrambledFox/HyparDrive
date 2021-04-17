@@ -68,7 +68,7 @@ public class Zone : MonoBehaviour {
     /// </summary>
     public void NotifyCubes (LightObject lo) {
         for (int i = 0; i < cubes.Length; i++) {
-            //cubes[i].UpdateLEDs();
+            cubes[i].UpdateLEDs();
         }
     }
 

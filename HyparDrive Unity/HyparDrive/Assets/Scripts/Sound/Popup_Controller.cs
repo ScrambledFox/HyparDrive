@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Popup_Controller : MonoBehaviour
 {
     public Dropdown animations;
+    public Toggle directionToggle;
     public Slider speedSlider, primaryRChannelSlider, primaryGChannelSlider, primaryBChannelSlider, secondaryRChannelSlider, secondaryGChannelSlider, secondaryBChannelSlider;
     public GameObject settingsPanel;
     public GameObject openButton;

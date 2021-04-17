@@ -10,7 +10,9 @@ public class CustomAnimationController : MonoBehaviour
 
     public Dropdown animationDropdown;
     public Slider speedSlider;
+    public Toggle directionToggle;
     public static float speedMultiplier = 1.0f;
+    public static bool direction;
 
     public MonoScript[] animations;
     private List<string> options = new List<string>();
@@ -43,6 +45,10 @@ public class CustomAnimationController : MonoBehaviour
 
         speedSlider.onValueChanged.AddListener(delegate {
             SpeedValueChangedHandler(speedSlider);
+        });
+
+        directionToggle.onValueChanged.AddListener(delegate {
+            DirectionValueChangedHandler(directionToggle);
         });
 
     }
@@ -81,6 +87,10 @@ public class CustomAnimationController : MonoBehaviour
         //heightMultiplier = sensitivitySlider.value;
         speedMultiplier = speedSlider.value;
 	}
+
+    public void DirectionValueChangedHandler ( Toggle directionToggle ) {
+        direction = directionToggle.isOn;
+    }
 
     public void animationDropdownValueChangedHandler(Dropdown animation)
     {
