@@ -16,7 +16,7 @@ public class DDW_Strobo : MonoBehaviour
         stroboscoop = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(0, 1, 0), Quaternion.identity);
         LightObject stroboscoopLO = stroboscoop.GetComponent<LightObject>();
         stroboscoopLO.SetRadius(20f);
-        stroboscoopLO.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        stroboscoopLO.SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
     }
 
     // Update is called once per frame
@@ -43,7 +43,7 @@ public class DDW_Strobo : MonoBehaviour
                 if (currentBeat >= GetComponent<AudioVisualizer>().beatAmount)
                 {
                     currentBeat = 0;
-                    stroboscoop.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+                    stroboscoop.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
                     StartCoroutine(TurnOffStroboscoop(0.14f));
                 }
 

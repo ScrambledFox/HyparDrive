@@ -15,7 +15,7 @@ public class AutopilotManager : MonoBehaviour {
     private void Update () {
         if (SoundPrefManager.GetColourAutopilot()) {
             if (colourAutopilotTimer <= 0.0f) {
-                INSTALLATION_CONFIG.DDW_ANIMATION_COLOR = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+                INSTALLATION_CONFIG.PRIMARY_COLOUR = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
                 popupController.UpdateColorChannelSliders();
                 colourAutopilotTimer = SoundPrefManager.GetColourAutopilotInterval();
             } else {

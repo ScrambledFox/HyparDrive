@@ -12,6 +12,7 @@ public static class INSTALLATION_CONFIG {
 
     public static readonly int LEDS_PER_TOWER = 80;
 
-    public static Color DDW_ANIMATION_COLOR = Color.green;
+    public static Color PRIMARY_COLOUR = Color.red;
+    public static Color SECONDARY_COLOUR = Color.green;
 
 }

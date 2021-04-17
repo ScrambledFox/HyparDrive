@@ -25,7 +25,7 @@ public class DDW_BPM_Jump : MonoBehaviour
             spheres.Add(Instantiate(GetComponent<AudioVisualizer>().lightSphere));
             sphereLightObjects.Add(spheres[i].GetComponent<LightObject>());
             sphereLightObjects[i].SetRadius(1f);
-            sphereLightObjects[i].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+            sphereLightObjects[i].SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
 
         }
         updateSpheres();
@@ -38,7 +38,7 @@ public class DDW_BPM_Jump : MonoBehaviour
         GetComponent<AudioSource>().GetSpectrumData(spectrum, 0, GetComponent<AudioVisualizer>().fftWindow);
 
         foreach (LightObject lightObject in sphereLightObjects) {
-            lightObject.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+            lightObject.SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
         }
 
         audioAnimation();

@@ -45,7 +45,7 @@ public class InstallationManager : MonoBehaviour {
             INSTANCE = this;
         }
 
-        InstallationSaveData saveData = FileManagement.GetInstallationSaveData(FileManagement.INSTALLATION_SAVE_FOLDER + "pillarsDDW" + FileManagement.FILE_EXTENSION);
+        InstallationSaveData saveData = FileManagement.GetInstallationSaveData(FileManagement.INSTALLATION_SAVE_FOLDER + "pillarsSteam" + FileManagement.FILE_EXTENSION);
         LoadInstallation(saveData);
 
         zones = SetupZones(zoneCount, zoneSize);

@@ -17,7 +17,7 @@ public class Loading_Animation : MonoBehaviour
         for (int i = 0; i < spheres.Count; i++) {
             sphereLOs.Add(spheres[i].GetComponent<LightObject>());
             sphereLOs[i].SetRadius(4);
-            sphereLOs[i].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+            sphereLOs[i].SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
         }
         
     }
@@ -25,7 +25,7 @@ public class Loading_Animation : MonoBehaviour
     // Update is called once per frame
     void Update() {
         foreach (LightObject sphere in sphereLOs) {
-            sphere.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+            sphere.SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
         }
 
         Animation();

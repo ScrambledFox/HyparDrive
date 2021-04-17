@@ -16,9 +16,9 @@ public class DDW_VU : MonoBehaviour
         towerLightObjects.Add(towerLights[0].GetComponent<LightObject>());
         towerLightObjects.Add(towerLights[1].GetComponent<LightObject>());
         towerLightObjects[0].SetRadius(2.0f);
-        towerLightObjects[0].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        towerLightObjects[0].SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
         towerLightObjects[1].SetRadius(2.0f);
-        towerLightObjects[1].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        towerLightObjects[1].SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
     }
 
     // Update is called once per frame
@@ -29,8 +29,8 @@ public class DDW_VU : MonoBehaviour
         // populate array with fequency spectrum data
         GetComponent<AudioSource>().GetSpectrumData(spectrum, 0, GetComponent<AudioVisualizer>().fftWindow);
 
-        towerLightObjects[0].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
-        towerLightObjects[1].SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        towerLightObjects[0].SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
+        towerLightObjects[1].SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
 
         audioAnimation();
     }

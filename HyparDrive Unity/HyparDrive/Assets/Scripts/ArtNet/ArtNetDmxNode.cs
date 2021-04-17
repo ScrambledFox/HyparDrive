@@ -82,7 +82,7 @@ namespace HauteTechnique.Dmx
                 Debug.LogWarningFormat("DMX: SocketExcpetion when sending universe: {0} message '{1}'", universeId, e.Message);
             }
             catch(Exception e) {
-                Debug.LogWarningFormat("DMX: Excpetion when sending universe: {0} message: '{1}'", universeId, e.Message);
+                Debug.LogWarningFormat("DMX: Exception when sending universe: {0} message: '{1}'", universeId, e.Message);
             }
 
             return bytesSend;

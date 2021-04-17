@@ -18,12 +18,12 @@ public class DDW_Alternating_Strobo : MonoBehaviour
     {
         stroboscoopLeft = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(-4, 1, 0), Quaternion.identity);
         LightObject loLeft = stroboscoopLeft.GetComponent<LightObject>();
-        loLeft.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        loLeft.SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
         loLeft.SetRadius(5f);
 
         stroboscoopRight = Instantiate(GetComponent<AudioVisualizer>().lightSphere, new Vector3(4, 1, 0), Quaternion.identity);
         LightObject loRight = stroboscoopRight.GetComponent<LightObject>();
-        loRight.SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+        loRight.SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
         loRight.SetRadius(5f);
     }
 
@@ -51,13 +51,13 @@ public class DDW_Alternating_Strobo : MonoBehaviour
                     if (left)
                     {
                         left = !left;
-                        stroboscoopLeft.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+                        stroboscoopLeft.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
                         StartCoroutine(TurnOffStroboscoopLeft(0.14f));
                     }
                     else
                     {
                         left = !left;
-                        stroboscoopRight.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.DDW_ANIMATION_COLOR);
+                        stroboscoopRight.GetComponent<LightObject>().SetColor(INSTALLATION_CONFIG.PRIMARY_COLOUR);
                         StartCoroutine(TurnOffStroboscoopRight(0.14f));
                     }
 
