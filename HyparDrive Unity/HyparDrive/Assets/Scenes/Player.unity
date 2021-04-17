@@ -11475,6 +11475,8 @@ MonoBehaviour:
   animations:
   - {fileID: 11500000, guid: ea7518fffb40bcb47b767ab372b8cc79, type: 3}
   - {fileID: 11500000, guid: 76e8ea577d21c504a93100c6e1dbd5ba, type: 3}
+  - {fileID: 11500000, guid: 92c76acc689fe984f96d5e35701cd319, type: 3}
+  - {fileID: 11500000, guid: e194824ef6efe1148a2e58a9d32674ea, type: 3}
   loop: 0
   loopTime: 60
   lightSpherePrefab: {fileID: 396391611726293627, guid: ab4c2d0a0224be6428789a3a074f21f2,
@@ -11688,7 +11690,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 289212190}
   m_Direction: 0
   m_MinValue: 0.01
-  m_MaxValue: 5
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:

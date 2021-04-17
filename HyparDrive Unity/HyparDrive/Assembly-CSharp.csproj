@@ -73,6 +73,8 @@
     <Compile Include="Assets\Scripts\Animations\Dropper.cs" />
     <Compile Include="Assets\Scripts\Animations\Steam\Steam_Gradient.cs" />
     <Compile Include="Assets\Scripts\Animations\Steam\Steam_MovingGradient.cs" />
+    <Compile Include="Assets\Scripts\Animations\Steam\Steam_StaticColour.cs" />
+    <Compile Include="Assets\Scripts\Animations\Steam\Steam_Strobe.cs" />
     <Compile Include="Assets\Scripts\ArtNet\ArtNetClient.cs" />
     <Compile Include="Assets\Scripts\ArtNet\ArtNetController.cs" />
     <Compile Include="Assets\Scripts\ArtNet\ArtNetDmxNode.cs" />
