@@ -22,7 +22,7 @@ public class ArtNetController : MonoBehaviour
         INSTANCE = this;
         installationNode1 = new ArtNetDmxNode("Installation Node 1", "192.168.0.11" );     // ADVA INSTALLATIE 1
         installationNode2 = new ArtNetDmxNode("Installation Node 2", "192.168.0.12");     // ADVA INSTALLATIE 2
-        interactionNode = new ArtNetDmxNode("Interaction Node", "192.168.0.31");     // ADVA INTERACTIE
+        interactionNode = new ArtNetDmxNode("Interaction Node", "192.168.0.50");     // ADVA INTERACTIE
 
         for (int i = 0; i < numInstallation1Universes; i++) {
             installation1Universes.Add(new DmxUniverse(i));

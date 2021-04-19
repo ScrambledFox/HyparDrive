@@ -51,6 +51,10 @@ public class Cube : MonoBehaviour {
     private LED[] GetAllLEDs () {
         for (int l = 0; l < 120; l++) {
             leds[l].SetIndex(index * 120 + l);
+
+            if (l < 10 || l > 109) {
+                leds[l].SetFucked();
+            }
         }
 
         return leds;

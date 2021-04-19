@@ -8,6 +8,7 @@ public class LED : MonoBehaviour {
     private Material material;
 
     private int index;
+    private bool isFucked = false;
 
     private Vector3 size = new Vector3(0.05f, 0.05f, 0.05f);
 
@@ -59,13 +60,17 @@ public class LED : MonoBehaviour {
 
             float distance = Mathf.InverseLerp(lightObjects[i].Collider.radius * lightObjects[i].Collider.radius, 0, Vector3.SqrMagnitude(lightObjects[i].Pos - transform.position));
             colour += lightObjects[i].Colour * distance;
-
-
         }
 
-        SetColour( colour );
+        SetColour(colour);
 
-        ArtNetController.INSTANCE.SendArtNet(index, (byte)(colour.r * 255), (byte)(colour.g * 255), (byte)(colour.b * 255));
+        if (!isFucked) {
+            ArtNetController.INSTANCE.SendArtNet(index, (byte)(colour.r * 255), (byte)(colour.g * 255), (byte)(colour.b * 255));
+        }
+        else {
+            ArtNetController.INSTANCE.SendArtNet(index, (byte)(colour.g * 255), (byte)(colour.r * 255), (byte)(colour.b * 255));
+        }
+        
     }
 
     private void SetColour (Color colour) {
@@ -78,6 +83,10 @@ public class LED : MonoBehaviour {
 
     public Color GetColour () {
         return this.colour;
+    }
+
+    public void SetFucked() {
+        this.isFucked = true;
     }
 
     private void UpdateMaterialColour ( Color colour ) {
